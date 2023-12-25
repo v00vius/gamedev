@@ -80,6 +80,15 @@ public class Vector2 {
         return (float) Math.sqrt((double)(x * x) + (double)(y * y));
     }
 
+    public boolean isInsideOf(Vector2 a, Vector2 b) {
+        if(x < a.x || x > b.x)
+            return false;
+
+        if(y < a.y || y > b.y)
+            return false;
+
+        return true;
+    }
     public static boolean isIntersect(Vector2 a1, Vector2 b1,
                                         Vector2 a2, Vector2 b2) {
 
