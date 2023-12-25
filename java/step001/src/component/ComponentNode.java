@@ -3,6 +3,10 @@ package component;
 public abstract class ComponentNode implements Component {
     private ComponentNode next;
 
+    public ComponentNode() {
+        next = this;
+    }
+
     public ComponentNode getNext() {
         return next;
     }

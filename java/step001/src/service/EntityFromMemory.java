@@ -2,7 +2,7 @@ package service;
 
 import component.Color;
 import component.Position;
-import component.Velosity;
+import component.Speed;
 import entity.Circle;
 import entity.Entity;
 
@@ -15,14 +15,14 @@ public class EntityFromMemory extends EntityLoader {
         entities = new Entity[maxEntries];
     }
 
-//     0       1       2   3   4  5   6   7    8  9
-//    "Circle circle1 100 100 -3  2 255   0    0 50",
-//    "Circle circle1 200 200 -2 -1   0 255    0 75"
+//     0       1       2   3    4  5   6   7    8  9
+//    "Circle circle1 100 100  45  5 255   0    0 50",
+//    "Circle circle1 200 200 160  7   0 255    0 75"
 //  where:
 //      0 - Object name
 //      1 - Entity name
 //      2, 3 - initial position x, y
-//      4, 5 - initial speed (velocity) dx, dy
+//      4, 5 - initial velocity: bearing, speed
 //      6, 7, 8 - rgb
 //      9 - radius
     @Override
@@ -73,7 +73,7 @@ public class EntityFromMemory extends EntityLoader {
                                         Float.parseFloat(ids[3])
                                         );
 
-        Velosity velosity = new Velosity(Float.parseFloat(ids[4]),
+        Speed speed = new Speed(Float.parseFloat(ids[4]),
                                         Float.parseFloat(ids[5])
                                         );
 
@@ -83,7 +83,7 @@ public class EntityFromMemory extends EntityLoader {
                                 );
 
         circle.addComponent(position)
-                .addComponent(velosity)
+                .addComponent(speed)
                 .addComponent(color);
 
         return circle;
