@@ -15,6 +15,13 @@ public class Vector2 {
         this.y = y;
     }
 
+    public Vector2 set(Vector2 v) {
+        x = v.x;
+        y = v.y;
+
+        return this;
+    }
+
     public Vector2 add(Vector2 b) {
         x += b.x;
         y += b.y;
@@ -40,8 +47,8 @@ public class Vector2 {
 
         return this;
     }
-    public Vector2 projection(float length, float angleDegrees) {
-        float rad = (float) Math.toRadians(angleDegrees);
+    public Vector2 projection(float length, float bearing) {
+        float rad = (float) Math.toRadians(-bearing + 90.0);
 
         x = length * (float) Math.cos((double) rad);
         y = length * (float) Math.sin((double) rad);
@@ -56,5 +63,10 @@ public class Vector2 {
     }
     public float length() {
         return (float) Math.sqrt((double)(x * x) + (double)(y * y));
+    }
+
+    @Override
+    public String toString() {
+        return "{" + x + ", " + y + "}";
     }
 }
