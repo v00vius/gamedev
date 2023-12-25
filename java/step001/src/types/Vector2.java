@@ -15,18 +15,18 @@ public class Vector2 {
         this.y = y;
     }
 
-    public Vector2 add(Vector2 a, Vector2 b) {
-        a.x += b.x;
-        a.y += b.y;
+    public Vector2 add(Vector2 b) {
+        x += b.x;
+        y += b.y;
 
-        return a;
+        return this;
     }
 
-    public Vector2 sub(Vector2 a, Vector2 b) {
-        a.x -= b.x;
-        a.y -= b.y;
+    public Vector2 sub(Vector2 b) {
+        x -= b.x;
+        y -= b.y;
 
-        return a;
+        return this;
     }
     public Vector2 neg() {
         x = -x;
@@ -34,19 +34,27 @@ public class Vector2 {
 
         return this;
     }
+    public Vector2 mul(float m) {
+        x *= m;
+        y *= m;
 
-    public Vector2 mul(Vector2 a, float m) {
-        a.x *= m;
-        a.y *= m;
-
-        return a;
+        return this;
     }
-    public Vector2 projection(Vector2 a, float radius, float angleDegrees) {
+    public Vector2 projection(float length, float angleDegrees) {
         float rad = (float) Math.toRadians(angleDegrees);
 
-        a.x = radius * (float) Math.cos((double) rad);
-        a.y = radius * (float) Math.sin((double) rad);
+        x = length * (float) Math.cos((double) rad);
+        y = length * (float) Math.sin((double) rad);
 
-        return a;
+        return this;
+    }
+    public float distance(Vector2 b) {
+        float dx = x - b.x;
+        float dy = y - b.y;
+
+        return (float) Math.sqrt((double)(dx * dx) + (double)(dy * dy));
+    }
+    public float length() {
+        return (float) Math.sqrt((double)(x * x) + (double)(y * y));
     }
 }
