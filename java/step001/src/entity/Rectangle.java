@@ -1,13 +1,13 @@
 package entity;
 
-import types.Vect2;
+import types.Vector2;
 
 public class Rectangle extends Entity {
-    private Vect2 size;
+    private Vector2 size;
 
     public Rectangle(int id, String tag, float width, float height) {
         super(id, tag);
 
-        size = new Vect2(width, height);
+        size = new Vector2(width, height);
     }
 }

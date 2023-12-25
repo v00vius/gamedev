@@ -5,7 +5,6 @@ import component.Position;
 import component.Velosity;
 import entity.Circle;
 import entity.Entity;
-import types.Vect2;
 
 public class EntityFromMemory extends EntityLoader {
     private String[] entityList;

@@ -1,15 +1,15 @@
 package component;
 
-import types.Vect2;
+import types.Vector2;
 
 public class Velosity extends ComponentNode {
-    private Vect2 speed;
+    private Vector2 speed;
 
-    public Velosity(Vect2 speed) {
+    public Velosity(Vector2 speed) {
         this.speed = speed;
     }
     public Velosity(float x, float y) {
-        this.speed = new Vect2(x,y);
+        this.speed = new Vector2(x,y);
     }
 
     @Override
