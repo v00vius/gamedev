@@ -17,7 +17,7 @@ target_compile_features(compiler_flags INTERFACE cxx_std_20)
 add_executable(${PROJECT_NAME}
      vector2.cpp
      impl/vector2.cpp
-     component.cpp
+     impl/entity_impl.cpp
      entity.cpp
      app.cpp
 )
