@@ -5,7 +5,18 @@ export import <iostream>;
 export import <numbers>;
 export import <cmath>;
 
-export class Vector2
+export class Vector2;
+export Vector2 projection(float length, float radians);
+export template <typename T>
+constexpr T toRadians(T degrees) {
+    return (degrees * std::numbers::pi_v<T>) / (T)180;
+}
+export template <typename T>
+constexpr T toDegrees(T radians) {
+    return radians * (T)180 / (std::numbers::pi_v<T>);
+}
+
+class Vector2
 {
 public:
     float x;
@@ -24,38 +35,39 @@ public:
     Vector2 operator * (float scale) {
         return {scale * x, scale * y};
     }
-    Vector2& operator += (Vector2 b) {
+    Vector2 operator *= (float scale) {
+        x *= scale;
+        y *= scale;
+
+        return *this;
+    }
+    Vector2 operator += (Vector2 b) {
         x += b.x;
         y += b.y;
 
         return *this;
     }
-    Vector2& operator -= (Vector2 b) {
+    Vector2 operator -= (Vector2 b) {
         x -= b.x;
         y -= b.y;
 
         return *this;
     }
 
-    Vector2& projection(float length, float degrees) {
-        float rad = (degrees * std::numbers::pi_v<float>) / 180.0;
-
-        x = length * cos(rad);
-        y = length * sin(rad);
-
-        return *this;
-    }
     float length() {
-        return sqrt(x * x + y * y);
+        return std::sqrt(x * x + y * y);
     }
     float angle() {
-        if(abs(x) < 1e-6)
-            return 90.f;
+        if(std::abs(x) < 1e-6)
+            return (90.f * std::numbers::pi_v<float>) / 180.f;
 
-        return 180.f * atan2(y, x) / std::numbers::pi_v<float>;
+        // return 180.f * atan2(y, x) / std::numbers::pi_v<float>;
+        return std::atan2(y, x);
     }
-    Vector2 rotateRelative(float deltaDegrees) {
-        return projection(length(), deltaDegrees + angle());
+    Vector2& rotateRelative(float deltaRadians) {
+        *this = projection(length(), deltaRadians + angle());
+
+        return *this;
     }
     float distance(Vector2 b) {
         auto v = *this - b;
@@ -64,7 +76,7 @@ public:
     }
     friend
     Vector2 abs(Vector2 a) {
-        return {fabs(a.x), fabs(a.y)};
+        return {std::abs(a.x), std::abs(a.y)};
     }
     bool isInsideOf(Vector2 a, Vector2 b) {
         if(x < a.x || x > b.x)
@@ -82,7 +94,7 @@ public:
         b1 -= a1;
         a2 -= a1;
         b2 -= a1;
-        a1 -= a1;
+        // a1 -= a1;
 
         //  2
         float angle = b1.angle();
@@ -97,7 +109,9 @@ public:
 
         auto c = abs(b2 - a2);
 
-        float x = c.x < 1e-5 ? a2.x : a2.y * c.x / c.y;
+        float x = c.x < 1e-5
+                ? a2.x
+                : a2.y * c.x / c.y;
 
         return -1e-5f <= x && x <= (b1.x + 1e-5f);
     }
@@ -110,3 +124,8 @@ public:
     }
 };
 
+Vector2 projection(float length, float radians) {
+    // float rad = (degrees * std::numbers::pi_v<float>) / 180.0;
+
+    return {length * std::cos(radians), length * std::sin(radians)};
+}

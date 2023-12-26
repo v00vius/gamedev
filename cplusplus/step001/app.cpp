@@ -9,7 +9,7 @@ int main(int ac, char* av[]) {
 
     std::cout << v3 << " = " << "0.5 * (" << v1 << " + " << v2 << ")"<< std::endl;
 
-    v1.projection(10.f, 270.f);
+    v1 = projection(10.f, toRadians<float>(270.f));
     std::cout << "projection of 10, angle 270: " << v1 << std::endl;
 
     auto a1 = Vector2{10, 20};
@@ -20,8 +20,8 @@ int main(int ac, char* av[]) {
 
     auto rc = isIntersect(a1, b1, a2, b2);
 
-    std::cout << "(a1, b1): (" << a1 << ", " << b1 <<   ")"
-              << "(a2, b2): (" << a2 << ", " << b2 <<   "), result: " << rc << std::endl;
+    std::cout << "Crossing (a1, b1) = (" << a1 << ", " << b1 <<   ")"
+              << " and (a2, b2) = (" << a2 << ", " << b2 <<   "), result: " << rc << std::endl;
 
 
 	return 0;
