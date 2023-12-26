@@ -17,10 +17,10 @@ void Entity::removeComponent(Component::id_type type) {
     component_set &= ~type;
 }
 
-Component::Component(Component::id_type type, const std::string& name, Entity* belongsTo) :
+Component::Component(Component::id_type type, const std::string& name, Entity* e) :
         type(type),
         name(name),
-        entity(belongsTo) {
+        entity(e) {
     entity->addComponent(type);            
 }
 
@@ -34,6 +34,12 @@ Position::Position(const std::string& name, Entity* entity, Vector2* what) :
     position(what) {
 }
 
+Speed::Speed(const std::string& name, Entity* entity, Vector2* position, Vector2* velosity) :
+    Component(Component::id::speed, name, entity),
+    position(position),
+    velosity(velosity) {
+}
+
 Rectangle::Rectangle(const std::string& name, float width, float height) :
     Entity(name),
     size(width, height) {
@@ -41,5 +47,6 @@ Rectangle::Rectangle(const std::string& name, float width, float height) :
 
 Circle::Circle(const std::string& name, float radius) :
     Entity(name),
-    radius(radius) {
+    radius(radius)
+{
 }

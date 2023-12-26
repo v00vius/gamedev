@@ -19,10 +19,10 @@ public:
         size =      0b00001000
     };
 
-    Component(Component::id_type type, const std::string& name, Entity* belongsTo);
+    Component(Component::id_type type, const std::string& name, Entity* entity);
 
-    virtual ~Component() = default;
-    virtual void apply() const {};
+    virtual ~Component() {};
+    virtual void apply() {};
 
 private:
     const std::string name;
@@ -46,6 +46,7 @@ public:
     void removeComponent(Component::id_type type) {
         component_set &= ~type;
     }
+
 private:
     const std::string name;
     Component::id_type component_set;
@@ -55,6 +56,9 @@ export
 class Size : public Component {
 public:
     Size(const std::string& name, Entity* entity, float* what);
+    // ~Size() {}
+    
+    void apply() override {}
 
 private:
     float* size;    
@@ -63,6 +67,9 @@ private:
 export class Position : public Component {
 public:
     Position(const std::string& name, Entity* entity, Vector2* what);
+    // ~Position() {}
+
+    void apply() override {}
 
 private:
     Vector2* position;    
@@ -71,7 +78,10 @@ private:
 export
 class Speed : public Component {
 public:
-    Speed(const std::string& name, Entity* entity, Vector2* position, Vector2* velocity);
+    Speed(const std::string& name, Entity* entity, Vector2* position, Vector2* velosity);
+    // ~Speed() {}
+
+    void apply() override {}
 
 private:
     Vector2* position;
