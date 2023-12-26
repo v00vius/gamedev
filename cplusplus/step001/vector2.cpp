@@ -7,6 +7,7 @@ export import <cmath>;
 
 export class Vector2;
 export Vector2 projection(float length, float radians);
+
 export template <typename T>
 constexpr T toRadians(T degrees) {
     return (degrees * std::numbers::pi_v<T>) / (T)180;

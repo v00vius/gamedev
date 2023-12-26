@@ -1,4 +1,6 @@
 import vector2;
+import component;
+
 
 int main(int ac, char* av[]) {
 
