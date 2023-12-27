@@ -78,7 +78,7 @@ public class Vector2 {
         return (float) Math.sqrt((double)(x * x) + (double)(y * y));
     }
 
-    public boolean isInsideOf(Vector2 a, Vector2 b) {
+    public boolean isInside(Vector2 a, Vector2 b) {
         if(x < a.x || x > b.x)
             return false;
 
@@ -87,62 +87,24 @@ public class Vector2 {
 
         return true;
     }
-    public static boolean isIntersect(Vector2 a1, Vector2 b1,
-                                        Vector2 a2, Vector2 b2) {
-
-        System.out.println("[0]");
-        System.out.println("a1=" + a1);
-        System.out.println("b1=" + b1);
-        System.out.println("a2=" + a2);
-        System.out.println("b2=" + b2);
-//  1
-        b1.sub(a1);
-        a2.sub(a1);
-        b2.sub(a1);
-        a1.sub(a1);
-
-        System.out.println("[1]");
-        System.out.println("a1=" + a1);
-        System.out.println("b1=" + b1);
-        System.out.println("a2=" + a2);
-        System.out.println("b2=" + b2);
-//  2
-        float angle = b1.angle();
-
-        b1.rotateRelative(-angle);
-        a2.rotateRelative(-angle);
-        b2.rotateRelative(-angle);
-
-        System.out.println("[2]");
-//        System.out.println("a1=" + a1);
-        System.out.println("b1=" + b1);
-        System.out.println("a2=" + a2);
-        System.out.println("b2=" + b2);
-//  3
-        if(Math.abs(a2.y - b2.y) < 1e-5)
+    public boolean isInside(Vector2 center, float radius) {
+        if((center.x - radius) < 0 || (center.y - radius) < 0)
             return false;
 
-        Vector2 c = new Vector2(b2);
+        if((center.x + radius) > x || (center.y + radius) > y)
+            return false;
 
-        c.sub(a2).abs();
-
-        float x = c.x < 1e-5 ?
-                    a2.x :
-                    (a2.y * c.x / c.y);
-
-        System.out.println("[3]");
-        System.out.println("c=" + c);
-        System.out.println("x=" + x);
-
-        return (-1e-5f <= x && x <= (b1.x + 1e-5f));
+        return true;
     }
+    public boolean isCollided(float r, Vector2 center1, float r2) {
+        Vector2 v = new Vector2(this);
 
-    public void print(String s) {
-        System.out.println(s);
+        v.sub(center1);
+
+        return (v.x * v.x + v.y * v.y) < (r + r2) * (r + r2);
     }
     public static Vector2 isIntersect2(Vector2 a1, Vector2 b1,
                                         Vector2 a2, Vector2 b2) {
-
         Vector2 v1 = new Vector2(b1).sub(a1);
         Vector2 v2 = new Vector2(b2).sub(a2);
 
@@ -162,7 +124,7 @@ public class Vector2 {
         }
 
         if(Math.abs(v2.x) < 1e-5) {
-            float yc = a1.y + (a2.x - a1.x) * v1.y / v1.x;
+            float yc = a1.y + Math.abs(a2.x - a1.x) * v1.y / v1.x;
 
             if(yc < Math.min(a2.y, b2.y) - 1e-5 ||
                 yc > Math.max(a2.y, b2.y) + 1e-5 )
