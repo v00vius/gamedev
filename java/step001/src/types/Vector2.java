@@ -7,8 +7,8 @@ public class Vector2 {
     public Vector2() {
     }
     public Vector2(Vector2 v) {
-        x = v.x;
-        y = v.y;
+        this.x = v.x;
+        this.y = v.y;
     }
     public Vector2(float x, float y) {
         this.x = x;
@@ -16,8 +16,8 @@ public class Vector2 {
     }
 
     public Vector2 set(Vector2 v) {
-        x = v.x;
-        y = v.y;
+        this.x = v.x;
+        this.y = v.y;
 
         return this;
     }
@@ -53,11 +53,9 @@ public class Vector2 {
 
         return this;
     }
-    public Vector2 projection(float length, float angle) {
-        float rad = (float) Math.toRadians(angle);
-
-        x = length * (float) Math.cos((double) rad);
-        y = length * (float) Math.sin((double) rad);
+    public Vector2 projection(float length, float angleRadians) {
+        x = length * (float) Math.cos((double) angleRadians);
+        y = length * (float) Math.sin((double) angleRadians);
 
         return this;
     }
@@ -67,8 +65,8 @@ public class Vector2 {
 
         return (float) Math.toDegrees(Math.atan2(y, x));
     }
-    public Vector2 rotateRelative(float delta) {
-        return projection(length(), delta + angle());
+    public Vector2 rotateRelative(float deltaRadians) {
+        return this.projection(this.length(), deltaRadians + this.angle());
     }
     public float distance(Vector2 b) {
         float dx = x - b.x;
@@ -128,7 +126,9 @@ public class Vector2 {
 
         c.sub(a2).abs();
 
-        float x = c.x < 1e-5 ? a2.x : a2.y * c.x / c.y;
+        float x = c.x < 1e-5 ?
+                    a2.x :
+                    (a2.y * c.x / c.y);
 
         System.out.println("[3]");
         System.out.println("c=" + c);
@@ -136,6 +136,27 @@ public class Vector2 {
 
         return (-1e-5f <= x && x <= (b1.x + 1e-5f));
     }
+
+    public void print(String s) {
+        System.out.println(s);
+    }
+    public static Vector2 isIntersect2(Vector2 a1, Vector2 b1,
+                                        Vector2 a2, Vector2 b2) {
+
+        Vector2 v1 = new Vector2(b1).sub(a1);
+
+        float c1 = v1.y / v1.x;
+
+        v1.set(b2).sub(a2);
+
+        float c2 = v1.y / v1.x;
+
+        float m = b1.y - c2 * b1.x + c1 * a1.x - a1.y;
+        float xc = m / (c1 - c2);
+        float yc = c1 * (xc - a1.x)  + a1.y;
+
+        return new Vector2(xc, yc);                                            
+    }                                            
 
     @Override
     public String toString() {

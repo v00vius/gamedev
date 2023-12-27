@@ -20,29 +20,29 @@ public class Main {
     }
 
     private static void Vectortest() {
-        Vector2 v1 = new Vector2(100, 100);
-        Vector2 v2 = new Vector2(1, 1);
-        Vector2 v3 = new Vector2();
+        // Vector2 v1 = new Vector2(100, 100);
+        // Vector2 v2 = new Vector2(1, 1);
+        // Vector2 v3 = new Vector2();
 
-        v3.set(v1);
-        System.out.println("v3 = " + v3);
-        System.out.println("v2 = " + v2);
+        // v3.set(v1);
+        // System.out.println("v3 = " + v3);
+        // System.out.println("v2 = " + v2);
 
-        v3.add(v2).sub(v2).mul(0.5f);
-        System.out.println("((v3 += v2) -= v2) * 0.5: " + v3);
-        System.out.println("v3.length = " + v3.length());
-        System.out.println("v3 angle: " + v3.angle());
-        System.out.println("v3 angle: " + v3.angle());
+        // v3.add(v2).sub(v2).mul(0.5f);
+        // System.out.println("((v3 += v2) -= v2) * 0.5: " + v3);
+        // System.out.println("v3.length = " + v3.length());
+        // System.out.println("v3 angle: " + v3.angle());
+        // System.out.println("v3 angle: " + v3.angle());
 
-        v3.rotateRelative(-v3.angle());
-        System.out.println("v3 new angle: " + v3.angle() + ", v3=" + v3);
-        v3.rotateRelative(90f);
-        System.out.println("v3 rotation (+90 deg), angle: " + v3.angle() + ", v3=" + v3);
+        // v3.rotateRelative(-v3.angle());
+        // System.out.println("v3 new angle: " + v3.angle() + ", v3=" + v3);
+        // v3.rotateRelative(90f);
+        // System.out.println("v3 rotation (+90 deg), angle: " + v3.angle() + ", v3=" + v3);
 
-        for(float a = 0; a <= 360; a += 30) {
-            v1.projection(100, a);
-            System.out.println("projection of 100, bearing " + a + ": " + v1);
-        }
+        // for(float a = 0; a <= 360; a += 30) {
+        //     v1.projection(100, a);
+        //     System.out.println("projection of 100, bearing " + a + ": " + v1);
+        // }
 
 //        Vector2 a1 = new Vector2(10, 10);
 //        Vector2 b1 = new Vector2(50, 20);
@@ -55,12 +55,14 @@ public class Main {
 //        Vector2 b2 = new Vector2(40, 50);
 
         Vector2 a1 = new Vector2(10, 10);
-        Vector2 b1 = new Vector2(50, 10);
-        Vector2 a2 = new Vector2(9.99999f, 00);
-        Vector2 b2 = new Vector2(9.99999f, 50);
+        Vector2 b1 = new Vector2(50, 20);
+        Vector2 a2 = new Vector2(10, 20);
+        Vector2 b2 = new Vector2(50, 10);
 
-        boolean ok = Vector2.isIntersect(a1, b1, a2, b2);
+        Vector2 vc = Vector2.isIntersect2(a1, b1, a2, b2);
 
-        System.out.println("Intersection: " + ok);
+        // boolean ok = Vector2.isIntersect(a1, b1, a2, b2);
+
+        System.out.println("Intersection: " + vc);
     }
 }
