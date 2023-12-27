@@ -53,16 +53,23 @@ public class Main {
 //        Vector2 b1 = new Vector2(50, 10);
 //        Vector2 a2 = new Vector2(10, 50);
 //        Vector2 b2 = new Vector2(40, 50);
+        Vector2 a1 = new Vector2(00, 50);
+        Vector2 b1 = new Vector2(20, 00);
+        Vector2 a2 = new Vector2(20, 50);
+        Vector2 b2 = new Vector2(00, 00);
+        Vector2 vc = null;
 
-        Vector2 a1 = new Vector2(10, 10);
-        Vector2 b1 = new Vector2(50, 20);
-        Vector2 a2 = new Vector2(10, 20);
-        Vector2 b2 = new Vector2(50, 10);
+        long msDuration = System.currentTimeMillis();
 
-        Vector2 vc = Vector2.isIntersect2(a1, b1, a2, b2);
+        for (long i = 0; i < 1000000; ++i) {
+            vc = Vector2.isIntersect2(a1, b1, a2, b2);
+        }
+
+        msDuration = System.currentTimeMillis() - msDuration;
 
         // boolean ok = Vector2.isIntersect(a1, b1, a2, b2);
 
         System.out.println("Intersection: " + vc);
+        System.out.println("Duration: " + msDuration);
     }
 }

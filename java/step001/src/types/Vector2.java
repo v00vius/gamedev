@@ -144,16 +144,43 @@ public class Vector2 {
                                         Vector2 a2, Vector2 b2) {
 
         Vector2 v1 = new Vector2(b1).sub(a1);
+        Vector2 v2 = new Vector2(b2).sub(a2);
+
+//      Vectors are parallel
+        if((Math.abs(v1.x) < 1e-5 && Math.abs(v2.x) < 1e-5) ||
+            (Math.abs(v1.y) < 1e-5 && Math.abs(v2.y) < 1e-5))
+            return null;
+      
+        if(Math.abs(v1.x) < 1e-5) {
+            float yc = a2.y + (a1.x - a2.x) * v2.y / v2.x;
+
+            if(yc < Math.min(a1.y, b1.y) - 1e-5 ||
+                yc > Math.max(a1.y, b1.y) + 1e-5)
+                return null;
+
+            return new Vector2(a1.x, yc );
+        }
+
+        if(Math.abs(v2.x) < 1e-5) {
+            float yc = a1.y + (a2.x - a1.x) * v1.y / v1.x;
+
+            if(yc < Math.min(a2.y, b2.y) - 1e-5 ||
+                yc > Math.max(a2.y, b2.y) + 1e-5 )
+                return null;
+
+            return new Vector2(a1.x, yc );
+        }
 
         float c1 = v1.y / v1.x;
+        float c2 = v2.y / v2.x;
 
-        v1.set(b2).sub(a2);
-
-        float c2 = v1.y / v1.x;
-
-        float m = b1.y - c2 * b1.x + c1 * a1.x - a1.y;
-        float xc = m / (c1 - c2);
+        float d = c1 * a1.x - a1.y - c2 * a2.x + a2.y;
+        float xc = d / (c1 - c2);
         float yc = c1 * (xc - a1.x)  + a1.y;
+
+        if(xc < Math.min(a1.x, b1.x) - 1e-5 ||
+            xc > Math.max(a1.x, b1.x) + 1e-5)
+            return null;
 
         return new Vector2(xc, yc);                                            
     }                                            
