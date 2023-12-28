@@ -53,23 +53,35 @@ public class Main {
 //        Vector2 b1 = new Vector2(50, 10);
 //        Vector2 a2 = new Vector2(10, 50);
 //        Vector2 b2 = new Vector2(40, 50);
-        Vector2 a1 = new Vector2(00, 50);
-        Vector2 b1 = new Vector2(20, 00);
-        Vector2 a2 = new Vector2(20, 50);
-        Vector2 b2 = new Vector2(00, 00);
+        Vector2 a1 = new Vector2(000, 500);
+        Vector2 b1 = new Vector2(200, 000);
+        Vector2 a2 = new Vector2(200, 500);
+        Vector2 b2 = new Vector2(000, 000);
         Vector2 vc = null;
 
         long msDuration = System.currentTimeMillis();
 
-        for (long i = 0; i < 1000000; ++i) {
+        float dAngle = (float)Math.toRadians(10.0);
+        int counter = 0;
+
+        for (float angle = 0.f; angle < Math.toRadians(361.f); angle += dAngle) {
+            ++counter;
             vc = Vector2.isIntersect2(a1, b1, a2, b2);
+            System.out.println(counter + ") a1=" + a1 + " b1=" + b1 + " a2=" + a2 + " b2=" + b2);    
+            System.out.println("  intersection: " + vc);
+
+            a1.rotateRelative(dAngle);
+            b1.rotateRelative(dAngle);
+
+            a2.rotateRelative(dAngle);
+            b2.rotateRelative(dAngle);
         }
 
         msDuration = System.currentTimeMillis() - msDuration;
 
         // boolean ok = Vector2.isIntersect(a1, b1, a2, b2);
 
-        System.out.println("Intersection: " + vc);
+        // System.out.println("Intersection: " + vc);
         System.out.println("Duration: " + msDuration);
     }
 }

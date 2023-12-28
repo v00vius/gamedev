@@ -1,8 +1,8 @@
 package types;
 
 public class Vector2 {
-    public float x = 0;
-    public float y = 0;
+    public float x = 0.f;
+    public float y = 0.f;
 
     public Vector2() {
     }
@@ -60,10 +60,10 @@ public class Vector2 {
         return this;
     }
     public float angle() {
-        if(Math.abs(x) < 1e-6)
-            return 90f;
+        if(Math.abs(x) < 1e-5)
+            return (float)Math.toRadians(90.);
 
-        return (float) Math.toDegrees(Math.atan2(y, x));
+        return (float) Math.atan2(y, x);
     }
     public Vector2 rotateRelative(float deltaRadians) {
         return this.projection(this.length(), deltaRadians + this.angle());
