@@ -1,44 +1,50 @@
 package component;
 
-public class ComponentList extends ComponentNode {
+public class ComponentList extends Component {
     public ComponentList() {
-        this.setNext(this);
-    }
-    public boolean isEmpty() {
-        return this.getNext() == this;
+        super();
+        insertionCount = 0;
+        removalCount = 0;
     }
 
-    public ComponentNode insert(ComponentNode node) {
+    public int size() {
+        return insertionCount - removalCount;
+    }
+    public boolean isEmpty() {
+        // return this.getNext() == this;
+        return size() == 0;
+    }
+    public int getInsertionCount() {
+        return insertionCount;
+    }
+    public int getRemovalCount() {
+        return removalCount;
+    }
+    public Component insert(Component node) {
         node.setNext(this.getNext());
         this.setNext(node);
+        ++insertionCount;
 
         return this;
     }
-
-    public boolean remove(ComponentNode node) {
-        ComponentNode start = this;
+    public Component remove(Component node) {
+        Component start = this;
 
         while(this != start.getNext()) {
             if(start.getNext() == node) {
                 start.setNext(node.getNext());
-                node.setNext(null);
+                node.setNext(node);
+                ++removalCount;
 
-                return true;
+                return start;
             }
 
             start = start.getNext();
         }
 
-        return false;
+        return node;
     }
 
-    @Override
-    public void apply() {
-        ComponentNode node = this.getNext();
-
-        while(node != this.getNext()) {
-            node.apply();
-            node = node.getNext();
-        }
-    }
+    private int insertionCount;
+    private int removalCount;
 }
