@@ -1,10 +1,10 @@
 package service;
 
-import component.Color;
 import component.Position;
 import component.Speed;
 import entity.Circle;
 import entity.Entity;
+import types.Color;
 
 public class EntityFromMemory extends EntityLoader {
     private String[] entityList;
@@ -34,7 +34,7 @@ public class EntityFromMemory extends EntityLoader {
 
             s.trim();
 
-            if(s.charAt(0) == '#')
+            if(s.charAt(0) == '#' || s.startsWith("//"))
                 continue;
 
             String[] ids = s.split("[ \t]+");
@@ -48,10 +48,10 @@ public class EntityFromMemory extends EntityLoader {
 
             switch(ids[0]) {
                 case "Circle":
-                    entity =  circleFromString(ids);
                     break;
 
                 case "Rectangle":
+                    break;
 
                 default:
                     entity = null;
@@ -67,25 +67,4 @@ public class EntityFromMemory extends EntityLoader {
         return entities;
     }
 
-    private Entity circleFromString(String[] ids) {
-        Circle circle = new Circle(10, ids[1], Float.parseFloat(ids[9]));
-        Position position = new Position(Float.parseFloat(ids[2]),
-                                        Float.parseFloat(ids[3])
-                                        );
-
-        Speed speed = new Speed(Float.parseFloat(ids[4]),
-                                        Float.parseFloat(ids[5])
-                                        );
-
-        Color color = new Color( Integer.parseInt(ids[6]),
-                                Integer.parseInt(ids[7]),
-                                Integer.parseInt(ids[8])
-                                );
-
-        circle.addComponent(position)
-                .addComponent(speed)
-                .addComponent(color);
-
-        return circle;
-    }
 }

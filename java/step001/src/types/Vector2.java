@@ -1,10 +1,11 @@
 package types;
 
 public class Vector2 {
-    public float x = 0.f;
-    public float y = 0.f;
+    public float x;
+    public float y;
 
     public Vector2() {
+        x = y = 0.f;
     }
     public Vector2(Vector2 v) {
         this.x = v.x;
@@ -35,67 +36,57 @@ public class Vector2 {
 
         return this;
     }
+
     public Vector2 neg() {
         x = -x;
         y = -y;
 
         return this;
     }
+
     public Vector2 abs() {
         x = Math.abs(x);
         y = Math.abs(y);
 
         return this;
     }
+
     public Vector2 mul(float m) {
         x *= m;
         y *= m;
 
         return this;
     }
+
     public Vector2 projection(float length, float angleRadians) {
         x = length * (float) Math.cos((double) angleRadians);
         y = length * (float) Math.sin((double) angleRadians);
 
         return this;
     }
+
     public float angle() {
         if(Math.abs(x) < 1e-5)
             return (float)Math.toRadians(90.);
 
         return (float) Math.atan2(y, x);
     }
+
     public Vector2 rotateRelative(float deltaRadians) {
         return this.projection(this.length(), deltaRadians + this.angle());
     }
+
     public float distance(Vector2 b) {
         float dx = x - b.x;
         float dy = y - b.y;
 
         return (float) Math.sqrt((double)(dx * dx) + (double)(dy * dy));
     }
+
     public float length() {
         return (float) Math.sqrt((double)(x * x) + (double)(y * y));
     }
 
-    public boolean isInside(Vector2 a, Vector2 b) {
-        if(x < a.x || x > b.x)
-            return false;
-
-        if(y < a.y || y > b.y)
-            return false;
-
-        return true;
-    }
-    public boolean isInside(Vector2 center, float radius) {
-        if((center.x - radius) < 0 || (center.y - radius) < 0)
-            return false;
-
-        if((center.x + radius) > x || (center.y + radius) > y)
-            return false;
-
-        return true;
-    }
     public boolean isCollided(float r, Vector2 center1, float r2) {
         Vector2 v = new Vector2(this);
 
@@ -103,6 +94,7 @@ public class Vector2 {
 
         return (v.x * v.x + v.y * v.y) < (r + r2) * (r + r2);
     }
+    
     public static Vector2 isIntersect2(Vector2 a1, Vector2 b1,
                                         Vector2 a2, Vector2 b2) {
         Vector2 v1 = new Vector2(b1).sub(a1);

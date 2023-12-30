@@ -1,27 +1,22 @@
-package component;
+package types;
 
-public class Color extends Component {
+public class Color {
     private int[] color = new int[4];
 
     public Color() {
-        super();
         setColor(255, 255, 255, 255);
     }
     public Color(Color c) {
-        super();
         for (int i = 0; i < color.length; i++)
-        color[i] = c.color[i];
+            color[i] = c.color[i];
     }
     public Color(int c) {
-        super();
         setColor(c);
     }
     public Color(int r, int g, int b, int opacity) {
-        super();
         setColor(r, g, b, opacity);
     }
     public Color(int r, int g, int b) {
-        super();
         setColor(r, g, b, 255);
     }
 
