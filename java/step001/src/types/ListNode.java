@@ -54,7 +54,6 @@ public class ListNode extends Node {
         return node;
     }
 
-    @Override
     void apply(Context ctx) {
         Node begin = this;
 
@@ -69,7 +68,7 @@ public class ListNode extends Node {
                 continue;
             }
 
-            nextNode.apply(ctx);
+            ctx.workOn(nextNode);
             begin = nextNode;
         }                  
     }

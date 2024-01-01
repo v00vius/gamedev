@@ -28,6 +28,4 @@ public abstract class Node {
     public boolean isAlive() {
         return mask != 0;
     }
-
-    abstract void apply(Context ctx);
 }

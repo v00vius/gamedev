@@ -1,8 +1,5 @@
 package service;
 
-import component.Position;
-import component.Speed;
-import entity.Circle;
 import entity.Entity;
 import types.Color;
 
