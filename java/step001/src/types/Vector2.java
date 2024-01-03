@@ -1,5 +1,7 @@
 package types;
 
+import imgui.ImVec2;
+
 public class Vector2 {
     public float x;
     public float y;
@@ -8,8 +10,10 @@ public class Vector2 {
         x = y = 0.f;
     }
     public Vector2(Vector2 v) {
-        this.x = v.x;
-        this.y = v.y;
+        this.set(v);
+    }
+    public Vector2(ImVec2 v) {
+        this.set(v);
     }
     public Vector2(float x, float y) {
         this.x = x;
@@ -22,6 +26,14 @@ public class Vector2 {
 
         return this;
     }
+
+    public Vector2 set(ImVec2 v) {
+        this.x = v.x;
+        this.y = v.y;
+
+        return this;
+    }
+
 
     public Vector2 add(Vector2 b) {
         x += b.x;

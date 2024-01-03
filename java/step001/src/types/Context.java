@@ -1,5 +1,5 @@
 package types;
 
 public interface Context {
-    void workOn(Node node);
+    void function(Node node);
 }

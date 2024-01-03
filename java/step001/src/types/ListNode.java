@@ -68,7 +68,7 @@ public class ListNode extends Node {
                 continue;
             }
 
-            ctx.workOn(nextNode);
+            ctx.function(nextNode);
             begin = nextNode;
         }                  
     }
