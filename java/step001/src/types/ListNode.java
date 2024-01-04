@@ -7,6 +7,7 @@ public class ListNode extends Node {
     public ListNode() {
         super();
 
+        setNext(this);
         insertionCount = 0;
         removalCount = 0;
     }
@@ -42,7 +43,7 @@ public class ListNode extends Node {
         while(this != begin.getNext()) {
             if(node == begin.getNext()) {
                 begin.setNext(node.getNext());
-                node.setNext(node);
+                node.setNext(null);
                 ++removalCount;
 
                 return begin;
@@ -68,7 +69,7 @@ public class ListNode extends Node {
                 continue;
             }
 
-            ctx.function(nextNode);
+            ctx.action(nextNode);
             begin = nextNode;
         }                  
     }

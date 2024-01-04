@@ -18,7 +18,7 @@ public class DrawContext implements Context  {
     }
 
     @Override
-    public void function(Node node) {
+    public void action(Node node) {
 /*
         int a = generation - node.getMask();
 

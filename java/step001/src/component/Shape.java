@@ -9,6 +9,11 @@ public abstract class Shape extends Node implements Drawable {
     private Vector2 position;
     private Vector2 velocity;
 
+    public Shape() {
+        position = new Vector2();
+        velocity = new Vector2();
+    }
+
     @Override
     public void draw(Context drawContext) {
         DrawContext ctx = (DrawContext) drawContext;

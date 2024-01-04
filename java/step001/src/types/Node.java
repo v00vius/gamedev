@@ -5,8 +5,8 @@ public abstract class Node {
     private int mask;
 
     public Node() {
-        next = this;
-        mask = 1;
+        this.next = null;
+        this.mask = 1;
     }
 
     public Node getNext() {

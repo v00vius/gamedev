@@ -1,5 +1,5 @@
 package types;
 
 public interface Context {
-    void function(Node node);
+    void action(Node node);
 }
