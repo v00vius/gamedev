@@ -2,18 +2,24 @@
 import imgui.*;
 import imgui.app.Application;
 import imgui.app.Configuration;
-import imgui.flag.ImGuiConfigFlags;
-import imgui.flag.ImGuiInputTextFlags;
-import imgui.flag.ImGuiKey;
-import imgui.flag.ImGuiWindowFlags;
+import imgui.flag.*;
+import imgui.glfw.ImGuiImplGlfw;
 import imgui.type.ImBoolean;
 import types.Vector2;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F4;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_ALT;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main extends Application {
     private long time;
     private boolean done;
+    private boolean blink = true;
+    private long frameCount = 0;
 
     public Main() {
         super();
@@ -34,17 +40,43 @@ public class Main extends Application {
 
     @Override
     public void process() {
+        ++frameCount;
         mainMenu();
 
         ImGuiViewport vp = ImGui.getMainViewport();
         ImDrawList draw =  ImGui.getBackgroundDrawList(vp);
-        ImVec2 vpPos = vp.getPos();
-        ImVec2 vpSize = vp.getSize();
-
+        ImVec2 vpPos = vp.getWorkPos();
+        ImVec2 vpSize = vp.getWorkSize();
         ImGuiIO io = ImGui.getIO();
+        ImVec2 center = vp.getWorkCenter();
+        ImVec2 mp = io.getMousePos();
 
-        if(io.getKeysDown(293))
+
+        draw.addCircle(center.x, center.y, 0.4f * vpSize.y,
+                ImColor.rgb(0.f, 1.f, 0.f),
+                22, 6
+                );
+
+        if(mp.x < vpPos.x || mp.x > vpPos.x + vpSize.x ||
+                mp.y < vpPos.y || mp.y > vpPos.y + vpSize.y) {
+            if(frameCount % 60 == 0)
+                blink = !blink;
+
+            if(blink)
+                draw.addRect(vpPos.x, vpPos.y, vpPos.x + vpSize.x, vpPos.y + vpSize.y,
+                        ImColor.rgb(1.f, 0.f, 0.f),
+                        5.f, ImDrawFlags.None, 4.f);
+        }
+        else {
+            draw.addCircle(mp.x, mp.y, 50.f,
+                    ImColor.rgb(0.f, 0.f, 1.f),
+                    22, 1
+            );
+        }
+
+        if(io.getKeysDown(GLFW_KEY_F4)) {
             ImGui.text("F4 pressed");
+        }
 
         ImGui.text("Key mods: ");
 
@@ -63,10 +95,10 @@ public class Main extends Application {
             ImGui.text("CTRL");
         }
 
-
         if(done) {
-//            io.setKeyAlt(true);
-//            io.setKeysDown(293, true);
+            io.addInputCharacter(GLFW_KEY_F4);  // F4
+            io.addInputCharacter(GLFW_KEY_LEFT_ALT);  // ALT
+            done = false;
         }
 
         if (ImGui.isMousePosValid()) {
