@@ -81,7 +81,7 @@ public class Main extends Application {
             if (motion == null) {
                 Random rnd = new Random();
 
-                rotation = new Rotation(rnd.nextFloat(-2.f, 2.f));
+                rotation = new Rotation(rnd.nextFloat(-10.f, 10.f));
 
                 motion = new Move(
                         rnd.nextFloat(-5.f, 5.f),
@@ -96,7 +96,6 @@ public class Main extends Application {
                 painter = new Draw();
                 painter.color = ImColor.rgb(253, 199, 2);
             }
-
         }
 
         if(motion != null) {
@@ -200,8 +199,11 @@ public class Main extends Application {
             ImGui.endMainMenuBar();
         }
 
-        ImGui.text("Frame time: " + tick + " ms ("
-                + (int)(0.5f + 1000.f / (float)tick) + " FPS), delta " + delta);
+        ImGui.text("Frame time: " + tick + " ms");
+        ImGui.text("FPS: " + (int)(0.5f + 1000.f / (float)tick));
+        ImGui.text( String.format("Time: %5.1f ", ImGui.getTime()));
+
+        ImGui.colorEdit3("Background Color", this.getColorBg().data);
     }
 
     @Override
