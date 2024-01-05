@@ -78,14 +78,22 @@ public class Vector2 {
     }
 
     public float angle() {
-        if(Math.abs(x) < 1e-5)
-            return (float)Math.toRadians(90.);
+        float len = length();
 
-        return (float) Math.atan2(y, x);
+        return (float)Math.acos((double) (this.x / len));
     }
 
-    public Vector2 rotateRelative(float deltaRadians) {
-        return this.projection(this.length(), deltaRadians + this.angle());
+    public Vector2 rotate(float radians) {
+        float ca = (float)Math.cos(radians);
+        float sa = (float)Math.sin(radians);
+
+        float tx = ca * x - sa * y;
+        float ty = sa * x + ca * y;
+
+        x = tx;
+        y = ty;
+
+        return this;
     }
 
     public float distance(Vector2 b) {

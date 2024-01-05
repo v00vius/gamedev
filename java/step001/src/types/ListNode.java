@@ -69,7 +69,7 @@ public class ListNode extends Node {
                 continue;
             }
 
-            ctx.action(nextNode);
+//            ctx.action(nextNode);
             begin = nextNode;
         }                  
     }

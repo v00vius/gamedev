@@ -1,25 +1,46 @@
 
+import component.*;
 import imgui.*;
 import imgui.app.Application;
 import imgui.app.Configuration;
 import imgui.flag.*;
-import imgui.glfw.ImGuiImplGlfw;
-import imgui.type.ImBoolean;
 import types.Vector2;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Random;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_F4;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_ALT;
+import static org.lwjgl.glfw.GLFW.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main extends Application {
+    static int cLow =  ImColor.rgb(253, 199, 2);
+    static int cHigh = ImColor.rgb(89, 45, 190);
     private long time;
     private boolean done;
     private boolean blink = true;
     private long frameCount = 0;
+
+    private Bounds bounds;
+    private Draw painter;
+    private Rotation rotation;
+    private Move motion;
+
+    private Mesh trident = new Mesh(
+                new float[] {00.f, 10.f, 20.f, 30.f, 40.f, 50.f, 60.f,  30.f},
+                new float[] {00.f, 50.f, 00.f, 50.f, 00.f, 50.f, 00.f, -20.f},
+                new int[]   {
+                        0, 1, 2,
+                        2, 3, 4,
+                        4, 5, 6,
+                        0, 6, 7
+                },
+                new int[] {
+                        cLow,
+                        cLow,
+                        cLow,
+                        cHigh
+                }
+            );
 
     public Main() {
         super();
@@ -51,11 +72,47 @@ public class Main extends Application {
         ImVec2 center = vp.getWorkCenter();
         ImVec2 mp = io.getMousePos();
 
-
         draw.addCircle(center.x, center.y, 0.4f * vpSize.y,
                 ImColor.rgb(0.f, 1.f, 0.f),
                 22, 6
                 );
+
+        if(io.getKeysDown(GLFW_KEY_F12)) {
+            if (motion == null) {
+                Random rnd = new Random();
+
+                rotation = new Rotation(rnd.nextFloat(-2.f, 2.f));
+
+                motion = new Move(
+                        rnd.nextFloat(-5.f, 5.f),
+                        rnd.nextFloat(-5.f, 5.f)
+                );
+
+                motion.setPosition(vpSize.x * 0.5f, vpSize.y * 0.5f);
+
+                bounds = new Bounds();
+                bounds.setMotion(motion);
+
+                painter = new Draw();
+                painter.color = ImColor.rgb(253, 199, 2);
+            }
+
+        }
+
+        if(motion != null) {
+            bounds.setBouds(vpSize);
+            bounds.action(trident);
+            rotation.action(trident);
+            motion.action(trident);
+        }
+
+        if(painter != null) {
+            painter.drawList = draw;
+            painter.position.x = vpPos.x + motion.getX();
+            painter.position.y = vpPos.y + motion.getY();
+
+            painter.action(trident);
+        }
 
         if(mp.x < vpPos.x || mp.x > vpPos.x + vpSize.x ||
                 mp.y < vpPos.y || mp.y > vpPos.y + vpSize.y) {
@@ -65,9 +122,10 @@ public class Main extends Application {
             if(blink)
                 draw.addRect(vpPos.x, vpPos.y, vpPos.x + vpSize.x, vpPos.y + vpSize.y,
                         ImColor.rgb(1.f, 0.f, 0.f),
-                        5.f, ImDrawFlags.None, 4.f);
+                        5.f, ImDrawFlags.None, 5.f);
         }
         else {
+
             draw.addCircle(mp.x, mp.y, 50.f,
                     ImColor.rgb(0.f, 0.f, 1.f),
                     22, 1
@@ -260,11 +318,11 @@ public class Main extends Application {
             System.out.println(counter + ") a1=" + a1 + " b1=" + b1 + " a2=" + a2 + " b2=" + b2);    
             System.out.println("  intersection: " + vc);
 
-            a1.rotateRelative(dAngle);
-            b1.rotateRelative(dAngle);
+            a1.rotate(dAngle);
+            b1.rotate(dAngle);
 
-            a2.rotateRelative(dAngle);
-            b2.rotateRelative(dAngle);
+            a2.rotate(dAngle);
+            b2.rotate(dAngle);
         }
 
         msDuration = System.currentTimeMillis() - msDuration;

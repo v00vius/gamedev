@@ -1,5 +1,6 @@
 package types;
 
+import component.Mesh;
 public interface Context {
-    void action(Node node);
+    void action(Mesh mesh);
 }
