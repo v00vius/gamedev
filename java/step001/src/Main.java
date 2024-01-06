@@ -59,10 +59,12 @@ public class Main extends Application {
         config.setTitle("Test 001");
 
         System.out.println(trident);
+//        Mesh.store(trident, "trident.mesh");
+        Mesh mesh = Mesh.load("tr2.mesh");
 
-        Mesh mesh = trident.clone();
-        mesh.setTag("Cloned");
         System.out.println(mesh);
+
+//        Mesh.store(mesh, "tr2.mesh");
     }
 
     @Override
