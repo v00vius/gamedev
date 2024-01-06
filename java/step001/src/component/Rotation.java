@@ -6,6 +6,10 @@ import types.Vector2;
 public class Rotation implements Context {
     private float angle;
 
+    public Rotation() {
+        angle = 0.f;
+    }
+
     public Rotation(float angleDeg) {
         setAngle(angleDeg);
     }

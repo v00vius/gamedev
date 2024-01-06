@@ -15,20 +15,21 @@ import static org.lwjgl.glfw.GLFW.*;
 public class Main extends Application {
     static int cLow =  ImColor.rgb(253, 199, 2);
     static int cHigh = ImColor.rgb(89, 45, 190);
-    private long time;
+    float delta = 1.f;
     private boolean done;
     private boolean blink = true;
-    private long frameCount = 0;
+    private long frameCount = 1;
 
     private Bounds bounds;
     private Draw painter;
     private Rotation rotation;
     private Move motion;
+    private Opacity opacity;
 
     private Mesh trident = new Mesh(
                 new float[] {00.f, 10.f, 20.f, 30.f, 40.f, 50.f, 60.f,  30.f},
                 new float[] {00.f, 50.f, 00.f, 50.f, 00.f, 50.f, 00.f, -20.f},
-                new int[]   {
+                new short[]   {
                         0, 1, 2,
                         2, 3, 4,
                         4, 5, 6,
@@ -45,7 +46,6 @@ public class Main extends Application {
     public Main() {
         super();
 
-        time = System.currentTimeMillis();
         done = false;
     }
 
@@ -61,7 +61,6 @@ public class Main extends Application {
 
     @Override
     public void process() {
-        ++frameCount;
         mainMenu();
 
         ImGuiViewport vp = ImGui.getMainViewport();
@@ -72,16 +71,18 @@ public class Main extends Application {
         ImVec2 center = vp.getWorkCenter();
         ImVec2 mp = io.getMousePos();
 
+/*
         draw.addCircle(center.x, center.y, 0.4f * vpSize.y,
                 ImColor.rgb(0.f, 1.f, 0.f),
                 22, 6
                 );
+*/
 
-        if(io.getKeysDown(GLFW_KEY_F12)) {
+        if(ImGui.isMouseDown(0)) {
+            Random rnd = new Random();
+
             if (motion == null) {
-                Random rnd = new Random();
-
-                rotation = new Rotation(rnd.nextFloat(-10.f, 10.f));
+                rotation = new Rotation();
 
                 motion = new Move(
                         rnd.nextFloat(-5.f, 5.f),
@@ -95,14 +96,21 @@ public class Main extends Application {
 
                 painter = new Draw();
                 painter.color = ImColor.rgb(253, 199, 2);
+
+                opacity = new Opacity();
             }
+
+            rotation.setAngle(360.f * delta / rnd.nextFloat(1.f, 5.f));
+            opacity.blink(1.f);
         }
 
         if(motion != null) {
             bounds.setBouds(vpSize);
             bounds.action(trident);
+
             rotation.action(trident);
             motion.action(trident);
+            opacity.action(trident);
         }
 
         if(painter != null) {
@@ -110,6 +118,10 @@ public class Main extends Application {
             painter.position.x = vpPos.x + motion.getX();
             painter.position.y = vpPos.y + motion.getY();
 
+            ImGui.text(String.format("Opacity Factor: %4.2f", opacity.getOpacity()));
+
+            painter.setOpacityFactor(opacity.getOpacity());
+//            painter.setOpacityFactor(0.5f);
             painter.action(trident);
         }
 
@@ -125,32 +137,22 @@ public class Main extends Application {
         }
         else {
 
-            draw.addCircle(mp.x, mp.y, 50.f,
+            draw.addCircle(mp.x, mp.y, 40.f,
                     ImColor.rgb(0.f, 0.f, 1.f),
-                    22, 1
+                    22, 2.f
+            );
+            draw.addLine(mp.x - 50.f, mp.y,
+                    mp.x + 50.f, mp.y,
+                    ImColor.rgb(0.f, 0.f, 1.f),
+                    1.f
+            );
+            draw.addLine(mp.x, mp.y - 50.f,
+                    mp.x, mp.y + 50.f,
+                    ImColor.rgb(0.f, 0.f, 1.f),
+                    1.f
             );
         }
 
-        if(io.getKeysDown(GLFW_KEY_F4)) {
-            ImGui.text("F4 pressed");
-        }
-
-        ImGui.text("Key mods: ");
-
-        if(io.getKeyAlt()) {
-            ImGui.sameLine();
-            ImGui.text("ALT");
-        }
-
-        if(io.getKeyShift()) {
-            ImGui.sameLine();
-            ImGui.text("SHIFT");
-        }
-
-        if(io.getKeyCtrl()) {
-            ImGui.sameLine();
-            ImGui.text("CTRL");
-        }
 
         if(done) {
             io.addInputCharacter(GLFW_KEY_F4);  // F4
@@ -174,18 +176,43 @@ public class Main extends Application {
         ImGui.text("Mouse down: ");
 
         for (int i = 0; i < mouseButtons.length; ++i) {
-            if (ImGui.isMouseDown(i)){
+            if (ImGui.isMouseDown(i)) {
                 ImGui.sameLine ();
                 ImGui.text (String.format("button #%d", i));
             }
         }
+
+        ImGui.text("Key mods: ");
+
+        if(io.getKeyAlt()) {
+            ImGui.sameLine();
+            ImGui.text("ALT");
+        }
+
+        if(io.getKeyShift()) {
+            ImGui.sameLine();
+            ImGui.text("SHIFT");
+        }
+
+        if(io.getKeyCtrl()) {
+            ImGui.sameLine();
+            ImGui.text("CTRL");
+        }
+
+        if(io.getKeysDown(GLFW_KEY_F4)) {
+            ImGui.text("F4 pressed");
+        }
     }
 
     private void mainMenu() {
-        long tick  = System.currentTimeMillis() - time;
-        float delta = ImGui.getIO().getDeltaTime();
+        if(++frameCount % 100 == 0)
+            delta = ImGui.getIO().getDeltaTime();
 
-        time += tick;
+        ImGui.text(String.format("Frame time: %5.1f ms", delta * 1000.f));
+        ImGui.text("FPS: " + (int)(0.5f + 1.f / delta));
+        ImGui.text( String.format("Time: %5.1f ", ImGui.getTime()));
+
+        ImGui.colorEdit3("Background Color", this.getColorBg().data);
 
         if (ImGui.beginMainMenuBar()) {
             if (ImGui.beginMenu("File")) {
@@ -199,11 +226,6 @@ public class Main extends Application {
             ImGui.endMainMenuBar();
         }
 
-        ImGui.text("Frame time: " + tick + " ms");
-        ImGui.text("FPS: " + (int)(0.5f + 1000.f / (float)tick));
-        ImGui.text( String.format("Time: %5.1f ", ImGui.getTime()));
-
-        ImGui.colorEdit3("Background Color", this.getColorBg().data);
     }
 
     @Override

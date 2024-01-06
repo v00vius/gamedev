@@ -5,10 +5,10 @@ import types.Vector2;
 public class Mesh {
     private float[] vx;
     private float[] vy;
-    private int[] vertices;
+    private short[] vertices;
     private int[] color;
 
-    public Mesh(float[] vx, float[] vy, int[] v, int[] color) {
+    public Mesh(float[] vx, float[] vy, short[] v, int[] color) {
         this.vx = vx;
         this.vy = vy;
         this.vertices = v;
@@ -44,7 +44,7 @@ public class Mesh {
         return vy;
     }
 
-    public int[] getTriangles() {
+    public short[] getTriangles() {
         return vertices;
     }
 

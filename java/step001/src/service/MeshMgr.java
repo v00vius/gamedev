@@ -12,7 +12,7 @@ public class MeshMgr {
         this.polygon = new LinkedList<>();
     }
 
-    void addMesh(float[] vx, float[] vy, int[] tr) {
+    void addMesh(float[] vx, float[] vy, short[] tr) {
         Mesh mesh = new Mesh(vx, vy, tr, null);
 
         polygon.add(mesh);
