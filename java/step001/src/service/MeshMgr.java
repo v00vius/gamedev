@@ -12,8 +12,8 @@ public class MeshMgr {
         this.polygon = new LinkedList<>();
     }
 
-    void addMesh(float[] vx, float[] vy, short[] tr) {
-        Mesh mesh = new Mesh(vx, vy, tr, null);
+    void addMesh(String tag, float[] vx, float[] vy, short[] tr) {
+        Mesh mesh = new Mesh(tag, vx, vy, tr, null);
 
         polygon.add(mesh);
     }

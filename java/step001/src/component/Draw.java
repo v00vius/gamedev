@@ -29,10 +29,10 @@ public class Draw implements Context  {
         int[] trColor = mesh.getColor();
         Color ctmp = new Color();
 
-        for (int i = 0; i < tr.length; i += 3) {
-            int v0 = tr[i + 0];
-            int v1 = tr[i + 1];
-            int v2 = tr[i + 2];
+        for (short i = 0; i < tr.length; i += 3) {
+            short v0 = tr[i    ];
+            short v1 = tr[i + 1];
+            short v2 = tr[i + 2];
             int col = trColor == null ? color : trColor[ i / 3];
 
             ctmp.set(col);
@@ -46,4 +46,6 @@ public class Draw implements Context  {
             );
         }
     }
+
+
 }

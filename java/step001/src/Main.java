@@ -26,7 +26,7 @@ public class Main extends Application {
     private Move motion;
     private Opacity opacity;
 
-    private Mesh trident = new Mesh(
+    private Mesh trident = new Mesh("Trident",
                 new float[] {00.f, 10.f, 20.f, 30.f, 40.f, 50.f, 60.f,  30.f},
                 new float[] {00.f, 50.f, 00.f, 50.f, 00.f, 50.f, 00.f, -20.f},
                 new short[]   {
@@ -57,6 +57,12 @@ public class Main extends Application {
     @Override
     protected void configure(final Configuration config) {
         config.setTitle("Test 001");
+
+        System.out.println(trident);
+
+        Mesh mesh = trident.clone();
+        mesh.setTag("Cloned");
+        System.out.println(mesh);
     }
 
     @Override
@@ -101,7 +107,7 @@ public class Main extends Application {
             }
 
             rotation.setAngle(360.f * delta / rnd.nextFloat(1.f, 5.f));
-            opacity.blink(1.f);
+            opacity.blink(10.f);
         }
 
         if(motion != null) {

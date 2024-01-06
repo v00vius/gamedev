@@ -43,6 +43,18 @@ public class Color {
                 );
     }
 
+    public int getR() {
+        return color[0];
+    }
+
+    public int getG() {
+        return color[1];
+    }
+
+    public int getB() {
+        return color[2];
+    }
+
     public int getA() {
         return color[3];
     }

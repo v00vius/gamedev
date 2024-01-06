@@ -42,9 +42,23 @@ public class Vector2 {
         return this;
     }
 
+    public Vector2 add(float dx, float dy) {
+        x += dx;
+        y += dy;
+
+        return this;
+    }
+
     public Vector2 sub(Vector2 b) {
         x -= b.x;
         y -= b.y;
+
+        return this;
+    }
+
+    public Vector2 sub(float dx, float dy) {
+        x -= dx;
+        y -= dy;
 
         return this;
     }
