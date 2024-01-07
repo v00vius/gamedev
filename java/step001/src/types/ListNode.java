@@ -1,6 +1,6 @@
 package types;
 
-import component.Component;
+import component.Action;
 
 public class ListNode extends Node {
     private int insertionCount;
@@ -57,7 +57,7 @@ public class ListNode extends Node {
         return node;
     }
 
-    void apply(Component ctx) {
+    void apply(Action ctx) {
         Node begin = this;
 
         while(this != begin.getNext()) {

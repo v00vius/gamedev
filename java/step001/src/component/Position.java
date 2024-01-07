@@ -2,10 +2,12 @@ package component;
 
 import types.Vector2;
 
-public class Position implements  Component {
+public class Position extends Component implements Action {
     protected Vector2 position;
 
     public Position() {
+        super();
+
         position = new Vector2();
     }
 
@@ -29,7 +31,7 @@ public class Position implements  Component {
     }
 
     @Override
-    public void action(Mesh mesh) {
+    public void action(Object o) {
 
     }
 }

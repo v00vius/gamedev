@@ -2,15 +2,13 @@ package component;
 
 import types.Vector2;
 
-public class Rotation implements Component {
+public class Rotation extends Component implements Action {
     private float angle;
 
     public Rotation() {
-        angle = 0.f;
-    }
+        super();
 
-    public Rotation(float angleDeg) {
-        setAngle(angleDeg);
+        angle = 0.f;
     }
 
     public void setAngle(float angleDeg) {
@@ -18,7 +16,7 @@ public class Rotation implements Component {
     }
 
     @Override
-    public void action(Mesh mesh) {
+    public void action(Object o) {
         float[] x = mesh.getX();
         float[] y = mesh.getY();
         Vector2 r = new Vector2();

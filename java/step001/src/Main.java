@@ -97,27 +97,30 @@ public class Main extends Application {
             Random rnd = new Random();
 
             if (motion == null) {
-                rotation = new Rotation();
-
                 motion = new Move();
+                motion.setMesh(trident);
+                motion.setPosition(vpSize.x * 0.5f, vpSize.y * 0.5f);
                 motion.setVelocity(
                         rnd.nextFloat(-5.f, 5.f),
                         rnd.nextFloat(-5.f, 5.f)
                 );
 
-                motion.setPosition(vpSize.x * 0.5f, vpSize.y * 0.5f);
+                rotation = new Rotation();
+                rotation.setMesh(trident);
 
                 bounds = new WindowBounds();
                 bounds.setComponent(motion);
 
                 painter = new Draw();
+                painter.setMesh(trident);
                 painter.color = ImColor.rgb(253, 199, 2);
 
                 opacity = new Opacity();
+                opacity.setDraw(painter);
             }
 
             rotation.setAngle(360.f * delta / rnd.nextFloat(1.f, 5.f));
-            opacity.blink(10.f);
+            opacity.blink(3.f);
         }
 
         if(motion != null) {

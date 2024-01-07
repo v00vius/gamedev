@@ -2,13 +2,19 @@ package component;
 
 import imgui.ImGui;
 
-public class Opacity implements Component {
-    private float opacity;
+public class Opacity extends Component implements Action {
+    private Draw draw;
     private float step;
 
     public Opacity() {
-        this.opacity = 1.f;
+        super();
+
+        draw = null;
         this.step = 0.f;
+    }
+
+    public void setDraw(Draw draw) {
+        this.draw = draw;
     }
 
     public void blink(float period) {
@@ -16,11 +22,16 @@ public class Opacity implements Component {
     }
 
     public float getOpacity() {
-        return opacity;
+        return draw.getOpacityFactor();
+    }
+    public void setOpacity(float opacity) {
+        draw.setOpacityFactor(opacity);
     }
 
     @Override
-    public void action(Mesh mesh) {
+    public void action(Object o) {
+        float opacity = getOpacity();
+
         opacity -= step;
 
         if(opacity < 0.f) {
@@ -31,5 +42,7 @@ public class Opacity implements Component {
             opacity = 1.f;
             step = -step;
         }
+
+        setOpacity(opacity);
     }
 }

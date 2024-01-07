@@ -39,7 +39,7 @@ public class Move extends Position {
     }
 
     @Override
-    public void action(Mesh mesh) {
+    public void action(Object o) {
         position.add(velocity);
     }
 }
