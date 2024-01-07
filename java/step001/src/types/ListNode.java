@@ -1,5 +1,7 @@
 package types;
 
+import component.Component;
+
 public class ListNode extends Node {
     private int insertionCount;
     private int removalCount;
@@ -55,7 +57,7 @@ public class ListNode extends Node {
         return node;
     }
 
-    void apply(Context ctx) {
+    void apply(Component ctx) {
         Node begin = this;
 
         while(this != begin.getNext()) {

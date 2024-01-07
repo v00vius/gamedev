@@ -1,9 +1,8 @@
 package component;
 
-import types.Context;
 import types.Vector2;
 
-public class Rotation implements Context {
+public class Rotation implements Component {
     private float angle;
 
     public Rotation() {

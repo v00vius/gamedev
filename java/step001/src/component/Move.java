@@ -1,28 +1,33 @@
 package component;
 
-import types.Context;
 import types.Vector2;
 
-public class Move implements Context {
-    private Vector2 position;
+public class Move extends Position {
     private Vector2 velocity;
 
-    public Move(float dx, float dy) {
-        this.position = new Vector2();
-        this.velocity = new Vector2(dx, dy);
+    public Move() {
+        super();
+
+        velocity = new Vector2();
     }
 
-    public void setPosition(float x, float y) {
-        position.x = x;
-        position.y = y;
+    public Vector2 setVelocity(float vx, float vy) {
+        velocity.x = vx;
+        velocity.y = vy;
+
+        return velocity;
     }
 
-    public float getX() {
-        return position.x;
+    public Vector2 getVelocity() {
+        return velocity;
     }
 
-    public float getY() {
-        return position.y;
+    public float getVelocityX() {
+        return velocity.x;
+    }
+
+    public float getVelocityY() {
+        return velocity.y;
     }
 
     public void reverseX() {

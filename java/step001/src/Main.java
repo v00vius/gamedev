@@ -20,7 +20,7 @@ public class Main extends Application {
     private boolean blink = true;
     private long frameCount = 1;
 
-    private Bounds bounds;
+    private WindowBounds bounds;
     private Draw painter;
     private Rotation rotation;
     private Move motion;
@@ -56,14 +56,15 @@ public class Main extends Application {
 
     @Override
     protected void configure(final Configuration config) {
-        config.setTitle("Test 001");
+        config.setTitle("ImGUI Version " + ImGui.getVersion() + ", https://github.com/SpaiR/imgui-java");
+
 
         System.out.println(trident);
         Mesh.store(trident, "trident2.mesh");
         Mesh mesh = Mesh.load("trident2.mesh");
         System.out.println(mesh);
-        String t1 = trident.getTag();
-        String t2 = mesh.getTag();
+        String t1 = trident.getName();
+        String t2 = mesh.getName();
         System.out.println("Tags: '" + t1 + "' <==> '" + t2 + "'" );
         boolean eq = trident.equals(mesh);
         System.out.println("Equals: " + eq);
@@ -87,6 +88,10 @@ public class Main extends Application {
                 22, 6
                 );
 */
+        ImFont font = ImGui.getFont();
+        draw.addText(font, 24.f, vpPos.x, vpPos.y, ImColor.rgb(255, 255, 0),
+                String.format("%05d", ImGui.getFrameCount())
+        );
 
         if(ImGui.isMouseDown(0)) {
             Random rnd = new Random();
@@ -94,15 +99,16 @@ public class Main extends Application {
             if (motion == null) {
                 rotation = new Rotation();
 
-                motion = new Move(
+                motion = new Move();
+                motion.setVelocity(
                         rnd.nextFloat(-5.f, 5.f),
                         rnd.nextFloat(-5.f, 5.f)
                 );
 
                 motion.setPosition(vpSize.x * 0.5f, vpSize.y * 0.5f);
 
-                bounds = new Bounds();
-                bounds.setMotion(motion);
+                bounds = new WindowBounds();
+                bounds.setComponent(motion);
 
                 painter = new Draw();
                 painter.color = ImColor.rgb(253, 199, 2);
@@ -115,7 +121,7 @@ public class Main extends Application {
         }
 
         if(motion != null) {
-            bounds.setBouds(vpSize);
+            bounds.setBounds(vpSize);
             bounds.action(trident);
 
             rotation.action(trident);
@@ -125,8 +131,8 @@ public class Main extends Application {
 
         if(painter != null) {
             painter.drawList = draw;
-            painter.position.x = vpPos.x + motion.getX();
-            painter.position.y = vpPos.y + motion.getY();
+            painter.position.x = vpPos.x + motion.getPositionX();
+            painter.position.y = vpPos.y + motion.getPositionY();
 
             ImGui.text(String.format("Opacity Factor: %4.2f", opacity.getOpacity()));
 

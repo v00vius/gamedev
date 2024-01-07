@@ -3,10 +3,9 @@ package component;
 import imgui.*;
 
 import types.Color;
-import types.Context;
 import types.Vector2;
 
-public class Draw implements Context  {
+public class Draw implements Component {
     public Vector2 position;
     public ImDrawList drawList;
     public int color;

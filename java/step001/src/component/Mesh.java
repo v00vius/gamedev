@@ -8,8 +8,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Mesh implements Cloneable {
@@ -29,8 +27,8 @@ public class Mesh implements Cloneable {
         color =  (mesh.color == null) ? null : mesh.color.clone();
     }
 
-    public Mesh(String tag, float[] vx, float[] vy, short[] v, int[] color) {
-        this.id = String8.pack(tag);
+    public Mesh(String name, float[] vx, float[] vy, short[] v, int[] color) {
+        this.id = String8.pack(name);
         this.vx = vx;
         this.vy = vy;
         this.vertices = v;
@@ -40,10 +38,10 @@ public class Mesh implements Cloneable {
     public Long getId() {
         return id;
     }
-    public String getTag() {
+    public String getName() {
         return String8.unpack(id);
     }
-    public Long setTag(String tag) { return this.id = String8.pack(tag); }
+    public Long setName(String tag) { return this.id = String8.pack(tag); }
 
     Vector2 getBoundingBox() {
         float min_x = Float.MAX_VALUE;
@@ -94,11 +92,15 @@ public class Mesh implements Cloneable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Mesh mesh = (Mesh) o;
-        return id.equals(mesh.id)
+
+        return id.equals(mesh.id);
+/*
+   ;     return id.equals(mesh.id)
                 && Arrays.equals(vx, mesh.vx)
                 && Arrays.equals(vy, mesh.vy)
                 && Arrays.equals(vertices, mesh.vertices)
                 && Arrays.equals(color, mesh.color);
+*/
     }
 
     @Override
@@ -111,7 +113,7 @@ public class Mesh implements Cloneable {
         String str = String.format("mesh %d %d %d %s\n",
                 vx.length, vertices.length,
                 (color == null ? 0 : color.length),
-                getTag()
+                getName()
         );
 
         for (short i = 0; i < vx.length; ++i) {

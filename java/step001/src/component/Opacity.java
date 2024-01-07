@@ -1,9 +1,8 @@
 package component;
 
 import imgui.ImGui;
-import types.Context;
 
-public class Opacity implements Context {
+public class Opacity implements Component {
     private float opacity;
     private float step;
 
