@@ -9,10 +9,11 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Mesh implements Cloneable {
-    private long id;
+    private Long id;
 
     private float[] vx;
     private float[] vy;
@@ -36,13 +37,13 @@ public class Mesh implements Cloneable {
         this.color = color;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
     public String getTag() {
         return String8.unpack(id);
     }
-    public long setTag(String tag) { return this.id = String8.pack(tag); }
+    public Long setTag(String tag) { return this.id = String8.pack(tag); }
 
     Vector2 getBoundingBox() {
         float min_x = Float.MAX_VALUE;
@@ -86,6 +87,23 @@ public class Mesh implements Cloneable {
     @Override
     public Mesh clone() {
         return new Mesh(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Mesh mesh = (Mesh) o;
+        return id.equals(mesh.id)
+                && Arrays.equals(vx, mesh.vx)
+                && Arrays.equals(vy, mesh.vy)
+                && Arrays.equals(vertices, mesh.vertices)
+                && Arrays.equals(color, mesh.color);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 
     @Override
@@ -180,6 +198,7 @@ public class Mesh implements Cloneable {
 
                     case 't':
                         i = Short.parseShort(words[1]);
+                        i *= 3;
                         t[i    ] = Short.parseShort(words[2]);
                         t[i + 1] = Short.parseShort(words[3]);
                         t[i + 2] = Short.parseShort(words[4]);

@@ -59,12 +59,14 @@ public class Main extends Application {
         config.setTitle("Test 001");
 
         System.out.println(trident);
-//        Mesh.store(trident, "trident.mesh");
-        Mesh mesh = Mesh.load("tr2.mesh");
-
+        Mesh.store(trident, "trident2.mesh");
+        Mesh mesh = Mesh.load("trident2.mesh");
         System.out.println(mesh);
-
-//        Mesh.store(mesh, "tr2.mesh");
+        String t1 = trident.getTag();
+        String t2 = mesh.getTag();
+        System.out.println("Tags: '" + t1 + "' <==> '" + t2 + "'" );
+        boolean eq = trident.equals(mesh);
+        System.out.println("Equals: " + eq);
     }
 
     @Override

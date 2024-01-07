@@ -4,12 +4,15 @@ package types;
 public class String8 {
     public static long pack(String s) {
         long packed = 0;
-        byte[] str = s.getBytes();
+        byte[] sBytes = s.getBytes();
+        short bound = (short)Math.min(8, sBytes.length);
 
-        for (short i = 0; i < 8; ++i) {
-            short ch = i < s.length() ? (short)str[i] : (short)' ';
+        for (short i = 0; i < bound; ++i) {
+            packed = (packed << 8) | (short)sBytes[i];
+        }
 
-            packed = (packed << 8) | ch;
+        for (short i = bound; i < 8; ++i) {
+            packed = (packed << 8) | (short)' ';
         }
 
         return packed;
@@ -19,10 +22,10 @@ public class String8 {
         String s = "";
 
         for (short i = 0; i < 8; ++i) {
-            char b = (char)(~0xFF00 & packed);
+            char b = (char)(0xFF & packed);
 
             s = b  + s;
-            packed >>= 8;
+            packed >>>= 8;
         }
 
         return s;
