@@ -1,22 +1,22 @@
 package entity;
 
+import types.String8;
+
 public abstract class Entity {
-    private int id;
-    private String tag;
+    private Long id;
     private boolean alive;
 
-    public Entity(int id, String tag) {
-        this.id = id;
-        this.tag = tag;
+    public Entity(String tag) {
+        this.id = String8.pack(tag);
         this.alive = true;
     }
     
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
     public String getTag() {
-        return tag;
+        return String8.unpack(id);
     }
 
     public boolean isalive() {
