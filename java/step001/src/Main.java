@@ -21,9 +21,9 @@ public class Main extends Application {
     private long frameCount = 1;
 
     private WindowBounds bounds;
-    private Draw painter;
+    private Painter painter;
     private Rotation rotation;
-    private Move motion;
+    private Motion motion;
     private Opacity opacity;
 
     private Mesh trident = new Mesh("Trident",
@@ -72,6 +72,8 @@ public class Main extends Application {
 
     @Override
     public void process() {
+        long msDuration = System.currentTimeMillis();
+
         mainMenu();
 
         ImGuiViewport vp = ImGui.getMainViewport();
@@ -97,7 +99,7 @@ public class Main extends Application {
             Random rnd = new Random();
 
             if (motion == null) {
-                motion = new Move();
+                motion = new Motion();
                 motion.setMesh(trident);
                 motion.setPosition(vpSize.x * 0.5f, vpSize.y * 0.5f);
                 motion.setVelocity(
@@ -111,12 +113,12 @@ public class Main extends Application {
                 bounds = new WindowBounds();
                 bounds.setComponent(motion);
 
-                painter = new Draw();
+                painter = new Painter();
                 painter.setMesh(trident);
                 painter.color = ImColor.rgb(253, 199, 2);
 
                 opacity = new Opacity();
-                opacity.setDraw(painter);
+                opacity.setPainter(painter);
             }
 
             rotation.setAngle(360.f * delta / rnd.nextFloat(1.f, 5.f));
@@ -221,6 +223,9 @@ public class Main extends Application {
         if(io.getKeysDown(GLFW_KEY_F4)) {
             ImGui.text("F4 pressed");
         }
+
+        msDuration = System.currentTimeMillis() - msDuration;
+        ImGui.text(String.format("Scene latency: %d ms", msDuration));
     }
 
     private void mainMenu() {

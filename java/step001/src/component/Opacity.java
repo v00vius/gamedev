@@ -3,18 +3,18 @@ package component;
 import imgui.ImGui;
 
 public class Opacity extends Component implements Action {
-    private Draw draw;
+    private Painter painter;
     private float step;
 
     public Opacity() {
         super();
 
-        draw = null;
+        painter = null;
         this.step = 0.f;
     }
 
-    public void setDraw(Draw draw) {
-        this.draw = draw;
+    public void setPainter(Painter painter) {
+        this.painter = painter;
     }
 
     public void blink(float period) {
@@ -22,10 +22,10 @@ public class Opacity extends Component implements Action {
     }
 
     public float getOpacity() {
-        return draw.getOpacityFactor();
+        return painter.getOpacityFactor();
     }
     public void setOpacity(float opacity) {
-        draw.setOpacityFactor(opacity);
+        painter.setOpacityFactor(opacity);
     }
 
     @Override

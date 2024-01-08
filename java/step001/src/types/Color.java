@@ -64,4 +64,16 @@ public class Color {
 
         return get();
     }
+
+    public int setA(float opacityFactor) {
+        int a = (int)((float)getA() * opacityFactor);
+
+        if(a < 0)
+            return setA(0);
+
+        if(a > 255)
+            return setA(255);
+
+        return setA(a);
+    }
 }

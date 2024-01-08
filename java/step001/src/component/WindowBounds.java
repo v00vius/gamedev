@@ -5,7 +5,7 @@ import types.Vector2;
 
 public class WindowBounds extends Component implements Action {
     private Vector2 bounds;
-    private Move motion;
+    private Motion motion;
 
     public WindowBounds() {
         super();
@@ -20,7 +20,7 @@ public class WindowBounds extends Component implements Action {
         return bounds;
     }
 
-    public void setComponent(Move motion) {
+    public void setComponent(Motion motion) {
         this.motion = motion;
     }
 

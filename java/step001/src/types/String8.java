@@ -28,6 +28,6 @@ public class String8 {
             packed >>>= 8;
         }
 
-        return s;
+        return s.trim();
     }
 }

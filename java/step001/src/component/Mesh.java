@@ -16,23 +16,22 @@ public class Mesh implements Cloneable {
     private float[] vx;
     private float[] vy;
     private short[] vertices;
-
-    private int[] color;
+    private int[] colors;
 
     public Mesh(Mesh mesh) {
         id = mesh.id;
         vx = mesh.vx.clone();
         vy = mesh.vy.clone();
         vertices = mesh.vertices.clone();
-        color =  (mesh.color == null) ? null : mesh.color.clone();
+        colors =  (mesh.colors == null) ? null : mesh.colors.clone();
     }
 
-    public Mesh(String name, float[] vx, float[] vy, short[] v, int[] color) {
+    public Mesh(String name, float[] vx, float[] vy, short[] vertices, int[] colors) {
         this.id = String8.pack(name);
         this.vx = vx;
         this.vy = vy;
-        this.vertices = v;
-        this.color = color;
+        this.vertices = vertices;
+        this.colors = colors;
     }
 
     public Long getId() {
@@ -42,6 +41,9 @@ public class Mesh implements Cloneable {
         return String8.unpack(id);
     }
     public Long setName(String tag) { return this.id = String8.pack(tag); }
+    public int size() {
+        return vertices.length / 3;
+    }
 
     Vector2 getBoundingBox() {
         float min_x = Float.MAX_VALUE;
@@ -78,8 +80,8 @@ public class Mesh implements Cloneable {
         return vertices;
     }
 
-    public int[] getColor() {
-        return color;
+    public int[] getColors() {
+        return colors;
     }
 
     @Override
@@ -112,7 +114,7 @@ public class Mesh implements Cloneable {
     public String toString() {
         String str = String.format("mesh %d %d %d %s\n",
                 vx.length, vertices.length,
-                (color == null ? 0 : color.length),
+                (colors == null ? 0 : colors.length),
                 getName()
         );
 
@@ -124,11 +126,11 @@ public class Mesh implements Cloneable {
             str += String.format("t %d %d %d %d\n", i / 3, vertices[i], vertices[i + 1], vertices[i + 2]);
         }
 
-        if(color != null) {
+        if(colors != null) {
             Color c = new Color();
 
             for (short i = 0; i < vertices.length / 3; ++i) {
-                c.set(color[i]);
+                c.set(colors[i]);
 
                 str += String.format("c %d %d %d %d %d\n", i, c.getR(), c.getG(), c.getB(), c.getA());
             }
@@ -165,8 +167,8 @@ public class Mesh implements Cloneable {
         String[] words;
         float[] x =  null;
         float[] y = null;
-        short[] t = null;
-        int[] c = null;
+        short[] vertices = null;
+        int[] colors = null;
         String tag = "mesh";
         Color color = new Color();
         short lineNum = 0;
@@ -201,9 +203,9 @@ public class Mesh implements Cloneable {
                     case 't':
                         i = Short.parseShort(words[1]);
                         i *= 3;
-                        t[i    ] = Short.parseShort(words[2]);
-                        t[i + 1] = Short.parseShort(words[3]);
-                        t[i + 2] = Short.parseShort(words[4]);
+                        vertices[i    ] = Short.parseShort(words[2]);
+                        vertices[i + 1] = Short.parseShort(words[3]);
+                        vertices[i + 2] = Short.parseShort(words[4]);
                         break;
 
                     case 'c':
@@ -214,7 +216,7 @@ public class Mesh implements Cloneable {
                                 Integer.parseInt(words[5])
                         );
 
-                        c[i] = color.get();
+                        colors[i] = color.get();
                         break;
 
                     default:
@@ -231,10 +233,10 @@ public class Mesh implements Cloneable {
                 tag = words[4];
                 x = new float[nv];
                 y = new float[nv];
-                t = new short[nt];
+                vertices = new short[nt];
 
                 if (nc > 0 && nc == (nt / 3))
-                    c = new int[nc];
+                    colors = new int[nc];
 
                 System.out.println("# found mesh \"" + tag + "\", vertices: " + nv
                                 + ", triangles: " + (nt / 3)
@@ -248,7 +250,7 @@ public class Mesh implements Cloneable {
         if(foundMesh) {
             System.out.println("# \"" + fileName + "\", " + lineNum + " lines, done \"" + tag + "\"");
 
-            return new Mesh(tag, x, y, t, c);
+            return new Mesh(tag, x, y, vertices, colors);
         }
 
         return null;

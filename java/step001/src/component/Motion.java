@@ -2,10 +2,10 @@ package component;
 
 import types.Vector2;
 
-public class Move extends Position {
+public class Motion extends Position {
     private Vector2 velocity;
 
-    public Move() {
+    public Motion() {
         super();
 
         velocity = new Vector2();
