@@ -3,38 +3,38 @@ package component;
 import types.Vector2;
 
 public class BoundingBox extends Component {
+    private Position position;
     private Vector2 center;
     private Vector2 radius;
-    private boolean collision;
 
     public BoundingBox() {
         super();
 
+        position = null;
         center = new Vector2();
         radius = null;
-        collision = false;
     }
 
-    public void attach(Position position) {
-        if(position == null)
+    public void attach(Position pos) {
+        if(pos == null)
             return;
+
+        position = pos;
 
         if(radius == null) {
             Mesh mesh = position.getMesh();
 
             if(mesh == null)
-                return;
-
-            radius = mesh.getBoundingBox();
-            radius.mul(0.5f);
+                radius = new Vector2(1.f, 1.f);
+            else {
+                radius = mesh.getBoundingBox();
+                radius.mul(0.5f);
+            }
         }
-
-        center.set(position.getPosition()).add(radius);
-        collision = false;
     }
 
     public Vector2 getCenter() {
-        return center;
+        return center.set(position.getPosition()).add(radius);
     }
 
     public Vector2 getRadius() {
@@ -45,6 +45,8 @@ public class BoundingBox extends Component {
     public short action(Component component) {
         if(component == null)
             return 0;
+
+        BoundingBox bb = (BoundingBox) component;
 
         return 1;
     }
