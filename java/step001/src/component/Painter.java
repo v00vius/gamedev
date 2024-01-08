@@ -6,7 +6,7 @@ import types.Color;
 import types.Vector2;
 
 public class Painter extends Component implements Action {
-    public Vector2 position;
+    public Vector2 screenPosition;
     public ImDrawList drawList;
     public int color;
     private float opacityFactor;
@@ -14,7 +14,7 @@ public class Painter extends Component implements Action {
     public Painter() {
         super();
 
-        position = new Vector2();
+        screenPosition = new Vector2();
         setOpacityFactor(1.f);
     }
 
@@ -28,6 +28,9 @@ public class Painter extends Component implements Action {
 
     @Override
     public void action(Object o) {
+        if(mesh == null)
+            return;
+
         float[] vx = mesh.getX();
         float[] vy = mesh.getY();
         short[] triangles = mesh.getTriangles();
@@ -42,9 +45,9 @@ public class Painter extends Component implements Action {
 
                 exactColor.set(color);
                 drawList.addTriangleFilled(
-                        position.x + vx[v0], position.y + vy[v0],
-                        position.x + vx[v1], position.y + vy[v1],
-                        position.x + vx[v2], position.y + vy[v2],
+                        screenPosition.x + vx[v0], screenPosition.y + vy[v0],
+                        screenPosition.x + vx[v1], screenPosition.y + vy[v1],
+                        screenPosition.x + vx[v2], screenPosition.y + vy[v2],
                         exactColor.setA(opacityFactor)
                 );
             }
@@ -57,9 +60,9 @@ public class Painter extends Component implements Action {
 
                 exactColor.set(colors[j]);
                 drawList.addTriangleFilled(
-                        position.x + vx[v0], position.y + vy[v0],
-                        position.x + vx[v1], position.y + vy[v1],
-                        position.x + vx[v2], position.y + vy[v2],
+                        screenPosition.x + vx[v0], screenPosition.y + vy[v0],
+                        screenPosition.x + vx[v1], screenPosition.y + vy[v1],
+                        screenPosition.x + vx[v2], screenPosition.y + vy[v2],
                         exactColor.setA(opacityFactor)
                 );
             }

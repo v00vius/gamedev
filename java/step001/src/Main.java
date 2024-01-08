@@ -136,8 +136,7 @@ public class Main extends Application {
 
         if(painter != null) {
             painter.drawList = draw;
-            painter.position.x = vpPos.x + motion.getPositionX();
-            painter.position.y = vpPos.y + motion.getPositionY();
+            painter.screenPosition.set(vpPos).add(motion.getPosition());
 
             ImGui.text(String.format("Opacity Factor: %4.2f", opacity.getOpacity()));
 
