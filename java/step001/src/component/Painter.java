@@ -5,7 +5,7 @@ import imgui.*;
 import types.Color;
 import types.Vector2;
 
-public class Painter extends Component implements Action {
+public class Painter extends Component  {
     public Vector2 screenPosition;
     public ImDrawList drawList;
     public int color;
@@ -27,7 +27,7 @@ public class Painter extends Component implements Action {
     }
 
     @Override
-    public void action(Object o) {
+    public void action() {
         if(mesh == null)
             return;
 

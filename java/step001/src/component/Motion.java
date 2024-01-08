@@ -39,7 +39,7 @@ public class Motion extends Position {
     }
 
     @Override
-    public void action(Object o) {
+    public void action() {
         position.add(velocity);
     }
 }

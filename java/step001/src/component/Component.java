@@ -1,6 +1,6 @@
 package component;
 
-public class Component {
+public abstract class Component implements Action {
     protected Mesh mesh;
 
     public Component() {

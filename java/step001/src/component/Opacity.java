@@ -2,7 +2,7 @@ package component;
 
 import imgui.ImGui;
 
-public class Opacity extends Component implements Action {
+public class Opacity extends Component  {
     private Painter painter;
     private float step;
 
@@ -29,7 +29,7 @@ public class Opacity extends Component implements Action {
     }
 
     @Override
-    public void action(Object o) {
+    public void action() {
         float opacity = getOpacity();
 
         opacity -= step;

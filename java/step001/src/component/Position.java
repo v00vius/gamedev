@@ -2,7 +2,7 @@ package component;
 
 import types.Vector2;
 
-public class Position extends Component implements Action {
+public class Position extends Component {
     protected Vector2 position;
 
     public Position() {
@@ -31,7 +31,6 @@ public class Position extends Component implements Action {
     }
 
     @Override
-    public void action(Object o) {
-
+    public void action() {
     }
 }

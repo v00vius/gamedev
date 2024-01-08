@@ -3,7 +3,7 @@ package component;
 import imgui.ImVec2;
 import types.Vector2;
 
-public class WindowBounds extends Component implements Action {
+public class WindowBounds extends Component {
     private Vector2 bounds;
     private Motion motion;
 
@@ -25,7 +25,7 @@ public class WindowBounds extends Component implements Action {
     }
 
     @Override
-    public void action(Object o) {
+    public void action() {
         if(motion.getPositionX() <= 0.f || motion.getPositionX() >= bounds.x)
             motion.reverseX();
 

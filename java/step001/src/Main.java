@@ -4,6 +4,7 @@ import imgui.*;
 import imgui.app.Application;
 import imgui.app.Configuration;
 import imgui.flag.*;
+import service.MeshManager;
 import types.Vector2;
 
 import java.util.Random;
@@ -60,8 +61,8 @@ public class Main extends Application {
 
 
         System.out.println(trident);
-        Mesh.store(trident, "trident2.mesh");
-        Mesh mesh = Mesh.load("trident2.mesh");
+        MeshManager.meshStore(trident, "trident2.mesh");
+        Mesh mesh =  MeshManager.meshLoad("trident2.mesh");
         System.out.println(mesh);
         String t1 = trident.getName();
         String t2 = mesh.getName();
@@ -127,11 +128,11 @@ public class Main extends Application {
 
         if(motion != null) {
             bounds.setBounds(vpSize);
-            bounds.action(trident);
+            bounds.action();
 
-            rotation.action(trident);
-            motion.action(trident);
-            opacity.action(trident);
+            rotation.action();
+            motion.action();
+            opacity.action();
         }
 
         if(painter != null) {
@@ -142,7 +143,7 @@ public class Main extends Application {
 
 //            painter.setOpacityFactor(opacity.getOpacity());
 //            painter.setOpacityFactor(0.5f);
-            painter.action(trident);
+            painter.action();
         }
 
         if(mp.x < vpPos.x || mp.x > vpPos.x + vpSize.x ||
@@ -172,7 +173,6 @@ public class Main extends Application {
                     1.f
             );
         }
-
 
         if(done) {
             io.addInputCharacter(GLFW_KEY_F4);  // F4
