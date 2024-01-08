@@ -119,15 +119,15 @@ public class Main extends Application {
                 opacity = new Opacity();    //
             }
 
-            rotation.setAngle(360.f * delta / rnd.nextFloat(1.f, 5.f)); //
-            opacity.blink(3.f); //
+            rotation.setAngle(360.f * delta / rnd.nextFloat(1.f, 2.f)); //
+            opacity.blink(1.f); //
         }
 
         if(motion != null) {
             rotation.action(trident);   //
             motion.action(position);    //
             bounds.setBounds(vpSize);   //
-            bounds.action(position);    //
+            motion.bump(bounds.action(position));    //
             opacity.action(painter);    //
         }
 

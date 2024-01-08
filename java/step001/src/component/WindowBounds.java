@@ -4,6 +4,12 @@ import imgui.ImVec2;
 import types.Vector2;
 
 public class WindowBounds extends Component {
+    public static short NONE = 0;
+    public static short LEFT = 1;
+    public static short RIGHT = 2;
+    public static short TOP = 3;
+    public static short BOTTOM = 4;
+
     private Vector2 bounds;
 
     public WindowBounds() {
@@ -22,22 +28,34 @@ public class WindowBounds extends Component {
     @Override
     public short action(Component component) {
         if(component == null)
-            return 0;
+            return NONE;
 
         Vector2 position = ((Position)component).getPosition();
 
-        if(position.x < 0.f)
+        if(position.x < 0.f) {
             position.x = 0.f;
 
-        if(position.x > bounds.x)
+            return LEFT;
+        }
+
+        if(position.x > bounds.x) {
             position.x = bounds.x;
 
-        if(position.y < 0.f)
+            return RIGHT;
+        }
+
+        if(position.y < 0.f) {
             position.y = 0.f;
 
-        if(position.y > bounds.y)
+            return TOP;
+        }
+
+        if(position.y > bounds.y) {
             position.y = bounds.y;
 
-        return 0;
+            return BOTTOM;
+        }
+
+        return NONE;
     }
 }

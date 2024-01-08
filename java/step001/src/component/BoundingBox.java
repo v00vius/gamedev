@@ -47,6 +47,15 @@ public class BoundingBox extends Component {
             return 0;
 
         BoundingBox bb = (BoundingBox) component;
+        Vector2 delta = getCenter();
+
+        delta.sub(bb.getCenter()).abs();
+
+        if(delta.x > getRadius().x + bb.getRadius().x)
+            return 0;
+
+        if(delta.y > getRadius().y + bb.getRadius().y)
+            return 0;
 
         return 1;
     }

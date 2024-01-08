@@ -38,6 +38,14 @@ public class Motion extends Position {
         velocity.y = -velocity.y;
     }
 
+    public void bump(short border) {
+        if(border == WindowBounds.LEFT || border == WindowBounds.RIGHT)
+            reverseX();
+
+        else if(border == WindowBounds.TOP || border == WindowBounds.BOTTOM)
+            reverseY();
+    }
+
     @Override
     public short action(Component component) {
         if(component == null)
