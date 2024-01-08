@@ -140,7 +140,7 @@ public class Main extends Application {
 
             ImGui.text(String.format("Opacity Factor: %4.2f", opacity.getOpacity()));
 
-            painter.setOpacityFactor(opacity.getOpacity());
+//            painter.setOpacityFactor(opacity.getOpacity());
 //            painter.setOpacityFactor(0.5f);
             painter.action(trident);
         }
