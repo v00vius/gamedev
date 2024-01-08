@@ -3,7 +3,8 @@ package component;
 import types.Vector2;
 
 public class Position extends Component {
-    protected Vector2 position;
+    private Mesh mesh;
+    private Vector2 position;
 
     public Position() {
         super();
@@ -12,10 +13,7 @@ public class Position extends Component {
     }
 
     public Vector2 setPosition(float x, float y) {
-        this.position.x = x;
-        this.position.y = y;
-
-        return position;
+        return position.set(x, y);
     }
 
     public Vector2 getPosition() {
@@ -30,7 +28,14 @@ public class Position extends Component {
         return position.y;
     }
 
+    public Mesh getMesh() {
+        return mesh;
+    }
+
     @Override
-    public void action() {
+    public short action(Component component) {
+        mesh = (Mesh) component;
+
+        return 0;
     }
 }

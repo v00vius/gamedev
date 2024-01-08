@@ -26,6 +26,7 @@ public class Main extends Application {
     private Rotation rotation;
     private Motion motion;
     private Opacity opacity;
+    private Position position;
 
     private Mesh trident = new Mesh("Trident",
                 new float[] {00.f, 10.f, 20.f, 30.f, 40.f, 50.f, 60.f,  30.f},
@@ -99,51 +100,43 @@ public class Main extends Application {
         if(ImGui.isMouseDown(0)) {
             Random rnd = new Random();
 
-            if (motion == null) {
-                motion = new Motion();
-                motion.setMesh(trident);
-                motion.setPosition(vpSize.x * 0.5f, vpSize.y * 0.5f);
+            if (position == null) {
+                position = new Position();  //
+                position.setPosition(vpSize.x * 0.5f, vpSize.y * 0.5f); //
+                position.action(trident);   //
+
+                painter = new Painter();    //
+                painter.color = ImColor.rgb(253, 199, 2);   //
+
+                motion = new Motion();  //
                 motion.setVelocity(
                         rnd.nextFloat(-5.f, 5.f),
                         rnd.nextFloat(-5.f, 5.f)
-                );
+                );  //
 
-                rotation = new Rotation();
-                rotation.setMesh(trident);
-
-                bounds = new WindowBounds();
-                bounds.setComponent(motion);
-
-                painter = new Painter();
-                painter.setMesh(trident);
-                painter.color = ImColor.rgb(253, 199, 2);
-
-                opacity = new Opacity();
-                opacity.setPainter(painter);
+                rotation = new Rotation();  //
+                bounds = new WindowBounds();    //
+                opacity = new Opacity();    //
             }
 
-            rotation.setAngle(360.f * delta / rnd.nextFloat(1.f, 5.f));
-            opacity.blink(3.f);
+            rotation.setAngle(360.f * delta / rnd.nextFloat(1.f, 5.f)); //
+            opacity.blink(3.f); //
         }
 
         if(motion != null) {
-            bounds.setBounds(vpSize);
-            bounds.action();
-
-            rotation.action();
-            motion.action();
-            opacity.action();
+            rotation.action(trident);   //
+            motion.action(position);    //
+            bounds.setBounds(vpSize);   //
+            bounds.action(position);    //
+            opacity.action(painter);    //
         }
 
         if(painter != null) {
-            painter.drawList = draw;
-            painter.screenPosition.set(vpPos).add(motion.getPosition());
+            painter.drawList = draw;    //
+            painter.screenPosition.set(vpPos);  //
+            painter.action(position);   //
 
-            ImGui.text(String.format("Opacity Factor: %4.2f", opacity.getOpacity()));
-
-//            painter.setOpacityFactor(opacity.getOpacity());
-//            painter.setOpacityFactor(0.5f);
-            painter.action();
+            ImGui.text(String.format("Opacity Factor: %4.2f", painter.getOpacityFactor()));
         }
 
         if(mp.x < vpPos.x || mp.x > vpPos.x + vpSize.x ||

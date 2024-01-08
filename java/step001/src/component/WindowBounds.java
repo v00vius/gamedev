@@ -5,7 +5,6 @@ import types.Vector2;
 
 public class WindowBounds extends Component {
     private Vector2 bounds;
-    private Motion motion;
 
     public WindowBounds() {
         super();
@@ -16,21 +15,29 @@ public class WindowBounds extends Component {
     public void setBounds(ImVec2 bounds) {
         this.bounds.set(bounds);
     }
-
     public Vector2 getBounds() {
         return bounds;
     }
 
-    public void setComponent(Motion motion) {
-        this.motion = motion;
-    }
-
     @Override
-    public void action() {
-        if(motion.getPositionX() <= 0.f || motion.getPositionX() >= bounds.x)
-            motion.reverseX();
+    public short action(Component component) {
+        if(component == null)
+            return 0;
 
-        if(motion.getPositionY() <= 0.f || motion.getPositionY() >= bounds.y)
-            motion.reverseY();
+        Vector2 position = ((Position)component).getPosition();
+
+        if(position.x < 0.f)
+            position.x = 0.f;
+
+        if(position.x > bounds.x)
+            position.x = bounds.x;
+
+        if(position.y < 0.f)
+            position.y = 0.f;
+
+        if(position.y > bounds.y)
+            position.y = bounds.y;
+
+        return 0;
     }
 }

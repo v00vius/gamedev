@@ -16,7 +16,12 @@ public class Rotation extends Component {
     }
 
     @Override
-    public void action() {
+    public short action(Component component) {
+        if(component == null)
+            return 0;
+
+        Mesh mesh = (Mesh) component;
+
         float[] x = mesh.getX();
         float[] y = mesh.getY();
         Vector2 r = new Vector2();
@@ -29,5 +34,7 @@ public class Rotation extends Component {
             x[i] = r.x;
             y[i] = r.y;
         }
+
+        return 1;
     }
 }

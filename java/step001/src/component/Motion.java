@@ -39,7 +39,14 @@ public class Motion extends Position {
     }
 
     @Override
-    public void action() {
+    public short action(Component component) {
+        if(component == null)
+            return 0;
+
+        Vector2 position = ((Position) component).getPosition();
+
         position.add(velocity);
+
+        return 1;
     }
 }

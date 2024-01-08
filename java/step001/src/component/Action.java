@@ -1,5 +1,5 @@
 package component;
 
 public interface Action {
-    void action();
+    short action(Component component);
 }

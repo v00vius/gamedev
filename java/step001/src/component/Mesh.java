@@ -4,13 +4,7 @@ import types.Color;
 import types.String8;
 import types.Vector2;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
-
-public class Mesh implements Cloneable {
+public class Mesh extends Component implements Cloneable {
     private Long id;
 
     private float[] vx;
@@ -140,5 +134,10 @@ public class Mesh implements Cloneable {
         }
 
         return str + "mesh end\n";
+    }
+
+    @Override
+    public short action(Component component) {
+        return 0;
     }
 }

@@ -16,8 +16,14 @@ public class Vector2 {
         this.set(v);
     }
     public Vector2(float x, float y) {
+        set(x, y);
+    }
+
+    public Vector2 set(float x, float y) {
         this.x = x;
         this.y = y;
+
+        return this;
     }
 
     public Vector2 set(Vector2 v) {

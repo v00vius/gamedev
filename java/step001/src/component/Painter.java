@@ -7,6 +7,7 @@ import types.Vector2;
 
 public class Painter extends Component  {
     public Vector2 screenPosition;
+    private Vector2 absPosition;
     public ImDrawList drawList;
     public int color;
     private float opacityFactor;
@@ -15,6 +16,8 @@ public class Painter extends Component  {
         super();
 
         screenPosition = new Vector2();
+        absPosition = new Vector2();
+
         setOpacityFactor(1.f);
     }
 
@@ -27,9 +30,17 @@ public class Painter extends Component  {
     }
 
     @Override
-    public void action() {
+    public short action(Component component) {
+        if(component == null)
+            return 0;
+
+        Position position = (Position) component;
+        Mesh mesh = position.getMesh();
+
         if(mesh == null)
-            return;
+            return 0;
+
+        absPosition.set(screenPosition).add(position.getPosition());
 
         float[] vx = mesh.getX();
         float[] vy = mesh.getY();
@@ -45,9 +56,9 @@ public class Painter extends Component  {
 
                 exactColor.set(color);
                 drawList.addTriangleFilled(
-                        screenPosition.x + vx[v0], screenPosition.y + vy[v0],
-                        screenPosition.x + vx[v1], screenPosition.y + vy[v1],
-                        screenPosition.x + vx[v2], screenPosition.y + vy[v2],
+                        absPosition.x + vx[v0], absPosition.y + vy[v0],
+                        absPosition.x + vx[v1], absPosition.y + vy[v1],
+                        absPosition.x + vx[v2], absPosition.y + vy[v2],
                         exactColor.setA(opacityFactor)
                 );
             }
@@ -60,12 +71,14 @@ public class Painter extends Component  {
 
                 exactColor.set(colors[j]);
                 drawList.addTriangleFilled(
-                        screenPosition.x + vx[v0], screenPosition.y + vy[v0],
-                        screenPosition.x + vx[v1], screenPosition.y + vy[v1],
-                        screenPosition.x + vx[v2], screenPosition.y + vy[v2],
+                        absPosition.x + vx[v0], absPosition.y + vy[v0],
+                        absPosition.x + vx[v1], absPosition.y + vy[v1],
+                        absPosition.x + vx[v2], absPosition.y + vy[v2],
                         exactColor.setA(opacityFactor)
                 );
             }
         }
+
+        return 1;
     }
 }
