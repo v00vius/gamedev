@@ -84,6 +84,10 @@ public class Vector2 {
         return this;
     }
 
+    public boolean lessOrEqual(Vector2 v) {
+        return x <= v.x && y <= v.y;
+    }
+
     public Vector2 projection(float length, float angleRadians) {
         x = length * (float) Math.cos((double) angleRadians);
         y = length * (float) Math.sin((double) angleRadians);

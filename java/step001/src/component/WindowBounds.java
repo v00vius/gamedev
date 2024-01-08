@@ -9,6 +9,7 @@ public class WindowBounds extends Component {
 
     public WindowBounds() {
         super();
+
         bounds = new Vector2();
     }
 

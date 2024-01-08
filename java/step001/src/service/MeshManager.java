@@ -70,10 +70,8 @@ public class MeshManager {
         System.out.println("# loading \"" + fileName + "\"");
 
         while (rd.hasNextLine()) {
-            String line = rd.nextLine();
             ++lineNum;
-
-            words = getWords(line);
+            words = getWords(rd.nextLine());
 
             if (words == null) continue;
 
@@ -89,7 +87,7 @@ public class MeshManager {
 
                 short i;
 
-                switch(line.charAt(0)) {
+                switch(words[0].charAt(0)) {
                     case 'v':
                         i = Short.parseShort(words[1]);
 
@@ -117,7 +115,9 @@ public class MeshManager {
                         break;
 
                     default:
-                        System.out.println("# File: \"" + fileName + "\" invalid format: \"" + line + "\"");
+                        System.out.println("# File: \"" + fileName
+                                + "\", line: " + lineNum
+                                + ", invalid format: \"" + words[0] + "\" -- ignored");
                 }
             }
             else if(0 == words[0].compareTo("mesh")) {
@@ -145,7 +145,8 @@ public class MeshManager {
         rd.close();
 
         if(foundMesh) {
-            System.out.println("# \"" + fileName + "\", " + lineNum + " lines, mesh \"" + tag + "\" done");
+            System.out.println("# \"" + fileName + "\", " + lineNum
+                    + " lines, mesh \"" + tag + "\" done");
 
             return new Mesh(tag, x, y, vertices, colors);
         }
