@@ -3,22 +3,28 @@ package component;
 import imgui.*;
 
 import types.Color;
+import types.PaintContext;
 import types.Vector2;
 
 public class Painter extends Component  {
-    public Vector2 screenPosition;
-    private Vector2 absPosition;
-    public ImDrawList drawList;
-    public int color;
+    private PaintContext paintContext;
+    public int defaultColor;
     private float opacityFactor;
+    private Vector2 absPosition;
 
-    public Painter() {
+    public Painter(int dColor) {
         super();
 
-        screenPosition = new Vector2();
-        absPosition = new Vector2();
-
+        defaultColor = dColor;
         setOpacityFactor(1.f);
+        absPosition = new Vector2();
+    }
+    public PaintContext getPaintContext() {
+        return paintContext;
+    }
+
+    public void setPaintContext(PaintContext paintContext) {
+        this.paintContext = paintContext;
     }
 
     public void setOpacityFactor(float opacityFactor) {
@@ -40,7 +46,7 @@ public class Painter extends Component  {
         if(mesh == null)
             return 0;
 
-        absPosition.set(screenPosition).add(position.getPosition());
+        absPosition.set(paintContext.windowPosition).add(position.getPosition());
 
         float[] vx = mesh.getX();
         float[] vy = mesh.getY();
@@ -54,8 +60,8 @@ public class Painter extends Component  {
                 short v1 = triangles[i + 1];
                 short v2 = triangles[i + 2];
 
-                exactColor.set(color);
-                drawList.addTriangleFilled(
+                exactColor.set(defaultColor);
+                paintContext.drawList.addTriangleFilled(
                         absPosition.x + vx[v0], absPosition.y + vy[v0],
                         absPosition.x + vx[v1], absPosition.y + vy[v1],
                         absPosition.x + vx[v2], absPosition.y + vy[v2],
@@ -70,7 +76,7 @@ public class Painter extends Component  {
                 short v2 = triangles[i + 2];
 
                 exactColor.set(colors[j]);
-                drawList.addTriangleFilled(
+                paintContext.drawList.addTriangleFilled(
                         absPosition.x + vx[v0], absPosition.y + vy[v0],
                         absPosition.x + vx[v1], absPosition.y + vy[v1],
                         absPosition.x + vx[v2], absPosition.y + vy[v2],

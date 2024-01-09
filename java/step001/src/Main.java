@@ -5,6 +5,7 @@ import imgui.app.Application;
 import imgui.app.Configuration;
 import imgui.flag.*;
 import service.MeshManager;
+import types.PaintContext;
 import types.Vector2;
 
 import java.util.Random;
@@ -105,9 +106,7 @@ public class Main extends Application {
                 position.setPosition(vpSize.x * 0.5f, vpSize.y * 0.5f); //
                 position.action(trident);   //
 
-                painter = new Painter();    //
-                painter.color = ImColor.rgb(253, 199, 2);   //
-
+                painter = new Painter(ImColor.rgb(253, 199, 2));    //
                 motion = new Motion();  //
 
                 rotation = new Rotation();  //
@@ -136,8 +135,7 @@ public class Main extends Application {
         }
 
         if(painter != null) {
-            painter.drawList = draw;    //
-            painter.screenPosition.set(vpPos);  //
+            painter.setPaintContext(new PaintContext());
             painter.action(position);   //
 
             ImGui.text(String.format("Opacity Factor: %4.2f", painter.getOpacityFactor()));
