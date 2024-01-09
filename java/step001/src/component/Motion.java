@@ -18,16 +18,11 @@ public class Motion extends Component {
         return velocity;
     }
 
+    public void stop() {
+        velocity.set(0.f, 0.f);
+    }
     public Vector2 getVelocity() {
         return velocity;
-    }
-
-    public float getVelocityX() {
-        return velocity.x;
-    }
-
-    public float getVelocityY() {
-        return velocity.y;
     }
 
     public void reverseX() {
