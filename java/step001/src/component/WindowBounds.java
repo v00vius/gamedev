@@ -1,5 +1,7 @@
 package component;
 
+import imgui.ImGui;
+import imgui.ImGuiViewport;
 import imgui.ImVec2;
 import types.Vector2;
 
@@ -15,7 +17,7 @@ public class WindowBounds extends Component {
     public WindowBounds() {
         super();
 
-        bounds = new Vector2();
+        bounds = new Vector2(ImGui.getMainViewport().getWorkSize());
     }
 
     public void setBounds(ImVec2 bounds) {

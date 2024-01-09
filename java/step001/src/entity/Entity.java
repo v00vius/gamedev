@@ -1,9 +1,6 @@
 package entity;
 
-import component.Mesh;
-import component.Painter;
-import component.Position;
-import component.Rotation;
+import component.*;
 import types.String8;
 
 import java.util.Objects;
@@ -16,7 +13,10 @@ public class Entity {
     public Mesh mesh;
     public Position position;
     public Painter painter;
+    public Opacity opacity;
     public Rotation rotation;
+    public Motion motion;
+    public BoundingBox bBox;
 
     public Entity(short id, String tag) {
         this.id = id;
@@ -35,7 +35,7 @@ public class Entity {
         return tagId;
     }
 
-    public boolean isalive() {
+    public boolean isAlive() {
         return alive;
     }
 

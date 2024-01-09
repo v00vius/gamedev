@@ -2,7 +2,7 @@ package component;
 
 import types.Vector2;
 
-public class Motion extends Position {
+public class Motion extends Component {
     private Vector2 velocity;
 
     public Motion() {
