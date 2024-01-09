@@ -109,18 +109,22 @@ public class Main extends Application {
                 painter.color = ImColor.rgb(253, 199, 2);   //
 
                 motion = new Motion();  //
-                motion.setVelocity(
-                        rnd.nextFloat(-5.f, 5.f),
-                        rnd.nextFloat(-5.f, 5.f)
-                );  //
 
                 rotation = new Rotation();  //
                 bounds = new WindowBounds();    //
                 opacity = new Opacity();    //
             }
 
-            rotation.setAngle(360.f * delta / rnd.nextFloat(1.f, 2.f)); //
-            opacity.blink(1.f); //
+            {
+                Vector2 velocity = new Vector2(mp);
+                velocity.sub(vpPos.x, vpPos.y).sub(position.getPosition());
+                float factor = rnd.nextFloat(2.f, 5.f) / velocity.length();
+                velocity.mul(factor);
+                motion.setVelocity(velocity.x, velocity.y);  //
+            }
+
+            rotation.setAngle(360.f * delta / rnd.nextFloat(0.5f, 2.f)); //
+            opacity.blink(rnd.nextFloat(0.5f, 2.f)); //
         }
 
         if(motion != null) {
