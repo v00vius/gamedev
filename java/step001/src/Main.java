@@ -4,7 +4,7 @@ import imgui.*;
 import imgui.app.Application;
 import imgui.app.Configuration;
 import imgui.flag.*;
-import service.MeshManager;
+import repo.MeshManager;
 import types.PaintContext;
 import types.Vector2;
 

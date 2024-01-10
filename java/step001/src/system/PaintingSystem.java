@@ -1,10 +1,8 @@
 package system;
 
 import entity.Entity;
-import service.EntityManager;
+import repo.EntityManager;
 import types.PaintContext;
-
-import java.util.ArrayList;
 
 public class PaintingSystem extends System {
     public PaintingSystem() {

@@ -1,6 +1,6 @@
 package system;
 
-import service.EntityManager;
+import repo.EntityManager;
 
 public abstract class System {
     private boolean enabled;

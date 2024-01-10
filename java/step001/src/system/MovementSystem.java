@@ -2,7 +2,7 @@ package system;
 
 import component.WindowBounds;
 import entity.Entity;
-import service.EntityManager;
+import repo.EntityManager;
 
 public class MovementSystem extends System {
     public MovementSystem() {

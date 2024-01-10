@@ -1,12 +1,11 @@
 package system;
 
 import entity.Entity;
-import service.EntityManager;
+import repo.EntityManager;
 import types.Pair;
 import types.Vector2;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class CollisionSystem extends System {
     private ArrayList<Pair<Entity>> collisions;
