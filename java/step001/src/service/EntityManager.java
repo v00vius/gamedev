@@ -33,7 +33,7 @@ public class EntityManager {
     }
 
     public ArrayList<Entity> getTaggedAs(String tag) {
-        return byTag.get(String8.pack(tag));
+        return byTag.computeIfAbsent(String8.pack(tag), k -> new ArrayList<>());
     }
 
     public ArrayList<Entity> getEntities() {
