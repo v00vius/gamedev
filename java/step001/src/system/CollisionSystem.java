@@ -12,6 +12,7 @@ public class CollisionSystem extends System {
     private ArrayList<Pair<Entity>> collisions;
 
     public CollisionSystem() {
+        super();
         collisions = new ArrayList<>(16);
     }
 

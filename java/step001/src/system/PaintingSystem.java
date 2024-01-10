@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class PaintingSystem extends System {
     public PaintingSystem() {
+        super();
     }
 
     @Override

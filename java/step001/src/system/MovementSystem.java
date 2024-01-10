@@ -6,6 +6,7 @@ import service.EntityManager;
 
 public class MovementSystem extends System {
     public MovementSystem() {
+        super();
     }
 
     @Override
