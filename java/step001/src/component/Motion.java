@@ -41,6 +41,10 @@ public class Motion extends Component {
             reverseY();
     }
 
+    public void stepBack(Position p) {
+        p.getPosition().add(-velocity.x, -velocity.y);
+    }
+
     @Override
     public short action(Component component) {
         if(component == null)

@@ -39,13 +39,13 @@ public class Mesh extends Component implements Cloneable {
         return vertices.length / 3;
     }
 
-    Vector2 getBoundingBox() {
-        float min_x = Float.MAX_VALUE;
-        float min_y = Float.MAX_VALUE;
-        float max_x = Float.MIN_VALUE;
-        float max_y = Float.MIN_VALUE;
+    void getBoundingBox(Vector2 center, Vector2 radius) {
+        float min_x = vx[0];
+        float min_y = vy[0];
+        float max_x = vx[0];
+        float max_y = vy[0];
 
-        for (short i = 0; i < vx.length; ++i) {
+        for (short i = 1; i < vx.length; ++i) {
             if(vx[i] < min_x)
                 min_x = vx[i];
 
@@ -59,7 +59,8 @@ public class Mesh extends Component implements Cloneable {
                 max_y = vy[i];
         }
 
-        return new Vector2(max_x - min_x, max_y - min_y);
+        radius.set(0.5f * (max_x - min_x), 0.5f * (max_y - min_y));
+        center.set(0.5f *(min_x + max_x), 0.5f *(min_y + max_y));
     }
     
     public float[] getX() {

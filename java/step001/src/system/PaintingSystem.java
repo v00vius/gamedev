@@ -6,7 +6,7 @@ import types.PaintContext;
 
 import java.util.ArrayList;
 
-public class PaintingSystem implements Task {
+public class PaintingSystem extends System {
     public PaintingSystem() {
     }
 

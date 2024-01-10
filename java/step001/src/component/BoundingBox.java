@@ -7,37 +7,31 @@ public class BoundingBox extends Component {
     private Vector2 center;
     private Vector2 radius;
 
-    public BoundingBox() {
+    public BoundingBox(Position p) {
         super();
 
-        position = null;
-        center = new Vector2();
-        radius = null;
+        position = p;
+        center = new Vector2(0f, 0f);
+        radius = new Vector2(1f, 1f);
+        update();
     }
 
-    public void attach(Position pos) {
-        if(pos == null)
-            return;
-
-        position = pos;
-
-        if(radius == null) {
+    public void update() {
             Mesh mesh = position.getMesh();
 
-            if(mesh == null)
-                radius = new Vector2(1.f, 1.f);
-            else {
-                radius = mesh.getBoundingBox();
-                radius.mul(0.5f);
+            if(mesh == null) {
+                center.set(0f, 0f);
+                radius.set(1f, 1f);
             }
-        }
+            else
+                mesh.getBoundingBox(center, radius);
     }
 
-    public Vector2 getCenter() {
-        return center.set(position.getPosition()).add(radius);
+    public Vector2 getPosition() {
+        return new Vector2(position.getPosition()).add(center);
     }
 
-    public Vector2 getRadius() {
+    public Vector2 getSize() {
         return radius;
     }
 
@@ -47,14 +41,14 @@ public class BoundingBox extends Component {
             return 0;
 
         BoundingBox bb = (BoundingBox) component;
-        Vector2 delta = getCenter();
+        Vector2 delta = getPosition();
 
-        delta.sub(bb.getCenter()).abs();
+        delta.sub(bb.getPosition()).abs();
 
-        if(delta.x > getRadius().x + bb.getRadius().x)
+        if(delta.x > getSize().x + bb.getSize().x)
             return 0;
 
-        if(delta.y > getRadius().y + bb.getRadius().y)
+        if(delta.y > getSize().y + bb.getSize().y)
             return 0;
 
         return 1;

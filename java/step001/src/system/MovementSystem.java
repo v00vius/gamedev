@@ -4,7 +4,7 @@ import component.WindowBounds;
 import entity.Entity;
 import service.EntityManager;
 
-public class MovementSystem implements Task {
+public class MovementSystem extends System {
     public MovementSystem() {
     }
 
