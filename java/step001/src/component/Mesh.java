@@ -12,6 +12,38 @@ public class Mesh extends Component implements Cloneable {
     private short[] vertices;
     private int[] colors;
 
+    public float[] getX() {
+        return vx;
+    }
+
+    public float[] getY() {
+        return vy;
+    }
+
+    public short[] getTriangles() {
+        return vertices;
+    }
+
+    public int[] getColors() {
+        return colors;
+    }
+
+    @Override
+    public Mesh clone() {
+        return new Mesh(this);
+    }
+
+    public Long getId() {
+        return id;
+    }
+    public String getName() {
+        return String8.unpack(id);
+    }
+    public Long setName(String tag) { return this.id = String8.pack(tag); }
+    public int size() {
+        return vertices.length / 3;
+    }
+
     public Mesh(Mesh mesh) {
         id = mesh.id;
         vx = mesh.vx.clone();
@@ -58,8 +90,6 @@ public class Mesh extends Component implements Cloneable {
             uvy[i] = mesh.vy[j];
         }
 
-        vx = uvx;
-        vy = uvy;
 
         sz = vertices.length + mesh.vertices.length;
         short[] uvertices = new short[sz];
@@ -69,9 +99,11 @@ public class Mesh extends Component implements Cloneable {
         }
 
         for(short j = 0; i < uvertices.length; ++i, ++j) {
-            uvertices[i] = mesh.vertices[j];
+            uvertices[i] = (short) (vx.length + mesh.vertices[j]);
         }
 
+        vx = uvx;
+        vy = uvy;
         vertices = uvertices;
 
         if(colors != null && mesh.colors != null) {
@@ -122,16 +154,6 @@ public class Mesh extends Component implements Cloneable {
         this.colors = colors;
     }
 
-    public Long getId() {
-        return id;
-    }
-    public String getName() {
-        return String8.unpack(id);
-    }
-    public Long setName(String tag) { return this.id = String8.pack(tag); }
-    public int size() {
-        return vertices.length / 3;
-    }
 
     void getBoundingBox(Vector2 center, Vector2 radius) {
         float min_x = vx[0];
@@ -157,26 +179,6 @@ public class Mesh extends Component implements Cloneable {
         radius.set(0.5f * (max_x - min_x), 0.5f * (max_y - min_y));
     }
     
-    public float[] getX() {
-        return vx;
-    }
-
-    public float[] getY() {
-        return vy;
-    }
-
-    public short[] getTriangles() {
-        return vertices;
-    }
-
-    public int[] getColors() {
-        return colors;
-    }
-
-    @Override
-    public Mesh clone() {
-        return new Mesh(this);
-    }
 
     @Override
     public boolean equals(Object o) {

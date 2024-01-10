@@ -19,6 +19,8 @@ import static org.lwjgl.glfw.GLFW.*;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main extends Application {
+    MeshManager mm;
+
     static int cLow =  ImColor.rgb(253, 199, 2);
     static int cHigh = ImColor.rgb(89, 45, 190);
     float delta = 1.f;
@@ -62,9 +64,30 @@ public class Main extends Application {
     }
 
     @Override
+    protected void preRun() {
+        mm = new MeshManager();
+        Mesh crab0 = mm.addFromFile("0crab.mesh");
+
+        if(crab0 == null)
+            return;
+
+        Mesh crab = crab0.clone();
+
+        crab.setName("crab");
+        crab0.mirorX();
+        crab.union(crab0);
+        System.out.println("========== half crab\n" + crab0);
+        System.out.println("========== crab\n" + crab);
+
+        MeshManager.meshStore(crab, crab.getName() + ".mesh");
+    }
+
+    @Override
     protected void configure(final Configuration config) {
         config.setTitle("ImGUI Version " + ImGui.getVersion() + ", https://github.com/SpaiR/imgui-java");
 
+
+/*
 
         System.out.println(trident);
         MeshManager.meshStore(trident, "trident2.mesh");
@@ -75,14 +98,40 @@ public class Main extends Application {
         System.out.println("Tags: '" + t1 + "' <==> '" + t2 + "'" );
         boolean eq = trident.equals(mesh);
         System.out.println("Equals: " + eq);
+*/
     }
 
     @Override
     public void process() {
-        long msDuration = System.currentTimeMillis();
-
         mainMenu();
+//        doAll();
+    }
+    private void mainMenu() {
+        if(++frameCount % 100 == 0)
+            delta = ImGui.getIO().getDeltaTime();
 
+        ImGui.text(String.format("Frame time: %5.1f ms", delta * 1000.f));
+        ImGui.text("FPS: " + (int)(0.5f + 1.f / delta));
+        ImGui.text( String.format("Time: %5.1f ", ImGui.getTime()));
+
+        ImGui.colorEdit3("Background Color", this.getColorBg().data);
+
+        if (ImGui.beginMainMenuBar()) {
+            if (ImGui.beginMenu("File")) {
+                ImGui.menuItem("[File menu]", null, false, false);
+
+                if (ImGui.menuItem("Settings", "I")) {}
+                if (ImGui.menuItem("Quit", "Alt+F4")) { done = true; }
+
+                ImGui.endMenu();
+            }
+
+            ImGui.endMainMenuBar();
+        }
+    }
+
+    private void doAll() {
+        long msDuration = System.currentTimeMillis();
         ImGuiViewport vp = ImGui.getMainViewport();
         ImDrawList draw =  ImGui.getBackgroundDrawList(vp);
         ImVec2 vpPos = vp.getWorkPos();
@@ -226,30 +275,6 @@ public class Main extends Application {
         ImGui.text(String.format("Scene latency: %d ms", msDuration));
     }
 
-    private void mainMenu() {
-        if(++frameCount % 100 == 0)
-            delta = ImGui.getIO().getDeltaTime();
-
-        ImGui.text(String.format("Frame time: %5.1f ms", delta * 1000.f));
-        ImGui.text("FPS: " + (int)(0.5f + 1.f / delta));
-        ImGui.text( String.format("Time: %5.1f ", ImGui.getTime()));
-
-        ImGui.colorEdit3("Background Color", this.getColorBg().data);
-
-        if (ImGui.beginMainMenuBar()) {
-            if (ImGui.beginMenu("File")) {
-                ImGui.menuItem("[File menu]", null, false, false);
-
-                if (ImGui.menuItem("Settings", "I")) {}
-                if (ImGui.menuItem("Quit", "Alt+F4")) { done = true; }
-
-                ImGui.endMenu();
-            }
-
-            ImGui.endMainMenuBar();
-        }
-
-    }
 
     @Override
     protected void initImGui(final Configuration config) {

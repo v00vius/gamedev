@@ -34,7 +34,9 @@ public class MeshManager {
         if(mesh == null)
             return null;
 
-        return meshSet.put(mesh.getId(), mesh);
+        meshSet.put(mesh.getId(), mesh);
+
+        return mesh;
     }
 
     public static void meshStore(Mesh mesh, String fileName) {
