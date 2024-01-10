@@ -1,7 +1,6 @@
 package component;
 
 import imgui.ImGui;
-import imgui.ImGuiViewport;
 import imgui.ImVec2;
 import types.Vector2;
 
@@ -28,7 +27,7 @@ public class WindowBounds extends Component {
     }
 
     @Override
-    public short action(Component component) {
+    public Short action(Component component) {
         if(component == null)
             return NONE;
 

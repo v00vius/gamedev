@@ -33,7 +33,7 @@ public class Position extends Component {
     }
 
     @Override
-    public short action(Component component) {
+    public Short action(Component component) {
         mesh = (Mesh) component;
 
         return 0;

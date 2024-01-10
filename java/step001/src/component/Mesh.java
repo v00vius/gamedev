@@ -234,7 +234,7 @@ public class Mesh extends Component implements Cloneable {
     }
 
     @Override
-    public short action(Component component) {
+    public Short action(Component component) {
         return 0;
     }
 }

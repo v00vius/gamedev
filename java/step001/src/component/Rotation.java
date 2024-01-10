@@ -1,7 +1,5 @@
 package component;
 
-import types.Vector2;
-
 public class Rotation extends Component {
     private float angle;
 
@@ -16,7 +14,7 @@ public class Rotation extends Component {
     }
 
     @Override
-    public short action(Component component) {
+    public Short action(Component component) {
         ((Mesh)component).rotate(angle);
         return 1;
     }

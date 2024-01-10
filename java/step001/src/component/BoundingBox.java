@@ -36,7 +36,7 @@ public class BoundingBox extends Component {
     }
 
     @Override
-    public short action(Component component) {
+    public Short action(Component component) {
 /*
         if(component == null)
             return 0;

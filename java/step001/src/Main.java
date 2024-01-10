@@ -73,9 +73,17 @@ public class Main extends Application {
 
         Mesh crab = crab0.clone();
 
-        crab.setName("crab");
+        crab.setName("crab1");
+
         crab0.mirorX();
         crab.union(crab0);
+
+        crab0.rotate((float) Math.toRadians(15.0));
+        crab.union(crab0);
+
+        crab0.mirorX();
+        crab.union(crab0);
+
         System.out.println("========== half crab\n" + crab0);
         System.out.println("========== crab\n" + crab);
 

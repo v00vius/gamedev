@@ -2,26 +2,37 @@ package component;
 
 import imgui.ImGui;
 
+import java.util.function.Function;
+
 public class Opacity extends Component  {
     private float step;
+    private Function<Component, Short> opacity;
 
     public Opacity() {
         super();
 
         this.step = 0.f;
+        opacity = this::empty;
     }
 
     public void blink(float period) {
         step = 2.f * ImGui.getIO().getDeltaTime() / period;
+        opacity = this::blinkExec;
+    }
+
+    public void decay(float period) {
+        opacity = this::empty;
     }
 
     @Override
-    public short action(Component component) {
-        if(component == null)
-            return 0;
-
+    public Short action(Component component) {
+        return opacity.apply(component);
+    }
+    private Short empty(Component component) {
+        return 0;
+    }
+    private Short blinkExec(Component component) {
         Painter painter = (Painter) component;
-
         float opacity = painter.getOpacityFactor();
 
         opacity -= step;
@@ -36,7 +47,6 @@ public class Opacity extends Component  {
         }
 
         painter.setOpacityFactor(opacity);
-
-        return 1;
+        return null;
     }
 }
