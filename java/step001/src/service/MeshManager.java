@@ -24,6 +24,10 @@ public class MeshManager {
         return meshSet.put(mesh.getId(), mesh);
     }
 
+    public HashMap<Long, Mesh> getMeshSet() {
+        return meshSet;
+    }
+
     public Mesh addFromFile(String fileName) {
         Mesh mesh = meshLoad(fileName);
 

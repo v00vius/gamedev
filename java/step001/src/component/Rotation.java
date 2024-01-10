@@ -17,24 +17,7 @@ public class Rotation extends Component {
 
     @Override
     public short action(Component component) {
-        if(component == null)
-            return 0;
-
-        Mesh mesh = (Mesh) component;
-
-        float[] x = mesh.getX();
-        float[] y = mesh.getY();
-        Vector2 r = new Vector2();
-
-        for (int i = 0; i < x.length; ++i) {
-            r.x = x[i];
-            r.y = y[i];
-
-            r.rotate(angle);
-            x[i] = r.x;
-            y[i] = r.y;
-        }
-
+        ((Mesh)component).rotate(angle);
         return 1;
     }
 }

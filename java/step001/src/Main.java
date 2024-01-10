@@ -8,6 +8,10 @@ import service.MeshManager;
 import types.PaintContext;
 import types.Vector2;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Random;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -236,6 +240,7 @@ public class Main extends Application {
             if (ImGui.beginMenu("File")) {
                 ImGui.menuItem("[File menu]", null, false, false);
 
+                if (ImGui.menuItem("Settings", "I")) {}
                 if (ImGui.menuItem("Quit", "Alt+F4")) { done = true; }
 
                 ImGui.endMenu();
@@ -292,22 +297,13 @@ public class Main extends Application {
         fontConfig.destroy();
 */
     }
-
-/*
-    public static void main(String[] args) {
-
-        EntityFromMemory loader = new EntityFromMemory(10,
-                new String[] {
-                    "Circle circle1 100 100 -3 2 255 0 0 50",
-                    "Circle circle1 200 200 -2 -1 0 255 0 75"
-                }
-        );
-
-        Entity[] shapes = loader.load();
-
-        Vectortest();
+    private static byte[] loadFromResources(String name) {
+        try {
+            return Files.readAllBytes(Paths.get(Main.class.getResource(name).toURI()));
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
-*/
 
     private static void Vectortest() {
         // Vector2 v1 = new Vector2(100, 100);

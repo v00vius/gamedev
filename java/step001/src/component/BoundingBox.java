@@ -37,6 +37,7 @@ public class BoundingBox extends Component {
 
     @Override
     public short action(Component component) {
+/*
         if(component == null)
             return 0;
 
@@ -50,6 +51,7 @@ public class BoundingBox extends Component {
 
         if(delta.y > getSize().y + bb.getSize().y)
             return 0;
+*/
 
         return 1;
     }

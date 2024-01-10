@@ -20,6 +20,100 @@ public class Mesh extends Component implements Cloneable {
         colors =  (mesh.colors == null) ? null : mesh.colors.clone();
     }
 
+    public Mesh mirorX() {
+        for (short i = 0; i < vx.length; ++i)
+            vx[i] = -vx[i];
+
+        return this;
+    }
+    public Mesh mirorY() {
+        for (short i = 0; i < vy.length; ++i)
+            vy[i] = -vy[i];
+
+        return this;
+    }
+    public Mesh flipXY() {
+        for (short i = 0; i < vy.length; ++i) {
+            float tmp = vx[i];
+
+            vx[i] = vy[i];
+            vy[i] = tmp;
+        }
+
+        return this;
+    }
+    public Mesh union(Mesh mesh) {
+        int sz = vx.length + mesh.vx.length;
+        float[] uvx = new float[sz];
+        float[] uvy = new float[sz];
+        short i;
+
+        for (i = 0; i < vx.length; ++i) {
+            uvx[i] = vx[i];
+            uvy[i] = vy[i];
+        }
+
+        for (short j = 0;  i < uvx.length; ++i, ++j) {
+            uvx[i] = mesh.vx[j];
+            uvy[i] = mesh.vy[j];
+        }
+
+        vx = uvx;
+        vy = uvy;
+
+        sz = vertices.length + mesh.vertices.length;
+        short[] uvertices = new short[sz];
+
+        for (i = 0; i < vertices.length; ++i) {
+            uvertices[i] = vertices[i];
+        }
+
+        for(short j = 0; i < uvertices.length; ++i, ++j) {
+            uvertices[i] = mesh.vertices[j];
+        }
+
+        vertices = uvertices;
+
+        if(colors != null && mesh.colors != null) {
+            sz = colors.length + mesh.colors.length;
+            int[] ucolors = new int[sz];
+
+            for (i = 0; i < colors.length; ++i) {
+                ucolors[i] = colors[i];
+            }
+
+            for (short j = 0; i < ucolors.length; ++i, ++j) {
+                ucolors[i] = mesh.colors[j];
+            }
+
+            colors = ucolors;
+        }
+
+        return this;
+    }
+
+    public Mesh rotate(float radians) {
+        Vector2 r = new Vector2();
+
+        for (short i = 0; i < vx.length; ++i) {
+            r.x = vx[i];
+            r.y = vy[i];
+            r.rotate(radians);
+            vx[i] = r.x;
+            vy[i] = r.y;
+        }
+
+        return this;
+    }
+
+    public Mesh zoom(float factor) {
+        for (short i = 0; i < vx.length; ++i) {
+            vx[i] *= factor;
+            vy[i] *= factor;
+        }
+
+        return this;
+    }
     public Mesh(String name, float[] vx, float[] vy, short[] vertices, int[] colors) {
         this.id = String8.pack(name);
         this.vx = vx;
@@ -59,8 +153,8 @@ public class Mesh extends Component implements Cloneable {
                 max_y = vy[i];
         }
 
-        radius.set(0.5f * (max_x - min_x), 0.5f * (max_y - min_y));
         center.set(0.5f *(min_x + max_x), 0.5f *(min_y + max_y));
+        radius.set(0.5f * (max_x - min_x), 0.5f * (max_y - min_y));
     }
     
     public float[] getX() {
