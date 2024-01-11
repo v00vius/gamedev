@@ -6,19 +6,18 @@ import types.Vector2;
 
 public class Painter extends Component  {
     private PaintContext paintContext;
+    private Position position;
     public int defaultColor;
     private float opacityFactor;
     private Vector2 absPosition;
 
-    public Painter(int dColor) {
+    public Painter(Position position, int defaultColorColor) {
         super();
 
-        defaultColor = dColor;
+        this.position = position;
+        this.defaultColor = defaultColorColor;
         setOpacityFactor(1.f);
         absPosition = new Vector2();
-    }
-    public PaintContext getPaintContext() {
-        return paintContext;
     }
 
     public void setPaintContext(PaintContext paintContext) {
@@ -34,17 +33,10 @@ public class Painter extends Component  {
     }
 
     @Override
-    public Short action(Component component) {
-        if(component == null)
-            return 0;
-
-        Position position = (Position) component;
+    protected Short action(Component component) {
         Mesh mesh = position.getMesh();
 
-        if(mesh == null)
-            return 0;
-
-        absPosition.set(paintContext.windowPosition).add(position.getPosition());
+        absPosition.set(paintContext.windowPosition).add(position.getCoordinate());
 
         float[] vx = mesh.getX();
         float[] vy = mesh.getY();

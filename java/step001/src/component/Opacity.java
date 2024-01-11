@@ -5,34 +5,41 @@ import imgui.ImGui;
 import java.util.function.Function;
 
 public class Opacity extends Component  {
+    private Painter painter;
     private float step;
     private Function<Component, Short> opacity;
 
-    public Opacity() {
+    public Opacity(Painter painter) {
         super();
 
+        this.painter = painter;
         this.step = 0.f;
-        opacity = this::empty;
+        opacity = this::stepEmpty;
     }
 
-    public void blink(float period) {
-        step = 2.f * ImGui.getIO().getDeltaTime() / period;
-        opacity = this::blinkExec;
+    public void blink(float period, float deltaTime) {
+        opacity = this::stepBlink;
+        step = 2.f * deltaTime / period;
     }
 
-    public void decay(float period) {
-        opacity = this::empty;
+    public void decay(float lifeTime, float restTime, float deltaTime) {
+        opacity = this::stepDecay;
+        int totalSteps = (int)(0.5f + lifeTime / deltaTime);
+        int restSteps = (int)(0.5f + restTime / deltaTime);
     }
 
     @Override
-    public Short action(Component component) {
-        return opacity.apply(component);
+    protected Short action(Component component) {
+        return opacity.apply(painter);
     }
-    private Short empty(Component component) {
+    private Short stepEmpty(Component component) {
         return 0;
     }
-    private Short blinkExec(Component component) {
-        Painter painter = (Painter) component;
+    private Short stepDecay(Component component) {
+        return  1;
+    }
+
+    private Short stepBlink(Component component) {
         float opacity = painter.getOpacityFactor();
 
         opacity -= step;
@@ -47,6 +54,7 @@ public class Opacity extends Component  {
         }
 
         painter.setOpacityFactor(opacity);
-        return null;
+
+        return 1;
     }
 }

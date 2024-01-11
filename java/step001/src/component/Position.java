@@ -4,38 +4,28 @@ import types.Vector2;
 
 public class Position extends Component {
     private Mesh mesh;
-    private Vector2 position;
+    private Vector2 coordinate;
 
-    public Position() {
+    public Position(Mesh mesh) {
         super();
 
-        position = new Vector2();
-    }
-
-    public Vector2 setPosition(float x, float y) {
-        return position.set(x, y);
-    }
-
-    public Vector2 getPosition() {
-        return position;
-    }
-
-    public float getPositionX() {
-        return position.x;
-    }
-
-    public float getPositionY() {
-        return position.y;
+        this.mesh = mesh;
+        coordinate = new Vector2();
     }
 
     public Mesh getMesh() {
         return mesh;
     }
 
-    @Override
-    public Short action(Component component) {
-        mesh = (Mesh) component;
+    public Vector2 setCoordinate(float x, float y) {
+        return coordinate.set(x, y);
+    }
+    public Vector2 getCoordinate() {
+        return coordinate;
+    }
 
+    @Override
+    protected Short action(Component component) {
         return 0;
     }
 }

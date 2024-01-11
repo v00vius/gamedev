@@ -6,11 +6,48 @@ import types.Vector2;
 
 public class Mesh extends Component implements Cloneable {
     private Long id;
-
     private float[] vx;
     private float[] vy;
     private short[] vertices;
     private int[] colors;
+
+
+    static public Mesh createEmpty() {
+        return new Mesh();
+    }
+    private Mesh() {
+        super();
+
+        this.id = String8.pack("NULL");
+        this.vx = new float[0];
+        this.vy = new float[0];
+        this.vertices = new short[0];
+        this.colors = new int[0];
+    }
+
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    public Mesh(String name, float[] vx, float[] vy, short[] vertices, int[] colors) {
+        super();
+
+        this.id = String8.pack(name);
+        this.vx = vx;
+        this.vy = vy;
+        this.vertices = vertices;
+        this.colors = colors;
+    }
+
+    public Mesh(Mesh mesh) {
+        super();
+
+        id = mesh.id;
+        vx = mesh.vx.clone();
+        vy = mesh.vy.clone();
+        vertices = mesh.vertices.clone();
+        colors =  (mesh.colors == null) ? null : mesh.colors.clone();
+    }
 
     public float[] getX() {
         return vx;
@@ -19,20 +56,16 @@ public class Mesh extends Component implements Cloneable {
     public float[] getY() {
         return vy;
     }
-
     public short[] getTriangles() {
         return vertices;
     }
-
     public int[] getColors() {
         return colors;
     }
-
     @Override
     public Mesh clone() {
         return new Mesh(this);
     }
-
     public Long getId() {
         return id;
     }
@@ -41,15 +74,7 @@ public class Mesh extends Component implements Cloneable {
     }
     public Long setName(String tag) { return this.id = String8.pack(tag); }
     public int size() {
-        return vertices.length / 3;
-    }
-
-    public Mesh(Mesh mesh) {
-        id = mesh.id;
-        vx = mesh.vx.clone();
-        vy = mesh.vy.clone();
-        vertices = mesh.vertices.clone();
-        colors =  (mesh.colors == null) ? null : mesh.colors.clone();
+        return vertices.length;
     }
 
     public Mesh mirorX() {
@@ -146,16 +171,15 @@ public class Mesh extends Component implements Cloneable {
 
         return this;
     }
-    public Mesh(String name, float[] vx, float[] vy, short[] vertices, int[] colors) {
-        this.id = String8.pack(name);
-        this.vx = vx;
-        this.vy = vy;
-        this.vertices = vertices;
-        this.colors = colors;
-    }
-
 
     void getBoundingBox(Vector2 center, Vector2 radius) {
+        if(isEmpty()) {
+            center.set(0.f, 0.f);
+            radius.set(0.f, 0.f);
+
+            return;
+        }
+
         float min_x = vx[0];
         float min_y = vy[0];
         float max_x = vx[0];
@@ -234,7 +258,7 @@ public class Mesh extends Component implements Cloneable {
     }
 
     @Override
-    public Short action(Component component) {
+    protected Short action(Component component) {
         return 0;
     }
 }

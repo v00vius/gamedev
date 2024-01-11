@@ -66,7 +66,7 @@ public class Main extends Application {
     @Override
     protected void preRun() {
         mm = new MeshManager();
-        Mesh crab0 = mm.addFromFile("0crab.mesh");
+        Mesh crab0 = mm.createFromFile("0crab.mesh");
 
         if(crab0 == null)
             return;
@@ -87,7 +87,7 @@ public class Main extends Application {
         System.out.println("========== half crab\n" + crab0);
         System.out.println("========== crab\n" + crab);
 
-        MeshManager.meshStore(crab, crab.getName() + ".mesh");
+        MeshManager.storeToFile(crab, crab.getName() + ".mesh");
     }
 
     @Override
@@ -164,7 +164,7 @@ public class Main extends Application {
 
             if (position == null) {
                 position = new Position();  //
-                position.setPosition(vpSize.x * 0.5f, vpSize.y * 0.5f); //
+                position.setCoordinate(vpSize.x * 0.5f, vpSize.y * 0.5f); //
                 position.action(trident);   //
 
                 painter = new Painter(ImColor.rgb(253, 199, 2));    //
@@ -177,7 +177,7 @@ public class Main extends Application {
 
             {
                 Vector2 velocity = new Vector2(mp);
-                velocity.sub(vpPos.x, vpPos.y).sub(position.getPosition());
+                velocity.sub(vpPos.x, vpPos.y).sub(position.getCoordinate());
                 float factor = rnd.nextFloat(2.f, 5.f) / velocity.length();
                 velocity.mul(factor);
                 motion.setVelocity(velocity.x, velocity.y);  //

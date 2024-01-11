@@ -2,14 +2,14 @@ package system;
 
 import entity.Entity;
 import repo.EntityManager;
-import types.Pair;
+import types.Triple;
 import types.Vector2;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CollisionSystem extends System {
-    private List<Pair<Entity>> collisions;
+    private List<Triple<Entity, Entity, Vector2>> collisions;
 
     public CollisionSystem() {
         super();
@@ -17,10 +17,10 @@ public class CollisionSystem extends System {
     }
 
     public boolean hasCollisions() {
-        return collisions.size() > 0;
+        return !collisions.isEmpty();
     }
 
-    public List<Pair<Entity>> getCollisions() {
+    public List<Triple<Entity, Entity, Vector2>> getCollisions() {
         return collisions;
     }
 
@@ -42,15 +42,15 @@ public class CollisionSystem extends System {
                 if(e2.bBox == null)
                     continue;
 
-                Pair<Entity> pair = collisionDetection(e1, e2);
+                Triple<Entity, Entity, Vector2> collided = collisionDetection(e1, e2);
 
-                if(pair != null)
-                    collisions.add(pair);
+                if(collided != null)
+                    collisions.add(collided);
             }
         }
     }
 
-    private static Pair<Entity> collisionDetection(Entity e1, Entity e2) {
+    private static Triple<Entity, Entity, Vector2> collisionDetection(Entity e1, Entity e2) {
         Vector2 crossSection = new Vector2(e1.bBox.getSize());
 
         crossSection.add(e2.bBox.getSize())
@@ -62,10 +62,7 @@ public class CollisionSystem extends System {
         if(crossSection.x  < 0.f || crossSection.y < 0.f)
             return null;
 
-        collision(e1, crossSection);
-        collision(e2, crossSection);
-
-        return new Pair<>(e1, e2);
+        return new Triple<>(e1, e2, crossSection);
     }
 
     private static void collision(Entity e1, Vector2 crossSection) {

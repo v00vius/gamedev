@@ -3,23 +3,23 @@ package component;
 import types.Vector2;
 
 public class Motion extends Component {
+    private Position position;
     private Vector2 velocity;
 
-    public Motion() {
+    public Motion(Position position) {
         super();
 
-        velocity = new Vector2();
+        this.position = position;
+        this.velocity = new Vector2();
     }
 
     public Vector2 setVelocity(float vx, float vy) {
-        velocity.x = vx;
-        velocity.y = vy;
+        velocity.set(vx, vy);
 
         return velocity;
     }
-
     public void stop() {
-        velocity.set(0.f, 0.f);
+        setVelocity(0.f, 0.f);
     }
     public Vector2 getVelocity() {
         return velocity;
@@ -41,18 +41,14 @@ public class Motion extends Component {
             reverseY();
     }
 
-    public void stepBack(Position p) {
-        p.getPosition().add(-velocity.x, -velocity.y);
+    public void stepBack(short n) {
+        while(n-- > 0)
+            position.getCoordinate().add(-velocity.x, -velocity.y);
     }
 
     @Override
-    public Short action(Component component) {
-        if(component == null)
-            return 0;
-
-        Vector2 position = ((Position) component).getPosition();
-
-        position.add(velocity);
+    protected Short action(Component component) {
+        position.getCoordinate().add(velocity);
 
         return 1;
     }

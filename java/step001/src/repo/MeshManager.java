@@ -8,27 +8,28 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class MeshManager {
-    HashMap<Long, Mesh> meshSet;
+    Map<Long, Mesh> meshSet;
 
     public MeshManager() {
-        this.meshSet = new HashMap<>();
+        this.meshSet = new HashMap<Long, Mesh>();
     }
 
-    public Mesh add(String name, float[] vx, float[] vy, short[] vertices, int[] colors) {
+    public Mesh createMesh(String name, float[] vx, float[] vy, short[] vertices, int[] colors) {
         Mesh mesh = new Mesh(name, vx, vy, vertices, colors);
 
         return meshSet.put(mesh.getId(), mesh);
     }
 
-    public HashMap<Long, Mesh> getMeshSet() {
+    public Map<Long, Mesh> getMeshSet() {
         return meshSet;
     }
 
-    public Mesh addFromFile(String fileName) {
-        Mesh mesh = meshLoad(fileName);
+    public Mesh createFromFile(String fileName) {
+        Mesh mesh = loadFromFile(fileName);
 
         if(mesh == null)
             return null;
@@ -38,7 +39,7 @@ public class MeshManager {
         return mesh;
     }
 
-    public static void meshStore(Mesh mesh, String fileName) {
+    public static void storeToFile(Mesh mesh, String fileName) {
         try {
             FileWriter writer = new FileWriter(fileName);
 
@@ -50,7 +51,7 @@ public class MeshManager {
         }
     }
 
-    public static Mesh meshLoad(String fileName) {
+    public static Mesh loadFromFile(String fileName) {
         Scanner rd = null;
 
         try {

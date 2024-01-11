@@ -1,27 +1,15 @@
 package system;
 
 import repo.EntityManager;
+import types.Enabled;
 
-public abstract class System {
-    private boolean enabled;
-
+public abstract class System  extends Enabled {
     public System() {
-        enabled = true;
+        super();
     }
 
-    public boolean enabled(boolean[] en) {
-        boolean prev = enabled;
-
-        if(en != null)
-            this.enabled = en[0];
-
-        return prev;
-    }
-    public boolean isEnabled() {
-        return enabled(null);
-    }
     public void exec(EntityManager entityManager) {
-        if(enabled)
+        if(isEnabled())
             task(entityManager);
     }
 

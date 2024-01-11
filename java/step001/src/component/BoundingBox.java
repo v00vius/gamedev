@@ -19,24 +19,18 @@ public class BoundingBox extends Component {
     public void update() {
             Mesh mesh = position.getMesh();
 
-            if(mesh == null) {
-                center.set(0f, 0f);
-                radius.set(1f, 1f);
-            }
-            else
-                mesh.getBoundingBox(center, radius);
+            mesh.getBoundingBox(center, radius);
     }
 
     public Vector2 getPosition() {
-        return new Vector2(position.getPosition()).add(center);
+        return new Vector2(position.getCoordinate()).add(center);
     }
-
     public Vector2 getSize() {
         return radius;
     }
 
     @Override
-    public Short action(Component component) {
+    protected Short action(Component component) {
 /*
         if(component == null)
             return 0;
@@ -53,6 +47,6 @@ public class BoundingBox extends Component {
             return 0;
 */
 
-        return 1;
+        return 0;
     }
 }

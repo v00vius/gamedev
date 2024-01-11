@@ -1,21 +1,27 @@
 package component;
 
 public class Rotation extends Component {
-    private float angle;
+    private Mesh mesh;
+    private float radians;
 
-    public Rotation() {
+    public Rotation(Mesh mesh) {
         super();
 
-        angle = 0.f;
+        this.mesh = mesh;
+        setAngle(0.f);
     }
 
     public void setAngle(float angleDeg) {
-        this.angle = (float)Math.toRadians(angleDeg);
+        this.radians = (float)Math.toRadians(angleDeg);
+    }
+
+    public float getAngle() {
+        return (float) Math.toDegrees(radians);
     }
 
     @Override
-    public Short action(Component component) {
-        ((Mesh)component).rotate(angle);
+    protected Short action(Component component) {
+        mesh.rotate(radians);
         return 1;
     }
 }

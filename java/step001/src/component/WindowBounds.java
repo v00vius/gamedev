@@ -16,43 +16,41 @@ public class WindowBounds extends Component {
     public WindowBounds() {
         super();
 
-        bounds = new Vector2(ImGui.getMainViewport().getWorkSize());
+        bounds = new Vector2();
+        setBounds();
     }
 
-    public void setBounds(ImVec2 bounds) {
-        this.bounds.set(bounds);
+    public Vector2 setBounds() {
+        return bounds.set(ImGui.getMainViewport().getWorkSize());
     }
     public Vector2 getBounds() {
         return bounds;
     }
 
     @Override
-    public Short action(Component component) {
-        if(component == null)
-            return NONE;
+    protected Short action(Component component) {
+        Vector2 point = ((Position)component).getCoordinate();
 
-        Vector2 position = ((Position)component).getPosition();
-
-        if(position.x < 0.f) {
-            position.x = 0.f;
+        if(point.x < 0.f) {
+            point.x = 0.f;
 
             return LEFT;
         }
 
-        if(position.x > bounds.x) {
-            position.x = bounds.x;
+        if(point.x > bounds.x) {
+            point.x = bounds.x;
 
             return RIGHT;
         }
 
-        if(position.y < 0.f) {
-            position.y = 0.f;
+        if(point.y < 0.f) {
+            point.y = 0.f;
 
             return TOP;
         }
 
-        if(position.y > bounds.y) {
-            position.y = bounds.y;
+        if(point.y > bounds.y) {
+            point.y = bounds.y;
 
             return BOTTOM;
         }
