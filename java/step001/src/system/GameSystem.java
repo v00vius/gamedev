@@ -3,8 +3,8 @@ package system;
 import repo.EntityManager;
 import types.Enabled;
 
-public abstract class System  extends Enabled {
-    public System() {
+public abstract class GameSystem extends Enabled {
+    public GameSystem() {
         super();
     }
 

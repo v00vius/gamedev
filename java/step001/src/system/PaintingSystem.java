@@ -4,7 +4,7 @@ import entity.Entity;
 import repo.EntityManager;
 import types.PaintContext;
 
-public class PaintingSystem extends System {
+public class PaintingSystem extends GameSystem {
     public PaintingSystem() {
         super();
     }

@@ -8,7 +8,7 @@ import types.Vector2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CollisionSystem extends System {
+public class CollisionSystem extends GameSystem {
     private List<Triple<Entity, Entity, Vector2>> collisions;
 
     public CollisionSystem() {

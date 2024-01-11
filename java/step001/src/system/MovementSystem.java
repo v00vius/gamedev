@@ -4,7 +4,7 @@ import component.WindowBounds;
 import entity.Entity;
 import repo.EntityManager;
 
-public class MovementSystem extends System {
+public class MovementSystem extends GameSystem {
     public MovementSystem() {
         super();
     }
