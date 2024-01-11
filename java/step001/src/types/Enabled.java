@@ -4,7 +4,7 @@ public abstract class Enabled {
     private boolean enabled;
 
     public Enabled() {
-        enabled = true;
+        enable();
     }
 
     public boolean setEnabled(boolean[] en) {
@@ -15,7 +15,21 @@ public abstract class Enabled {
 
         return prev;
     }
+    public boolean enable() {
+        boolean prev = enabled;
+
+        enabled = true;
+
+        return prev;
+    }
+    public boolean disable() {
+        boolean prev = enabled;
+
+        enabled = false;
+
+        return prev;
+    }
     public boolean isEnabled() {
-        return setEnabled(null);
+        return enabled;
     }
 }

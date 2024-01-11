@@ -14,14 +14,12 @@ public class PaintingSystem extends System {
         PaintContext paintContext = new PaintContext();
 
         for (Entity e : entityManager.getEntities()) {
-            if(e.painter == null)
+            if(!e.painter.isEnabled())
                 continue;
 
-            if(e.opacity != null)
-                e.opacity.action(e.painter);
-
+            e.opacity.exec(e.painter);
             e.painter.setPaintContext(paintContext);
-            e.painter.action(e.position);
+            e.painter.exec(e.position);
         }
     }
 }
