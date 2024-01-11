@@ -12,6 +12,7 @@ public class MovementSystem extends GameSystem {
     @Override
     public void task(EntityManager entityManager) {
         WindowBounds windowBounds = new WindowBounds();
+        windowBounds.enable();
 
         for (Entity e : entityManager.getEntities()) {
                 e.rotation.frame();

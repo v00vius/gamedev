@@ -28,9 +28,10 @@ public class GameService {
         mm.createFromFile("trident2.mesh");
     }
 
-    public void createEntities(EntityManager em, MeshManager mm,  int n) {
+    public int createEntities(EntityManager em, MeshManager mm,  int n) {
         Random rnd = new Random();
         Map<Long, Mesh> mset = mm.getMeshSet();
+        int size = 0;
 
         while (n-- >= 0) {
             Entity e = em.createEntity("monster");
@@ -49,7 +50,11 @@ public class GameService {
             e.position.enable();
             e.motion.enable();
             e.painter.enable();
+
+            size += m.size();
         }
+
+        return size;
     }
 
     public Scene createScene(EntityManager entityManager) {
@@ -64,4 +69,5 @@ public class GameService {
 
         return new Scene(scene, entityManager);
     }
+
 }

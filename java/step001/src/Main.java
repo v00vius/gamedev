@@ -8,16 +8,12 @@ import repo.EntityManager;
 import repo.MeshManager;
 import scene.Scene;
 import service.GameService;
-import types.PaintContext;
 import types.Vector2;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Random;
-
-import static org.lwjgl.glfw.GLFW.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -31,6 +27,7 @@ public class Main extends Application {
     private boolean done;
     private boolean blink = true;
     private long frameCount = 1;
+    private int nVertices;
 
     private Mesh trident = new Mesh("Trident",
                 new float[] {00.f, 10.f, 20.f, 30.f, 40.f, 50.f, 60.f,  30.f},
@@ -66,7 +63,7 @@ public class Main extends Application {
         meshManager = new MeshManager();
         entityManager = new EntityManager();
         service.createMeshSet(meshManager);
-        service.createEntities(entityManager, meshManager, 10);
+        nVertices = service.createEntities(entityManager, meshManager, 45_000);
         scene = service.createScene(entityManager);
     }
 
@@ -91,9 +88,14 @@ public class Main extends Application {
 
     @Override
     public void process() {
+        long msDuration = System.currentTimeMillis();
+
         mainMenu();
         scene.frame();
-//        doAll();
+
+        msDuration = System.currentTimeMillis() - msDuration;
+        ImGui.text(String.format("Scene latency: %d ms (%5.1f FPS)",
+                                    msDuration, 1000.f / (float)msDuration));
     }
     private void mainMenu() {
         if(++frameCount % 100 == 0)
@@ -102,6 +104,7 @@ public class Main extends Application {
         ImGui.text(String.format("Frame time: %5.1f ms", delta * 1000.f));
         ImGui.text("FPS: " + (int)(0.5f + 1.f / delta));
         ImGui.text( String.format("Time: %5.1f ", ImGui.getTime()));
+        ImGui.text(String.format("Vertices: %d", nVertices));
 
         ImGui.colorEdit3("Background Color", this.getColorBg().data);
 
@@ -117,6 +120,7 @@ public class Main extends Application {
 
             ImGui.endMainMenuBar();
         }
+
     }
 
     private void doAll() {
