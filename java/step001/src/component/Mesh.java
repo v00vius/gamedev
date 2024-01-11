@@ -5,24 +5,15 @@ import types.String8;
 import types.Vector2;
 
 public class Mesh extends Component implements Cloneable {
+    static public Mesh NIL = createEmpty();
     private Long id;
     private float[] vx;
     private float[] vy;
     private short[] vertices;
     private int[] colors;
 
-
-    static public Mesh createEmpty() {
-        return new Mesh();
-    }
-    private Mesh() {
-        super();
-
-        this.id = String8.pack("NULL");
-        this.vx = new float[0];
-        this.vy = new float[0];
-        this.vertices = new short[0];
-        this.colors = new int[0];
+    static private Mesh createEmpty() {
+        return new Mesh("__NIL__", new float[0], new float[0], new short[0], null);
     }
 
     public boolean isEmpty() {
@@ -258,7 +249,7 @@ public class Mesh extends Component implements Cloneable {
     }
 
     @Override
-    protected Short action(Component component) {
+    protected Short action() {
         return 0;
     }
 }

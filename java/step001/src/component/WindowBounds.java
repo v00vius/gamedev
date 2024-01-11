@@ -12,6 +12,8 @@ public class WindowBounds extends Component {
     public static short BOTTOM = 4;
 
     private Vector2 bounds;
+    private Vector2 point;
+
 
     public WindowBounds() {
         super();
@@ -23,14 +25,12 @@ public class WindowBounds extends Component {
     public Vector2 setBounds() {
         return bounds.set(ImGui.getMainViewport().getWorkSize());
     }
-    public Vector2 getBounds() {
-        return bounds;
+    public void setPoint(Vector2 point) {
+        this.point = point;
     }
 
     @Override
-    protected Short action(Component component) {
-        Vector2 point = ((Position)component).getCoordinate();
-
+    protected Short action() {
         if(point.x < 0.f) {
             point.x = 0.f;
 

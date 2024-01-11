@@ -5,8 +5,12 @@ import imgui.ImGui;
 import java.util.function.Function;
 
 public abstract class Opacity extends Component  {
+    static public Opacity NIL = createEmpty();
     protected Painter painter;
 
+    static private Opacity createEmpty() {
+        return new Blink(Painter.NIL);
+    }
     public Opacity(Painter painter) {
         super();
 

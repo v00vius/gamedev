@@ -7,9 +7,9 @@ public abstract class Component extends Enabled {
     public Component() {
         super();
     }
-    public Short exec(Component component) {
-        return isEnabled() ? action(component) : -1;
+    public Short exec() {
+        return isEnabled() ? action() : 0;
     }
 
-    protected abstract Short action(Component component);
+    protected abstract Short action();
 }

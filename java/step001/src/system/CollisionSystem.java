@@ -32,17 +32,17 @@ public class CollisionSystem extends System {
         detectCollisions(entities);
     }
 
-    private int detectCollisions(List<Entity> entities) {
+    private void detectCollisions(List<Entity> entities) {
         for (int i = 0; i < entities.size() - 1; ++i) {
             Entity e1 = entities.get(i);
 
-            if(e1.bBox == null)
+            if(!e1.bBox.isEnabled())
                 continue;
 
             for (int j = i + 1; j < entities.size(); ++j) {
                 Entity e2 = entities.get(j);
 
-                if(e2.bBox == null)
+                if(!e2.bBox.isEnabled())
                     continue;
 
                 Triple<Entity, Entity, Vector2> collided = collisionDetection(e1, e2);
@@ -69,10 +69,10 @@ public class CollisionSystem extends System {
     }
 
     private static void collision(Entity e1, Vector2 crossSection) {
-        if(e1.motion == null)
+        if(!e1.motion.isEnabled())
             return;
 
-        e1.motion.stepBack(e1.position);
+        e1.motion.stepBack(1);
 
         float strike_x = crossSection.x * e1.motion.getVelocity().x;
         float strike_y = crossSection.y * e1.motion.getVelocity().y;

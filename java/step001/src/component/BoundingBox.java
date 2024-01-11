@@ -3,10 +3,14 @@ package component;
 import types.Vector2;
 
 public class BoundingBox extends Component {
+    static public BoundingBox NIL = createEmpty();
     private Position position;
     private Vector2 center;
     private Vector2 radius;
 
+    static private BoundingBox createEmpty() {
+        return new BoundingBox(Position.NIL);
+    }
     public BoundingBox(Position p) {
         super();
 
@@ -30,23 +34,7 @@ public class BoundingBox extends Component {
     }
 
     @Override
-    protected Short action(Component component) {
-/*
-        if(component == null)
-            return 0;
-
-        BoundingBox bb = (BoundingBox) component;
-        Vector2 delta = getPosition();
-
-        delta.sub(bb.getPosition()).abs();
-
-        if(delta.x > getSize().x + bb.getSize().x)
-            return 0;
-
-        if(delta.y > getSize().y + bb.getSize().y)
-            return 0;
-*/
-
+    protected Short action() {
         return 0;
     }
 }

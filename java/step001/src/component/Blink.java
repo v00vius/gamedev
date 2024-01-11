@@ -14,7 +14,7 @@ public class Blink extends Opacity {
     }
 
     @Override
-    protected Short action(Component component) {
+    protected Short action() {
         float opacity = getOpacity();
 
         opacity -= step;

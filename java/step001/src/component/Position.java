@@ -3,9 +3,13 @@ package component;
 import types.Vector2;
 
 public class Position extends Component {
+    static public Position NIL = createEmpty();
     private Mesh mesh;
     private Vector2 coordinate;
 
+    static private Position createEmpty() {
+        return new Position(Mesh.NIL);
+    }
     public Position(Mesh mesh) {
         super();
 
@@ -25,7 +29,7 @@ public class Position extends Component {
     }
 
     @Override
-    protected Short action(Component component) {
+    protected Short action() {
         return 0;
     }
 }

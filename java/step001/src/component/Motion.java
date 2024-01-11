@@ -3,9 +3,13 @@ package component;
 import types.Vector2;
 
 public class Motion extends Component {
+    static public Motion NIL = createEmpty();
     private Position position;
     private Vector2 velocity;
 
+    static private Motion createEmpty() {
+        return new Motion(Position.NIL);
+    }
     public Motion(Position position) {
         super();
 
@@ -34,20 +38,24 @@ public class Motion extends Component {
     }
 
     public void bump(short border) {
-        if(border == WindowBounds.LEFT || border == WindowBounds.RIGHT)
+        if(border == WindowBounds.LEFT || border == WindowBounds.RIGHT) {
+            stepBack(1);
             reverseX();
+        }
 
-        else if(border == WindowBounds.TOP || border == WindowBounds.BOTTOM)
+        else if(border == WindowBounds.TOP || border == WindowBounds.BOTTOM) {
+            stepBack(1);
             reverseY();
+        }
     }
 
-    public void stepBack(short n) {
+    public void stepBack(int n) {
         while(n-- > 0)
             position.getCoordinate().add(-velocity.x, -velocity.y);
     }
 
     @Override
-    protected Short action(Component component) {
+    protected Short action() {
         position.getCoordinate().add(velocity);
 
         return 1;

@@ -1,9 +1,13 @@
 package component;
 
 public class Rotation extends Component {
+    static public Rotation NIL = createEmpty();
     private Mesh mesh;
     private float radians;
 
+    static private Rotation createEmpty() {
+        return new Rotation(Mesh.NIL);
+    }
     public Rotation(Mesh mesh) {
         super();
 
@@ -20,8 +24,9 @@ public class Rotation extends Component {
     }
 
     @Override
-    protected Short action(Component component) {
+    protected Short action() {
         mesh.rotate(radians);
+
         return 1;
     }
 }

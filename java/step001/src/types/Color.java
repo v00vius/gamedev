@@ -3,6 +3,9 @@ package types;
 public class Color {
     private int[] color = new int[4];
 
+    static public int create() {
+        return new Color().get();
+    }
     public Color() {
         set(255, 255, 255, 255);
     }

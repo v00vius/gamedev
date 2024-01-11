@@ -5,12 +5,16 @@ import types.PaintContext;
 import types.Vector2;
 
 public class Painter extends Component  {
+    static public Painter NIL = createEmpty();
     private PaintContext paintContext;
     private Position position;
     public int defaultColor;
     private float opacityFactor;
     private Vector2 absPosition;
 
+    static private Painter createEmpty() {
+        return new Painter(Position.NIL, Color.create());
+    }
     public Painter(Position position, int defaultColorColor) {
         super();
 
@@ -33,7 +37,7 @@ public class Painter extends Component  {
     }
 
     @Override
-    protected Short action(Component component) {
+    protected Short action() {
         Mesh mesh = position.getMesh();
 
         absPosition.set(paintContext.windowPosition).add(position.getCoordinate());

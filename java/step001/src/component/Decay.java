@@ -24,7 +24,7 @@ public class Decay extends Opacity {
         return lifeSteps;
     }
     @Override
-    protected Short action(Component component) {
+    protected Short action() {
         if(lifeSteps <= 0)
             return 0;
 
