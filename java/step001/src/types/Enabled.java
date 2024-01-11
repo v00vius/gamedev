@@ -4,7 +4,7 @@ public abstract class Enabled {
     private boolean enabled;
 
     public Enabled() {
-        enable();
+        disable();
     }
 
     public boolean setEnabled(boolean[] en) {

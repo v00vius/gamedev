@@ -22,6 +22,14 @@ public class Entity {
         this.id = id;
         this.tagId = String8.pack(tag);
         this.alive = true;
+
+        mesh = Mesh.NIL;
+        position = Position.NIL;
+        painter = Painter.NIL;
+        opacity = Opacity.NIL;
+        rotation = Rotation.NIL;
+        motion = Motion.NIL;
+        bBox = BoundingBox.NIL;
     }
 
     public int getId() {

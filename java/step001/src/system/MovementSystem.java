@@ -17,7 +17,7 @@ public class MovementSystem extends System {
                 e.rotation.exec();
                 e.motion.exec();
 
-                windowBounds.setPoint(e.position.getCoordinate());
+                windowBounds.setPointToCheck(e.position.getCoordinate());
                 short whereIsBump = windowBounds.exec();
                 e.motion.bump(whereIsBump);
         }
