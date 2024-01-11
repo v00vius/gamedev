@@ -14,13 +14,9 @@ public class MovementSystem extends System {
         WindowBounds windowBounds = new WindowBounds();
 
         for (Entity e : entityManager.getEntities()) {
-            if(e.rotation != null && e.mesh != null)
-                e.rotation.action(e.mesh);
-
-            if(e.motion != null && e.position != null) {
-                e.motion.action(e.position);
-                short whereIsBump = windowBounds.action(e.position);
-
+                e.rotation.exec(e.mesh);
+                e.motion.exec(e.position);
+                short whereIsBump = windowBounds.exec(e.position);
                 e.motion.bump(whereIsBump);
             }
         }

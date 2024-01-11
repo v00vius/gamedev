@@ -29,7 +29,10 @@ public class CollisionSystem extends System {
         List<Entity> entities = entityManager.getEntities();
 
         collisions.clear();
+        detectCollisions(entities);
+    }
 
+    private int detectCollisions(List<Entity> entities) {
         for (int i = 0; i < entities.size() - 1; ++i) {
             Entity e1 = entities.get(i);
 
