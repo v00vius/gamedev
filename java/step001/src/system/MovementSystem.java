@@ -14,11 +14,11 @@ public class MovementSystem extends GameSystem {
         WindowBounds windowBounds = new WindowBounds();
 
         for (Entity e : entityManager.getEntities()) {
-                e.rotation.exec();
-                e.motion.exec();
+                e.rotation.frame();
+                e.motion.frame();
 
                 windowBounds.setPointToCheck(e.position.getCoordinate());
-                short whereIsBump = windowBounds.exec();
+                short whereIsBump = windowBounds.frame();
                 e.motion.bump(whereIsBump);
         }
     }

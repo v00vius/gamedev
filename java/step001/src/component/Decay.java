@@ -1,45 +1,40 @@
 package component;
 
-public class Decay extends Opacity {
-    private int lifeSteps;
-    private int decaySteps;
-    private float decayStep;
+import service.Utils;
 
-    public Decay(Painter painter) {
+public class Decay extends Opacity {
+    private float lifeTime;
+    private float decayTime;
+    private double lastTime;
+    private int currentStep;
+
+    public Decay(Painter painter, float lifeTime, float decayTime) {
         super(painter);
 
-        lifeSteps = 0;
-        decaySteps = 0;
-        decayStep = 0.f;
+        this.lifeTime = lifeTime;
+        this.decayTime = decayTime;
+        lastTime = Utils.getTime();
+        currentStep = 0;
     }
 
-    public int decay(float lifeTime, float decayTime, float deltaTime) {
-        lifeSteps = (int) (0.5f + lifeTime / deltaTime);
-        decaySteps = (int) (0.5f + decayTime / deltaTime);
-        decayStep = getOpacity() * deltaTime / decayTime;
-
-        if(decaySteps > lifeSteps)
-            decaySteps = lifeSteps;
-
-        return lifeSteps;
-    }
     @Override
     protected Short action() {
-        if(lifeSteps <= 0)
+        double now = Utils.getTime();
+        float delta = (float)(now - lastTime);
+
+        if(delta < (lifeTime - decayTime))
+            return 1;
+
+        if(delta > lifeTime) {
+            setOpacity(0.f);;
+
             return 0;
-
-        --lifeSteps;
-
-        if(lifeSteps <= decaySteps) {
-            float opa = getOpacity();
-
-            opa -= decayStep;
-
-            if(opa < 0.f)
-                opa = 0.f;
-
-            setOpacity(opa);
         }
+
+        double stepAngle = Math.toRadians(90. * Utils.getDeltaTime() / decayTime);
+        float opa = (float) Math.cos(stepAngle * currentStep++);
+
+        setOpacity(opa * getInitialOpacity());
 
         return 1;
     }

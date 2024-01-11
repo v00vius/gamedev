@@ -4,7 +4,10 @@ import imgui.*;
 import imgui.app.Application;
 import imgui.app.Configuration;
 import imgui.flag.*;
+import repo.EntityManager;
 import repo.MeshManager;
+import scene.Scene;
+import service.GameService;
 import types.PaintContext;
 import types.Vector2;
 
@@ -19,21 +22,15 @@ import static org.lwjgl.glfw.GLFW.*;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main extends Application {
-    MeshManager mm;
-
+    private Scene scene;
+    private EntityManager entityManager;
+    private MeshManager meshManager;
     static int cLow =  ImColor.rgb(253, 199, 2);
     static int cHigh = ImColor.rgb(89, 45, 190);
     float delta = 1.f;
     private boolean done;
     private boolean blink = true;
     private long frameCount = 1;
-
-    private WindowBounds bounds;
-    private Painter painter;
-    private Rotation rotation;
-    private Motion motion;
-    private Opacity opacity;
-    private Position position;
 
     private Mesh trident = new Mesh("Trident",
                 new float[] {00.f, 10.f, 20.f, 30.f, 40.f, 50.f, 60.f,  30.f},
@@ -65,29 +62,12 @@ public class Main extends Application {
 
     @Override
     protected void preRun() {
-        mm = new MeshManager();
-        Mesh crab0 = mm.createFromFile("0crab.mesh");
-
-        if(crab0 == null)
-            return;
-
-        Mesh crab = crab0.clone();
-
-        crab.setName("crab1");
-
-        crab0.mirorX();
-        crab.union(crab0);
-
-        crab0.rotate((float) Math.toRadians(15.0));
-        crab.union(crab0);
-
-        crab0.mirorX();
-        crab.union(crab0);
-
-        System.out.println("========== half crab\n" + crab0);
-        System.out.println("========== crab\n" + crab);
-
-        MeshManager.storeToFile(crab, crab.getName() + ".mesh");
+        GameService service = new GameService();
+        meshManager = new MeshManager();
+        entityManager = new EntityManager();
+        service.createMeshSet(meshManager);
+        service.createEntities(entityManager, meshManager, 10);
+        scene = service.createScene(entityManager);
     }
 
     @Override
@@ -112,6 +92,7 @@ public class Main extends Application {
     @Override
     public void process() {
         mainMenu();
+        scene.frame();
 //        doAll();
     }
     private void mainMenu() {
@@ -147,13 +128,17 @@ public class Main extends Application {
         ImGuiIO io = ImGui.getIO();
         ImVec2 center = vp.getWorkCenter();
         ImVec2 mp = io.getMousePos();
+/*
 
+
+*/
 /*
         draw.addCircle(center.x, center.y, 0.4f * vpSize.y,
                 ImColor.rgb(0.f, 1.f, 0.f),
                 22, 6
                 );
-*/
+*//*
+
         ImFont font = ImGui.getFont();
         draw.addText(font, 24.f, vpPos.x, vpPos.y, ImColor.rgb(255, 255, 0),
                 String.format("%05d", ImGui.getFrameCount())
@@ -281,6 +266,7 @@ public class Main extends Application {
 
         msDuration = System.currentTimeMillis() - msDuration;
         ImGui.text(String.format("Scene latency: %d ms", msDuration));
+*/
     }
 
 

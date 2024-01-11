@@ -1,5 +1,5 @@
 # mesh numOfCoordinates numOfTriangleVertices numOfColorsOfTriangles meshName
-mesh 8 12 4 Trident
+mesh 8 12 4 trident
 # coordinates:
 # v coordinateNumber x y
 v 0 0.000000 0.000000

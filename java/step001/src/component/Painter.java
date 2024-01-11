@@ -19,7 +19,7 @@ public class Painter extends Component  {
         super();
 
         this.position = position;
-        this.defaultColor = defaultColorColor;
+        this.defaultColor = defaultColorColor == 0 ? new Color().get() : defaultColorColor;
         setOpacityFactor(1.f);
         absPosition = new Vector2();
     }

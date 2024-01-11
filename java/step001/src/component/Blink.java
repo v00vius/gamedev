@@ -1,34 +1,24 @@
 package component;
 
-public class Blink extends Opacity {
-    private float step;
+import service.Utils;
 
-    public Blink(Painter painter) {
+public class Blink extends Opacity {
+    private float period;
+    private int currentStep;
+
+    public Blink(Painter painter, float period) {
         super(painter);
 
-        step = 0.f;
-    }
-
-    public void blink(float period, float deltaTime) {
-        step = getOpacity() * 2.f * deltaTime / period;
+        this.period = period;
+        currentStep = 0;
     }
 
     @Override
     protected Short action() {
-        float opacity = getOpacity();
+        double stepAngle = Math.toRadians(180. * Utils.getDeltaTime()/ period);
+        float opa = (float) Math.cos(stepAngle * currentStep++);
 
-        opacity -= step;
-
-        if(opacity < 0.f) {
-            opacity = 0.f;
-            step = -step;
-        }
-        else if(opacity > 1.f) {
-            opacity = 1.f;
-            step = -step;
-        }
-
-        setOpacity(opacity);
+        setOpacity(opa * getInitialOpacity());
 
         return 1;
     }

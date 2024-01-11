@@ -30,6 +30,8 @@ public class WindowBounds extends Component {
 
     @Override
     protected Short action() {
+        setBounds();
+        
         if(point.x < 0.f) {
             point.x = 0.f;
 

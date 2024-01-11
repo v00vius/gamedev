@@ -8,17 +8,13 @@ public class Position extends Component {
     private Vector2 coordinate;
 
     static private Position createEmpty() {
-        return new Position(Mesh.NIL);
+        return new Position(Mesh.NIL, 0.f, 0.f);
     }
-    public Position(Mesh mesh) {
-        super();
 
+    public Position(Mesh mesh, float x, float y) {
         this.mesh = mesh;
-        coordinate = new Vector2();
-    }
-
-    public Mesh getMesh() {
-        return mesh;
+        this.coordinate = new Vector2();
+        setCoordinate(x, y);
     }
 
     public Vector2 setCoordinate(float x, float y) {
@@ -27,9 +23,12 @@ public class Position extends Component {
     public Vector2 getCoordinate() {
         return coordinate;
     }
-
     @Override
     protected Short action() {
         return 0;
+    }
+
+    public Mesh getMesh() {
+        return mesh;
     }
 }

@@ -6,13 +6,14 @@ public class Rotation extends Component {
     private float radians;
 
     static private Rotation createEmpty() {
-        return new Rotation(Mesh.NIL);
+        return new Rotation(Mesh.NIL, 0.f);
     }
-    public Rotation(Mesh mesh) {
+
+    public Rotation(Mesh mesh, float degrees) {
         super();
 
         this.mesh = mesh;
-        setAngle(0.f);
+        setAngle(degrees);
     }
 
     public void setAngle(float angleDeg) {

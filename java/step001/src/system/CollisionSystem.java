@@ -30,6 +30,15 @@ public class CollisionSystem extends GameSystem {
 
         collisions.clear();
         detectCollisions(entities);
+
+        for (Triple<Entity, Entity, Vector2> c : getCollisions()) {
+            Entity e1 = c.first;
+            Entity e2 = c.second;
+            Vector2 overlap = c.third;
+
+            handleCollision(e1, overlap);
+            handleCollision(e2, overlap);
+        }
     }
 
     private void detectCollisions(List<Entity> entities) {
@@ -45,7 +54,7 @@ public class CollisionSystem extends GameSystem {
                 if(!e2.bBox.isEnabled())
                     continue;
 
-                Triple<Entity, Entity, Vector2> collided = collisionDetection(e1, e2);
+                Triple<Entity, Entity, Vector2> collided = detectCollision(e1, e2);
 
                 if(collided != null)
                     collisions.add(collided);
@@ -53,7 +62,7 @@ public class CollisionSystem extends GameSystem {
         }
     }
 
-    private static Triple<Entity, Entity, Vector2> collisionDetection(Entity e1, Entity e2) {
+    private static Triple<Entity, Entity, Vector2> detectCollision(Entity e1, Entity e2) {
         Vector2 crossSection = new Vector2(e1.bBox.getSize());
 
         crossSection.add(e2.bBox.getSize())
@@ -68,7 +77,7 @@ public class CollisionSystem extends GameSystem {
         return new Triple<>(e1, e2, crossSection);
     }
 
-    private static void collision(Entity e1, Vector2 crossSection) {
+    private static void handleCollision(Entity e1, Vector2 crossSection) {
         if(!e1.motion.isEnabled())
             return;
 
