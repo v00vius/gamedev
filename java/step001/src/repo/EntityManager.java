@@ -5,38 +5,43 @@ import types.String8;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 public class EntityManager {
-    static private short creationCount = 0;
-    private ArrayList<Entity> entities;
-    private Hashtable<Long, ArrayList<Entity>> byTag;
+    static private int creationCount = 0;
+    private List<Entity> entities;
+    private Map<Long, List<Entity>> byTag;
 
+    private static List<Entity> createTagList() {
+        return new ArrayList<Entity>();
+    }
     public EntityManager() {
-        entities = new ArrayList<>(32);
-        byTag = new Hashtable<>();
+        entities = new ArrayList<Entity>(32);
+        byTag = new Hashtable<Long, List<Entity>> ();
     }
 
-    static public short getCreationCount() {
+    static public int getCreationCount() {
         return ++creationCount;
     }
 
-    public Entity newEntity(String tag) {
+    public Entity createEntity(String tag) {
         Entity entity = new Entity(getCreationCount(), tag);
 
         entities.add(entity);
 
-        ArrayList<Entity> tagged = byTag.computeIfAbsent(entity.getTagId(), k -> new ArrayList<>());
+        List<Entity> tagged = byTag.computeIfAbsent(entity.getTagId(), k -> createTagList());
 
         tagged.add(entity);
 
         return entity;
     }
 
-    public ArrayList<Entity> getTaggedAs(String tag) {
-        return byTag.computeIfAbsent(String8.pack(tag), k -> new ArrayList<>());
+    public List<Entity> getTaggedAs(String tag) {
+        return byTag.computeIfAbsent(String8.pack(tag), k -> createTagList());
     }
 
-    public ArrayList<Entity> getEntities() {
+    public List<Entity> getEntities() {
         return entities;
     }
 }

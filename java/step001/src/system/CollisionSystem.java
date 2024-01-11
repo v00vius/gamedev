@@ -6,9 +6,10 @@ import types.Pair;
 import types.Vector2;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CollisionSystem extends System {
-    private ArrayList<Pair<Entity>> collisions;
+    private List<Pair<Entity>> collisions;
 
     public CollisionSystem() {
         super();
@@ -19,13 +20,13 @@ public class CollisionSystem extends System {
         return collisions.size() > 0;
     }
 
-    public ArrayList<Pair<Entity>> getCollisions() {
+    public List<Pair<Entity>> getCollisions() {
         return collisions;
     }
 
     @Override
     public void task(EntityManager entityManager) {
-        ArrayList<Entity> entities = entityManager.getEntities();
+        List<Entity> entities = entityManager.getEntities();
 
         collisions.clear();
 

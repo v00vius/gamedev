@@ -6,7 +6,7 @@ import types.String8;
 import java.util.Objects;
 
 public class Entity {
-    private short id;
+    private int id;
     private Long tagId;
     private boolean alive;
 
@@ -18,13 +18,13 @@ public class Entity {
     public Motion motion;
     public BoundingBox bBox;
 
-    public Entity(short id, String tag) {
+    public Entity(int id, String tag) {
         this.id = id;
         this.tagId = String8.pack(tag);
         this.alive = true;
     }
 
-    public short getId() {
+    public int getId() {
         return id;
     }
 
