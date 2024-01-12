@@ -64,7 +64,7 @@ public class Main extends Application {
         meshManager = new MeshManager();
         entityManager = new EntityManager();
         service.createMeshSet(meshManager);
-        nVertices = service.createEntities(entityManager, meshManager, 20);
+        nVertices = service.createEntities(entityManager, meshManager, 40);
         scene = service.createScene(entityManager);
     }
 

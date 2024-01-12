@@ -42,12 +42,12 @@ public class Motion extends Component {
 
     public void bump(short border) {
         if(border == WindowBounds.LEFT || border == WindowBounds.RIGHT) {
-            stepBack(1);
+//            stepBack(1);
             reverseX();
         }
 
         else if(border == WindowBounds.TOP || border == WindowBounds.BOTTOM) {
-            stepBack(1);
+//            stepBack(1);
             reverseY();
         }
     }

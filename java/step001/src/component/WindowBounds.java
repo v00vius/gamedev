@@ -50,32 +50,35 @@ public class WindowBounds extends Component {
         Vector2 p0 = boundingBox.getP0();
         Vector2 p1 = boundingBox.getP1();
 
-
         float dx = 0.f, dy = 0.f;
         short dir = NONE;
 
         if(p0.x < 0.f) {
 //            dx = -p0.x;
+            boundingBox.getPosition().getCoordinate().add(-p0.x, 0.f);
             return LEFT;
         }
 
         else if(p1.x > bounds.x) {
 //            dx = bounds.x - p1.x;
+            boundingBox.getPosition().getCoordinate().add(bounds.x - p1.x, 0.f);
             return RIGHT;
         }
 
         else if(p0.y < 0.f) {
 //            dy = -p0.y;
+            boundingBox.getPosition().getCoordinate().add(0.f, -p0.y);
             return TOP;
         }
 
         else if(p1.y > bounds.y) {
 //            dy = bounds.y - p1.y;
+            boundingBox.getPosition().getCoordinate().add(0.f, bounds.y - p1.y);
+
             return BOTTOM;
         }
 
 //        Vector2 v = boundingBox.getPosition().getCoordinate().add(dx, dy);
-
 
         return NONE;
     }

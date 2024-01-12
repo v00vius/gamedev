@@ -44,15 +44,15 @@ public class GameService {
             Mesh m = mset.get(String8.pack(name));
 
             e.mesh = m;
-            e.position = new Position(m, rnd.nextFloat(20, 1900),
-                    rnd.nextFloat(20, 900));
+            e.position = new Position(m, rnd.nextFloat(20, 200),
+                    rnd.nextFloat(20, 200));
             e.motion = new Motion(e.position);
             e.motion.setVelocity(rnd.nextFloat(-3, 3),
                     rnd.nextFloat(-2, 2));
             e.painter = new Painter(e.position, 0);
             e.bBox = new BoundingBox(e.position);
 
-            if(n % 2 == 0)
+//            if(n % 2 == 0)
                 e.motion.enable();
 
             e.position.enable();

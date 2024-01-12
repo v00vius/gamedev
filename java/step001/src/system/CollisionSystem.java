@@ -90,9 +90,9 @@ public class CollisionSystem extends GameSystem {
                 if(!e2.bBox.isEnabled() || e1 == e2)
                     continue;
 
-                if(e1.getTag().equals("monster") &&
-                    e2.getTag().equals("monster"))
-                    continue;
+//                if(e1.getTag().equals("monster") &&
+//                    e2.getTag().equals("monster"))
+//                    continue;
 
                 e1.bBox.setColor(BoundingBox.cNormal);
                 e2.bBox.setColor(BoundingBox.cNormal);
