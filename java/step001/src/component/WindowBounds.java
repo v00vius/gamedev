@@ -1,6 +1,7 @@
 package component;
 
 import imgui.ImGui;
+import service.Utils;
 import types.Vector2;
 
 public class WindowBounds extends Component {
@@ -12,6 +13,7 @@ public class WindowBounds extends Component {
 
     private Vector2 bounds;
     private Vector2 point;
+    private BoundingBox boundingBox;
 
 
     public WindowBounds() {
@@ -22,7 +24,7 @@ public class WindowBounds extends Component {
     }
 
     public Vector2 setBounds() {
-        return bounds.set(ImGui.getMainViewport().getWorkSize());
+        return bounds.set(Utils.getWindowBounds());
     }
 
     public Vector2 getBounds() {
@@ -33,33 +35,47 @@ public class WindowBounds extends Component {
         this.point = point;
     }
 
+    public BoundingBox getBoundingBox() {
+        return boundingBox;
+    }
+
+    public void setBoundingBox(BoundingBox boundingBox) {
+        this.boundingBox = boundingBox;
+    }
+
     @Override
     protected Short action() {
         setBounds();
-        
-        if(point.x < 0.f) {
-            point.x = 0.f;
 
+        Vector2 p0 = boundingBox.getP0();
+        Vector2 p1 = boundingBox.getP1();
+
+
+        float dx = 0.f, dy = 0.f;
+        short dir = NONE;
+
+        if(p0.x < 0.f) {
+//            dx = -p0.x;
             return LEFT;
         }
 
-        if(point.x > bounds.x) {
-            point.x = bounds.x;
-
+        else if(p1.x > bounds.x) {
+//            dx = bounds.x - p1.x;
             return RIGHT;
         }
 
-        if(point.y < 0.f) {
-            point.y = 0.f;
-
+        else if(p0.y < 0.f) {
+//            dy = -p0.y;
             return TOP;
         }
 
-        if(point.y > bounds.y) {
-            point.y = bounds.y;
-
+        else if(p1.y > bounds.y) {
+//            dy = bounds.y - p1.y;
             return BOTTOM;
         }
+
+//        Vector2 v = boundingBox.getPosition().getCoordinate().add(dx, dy);
+
 
         return NONE;
     }

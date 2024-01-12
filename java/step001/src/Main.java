@@ -63,13 +63,15 @@ public class Main extends Application {
         meshManager = new MeshManager();
         entityManager = new EntityManager();
         service.createMeshSet(meshManager);
-        nVertices = service.createEntities(entityManager, meshManager, 30);
+        nVertices = service.createEntities(entityManager, meshManager, 20);
         scene = service.createScene(entityManager);
     }
 
     @Override
     protected void configure(final Configuration config) {
         config.setTitle("ImGUI Version " + ImGui.getVersion() + ", https://github.com/SpaiR/imgui-java");
+        config.setWidth(1920);
+        config.setHeight(1080);
 
 
 /*

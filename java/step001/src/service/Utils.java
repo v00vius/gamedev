@@ -1,6 +1,7 @@
 package service;
 
 import imgui.ImGui;
+import imgui.ImVec2;
 
 public class Utils {
     static public float getDeltaTime() {
@@ -9,5 +10,8 @@ public class Utils {
 
     static public double getTime() {
         return ImGui.getTime();
+    }
+    static public ImVec2 getWindowBounds() {
+        return ImGui.getMainViewport().getWorkSize();
     }
 }

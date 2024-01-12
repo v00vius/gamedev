@@ -18,7 +18,7 @@ public class MovementSystem extends GameSystem {
                 e.rotation.frame();
                 e.motion.frame();
 
-                windowBounds.setPointToCheck(e.position.getCoordinate());
+                windowBounds.setBoundingBox(e.bBox);
                 short whereIsBump = windowBounds.frame();
                 e.motion.bump(whereIsBump);
         }

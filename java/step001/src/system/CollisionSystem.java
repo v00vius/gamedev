@@ -39,9 +39,9 @@ public class CollisionSystem extends GameSystem {
             Entity e1 = c.first;
             Entity e2 = c.second;
 
+
             e1.bBox.setColor(BoundingBox.cCollision);
             e2.bBox.setColor(BoundingBox.cCollision);
-
 
             switch ( 1 + ++direction % 2) {
                 case 0:
@@ -74,6 +74,7 @@ public class CollisionSystem extends GameSystem {
                     break;
                 default:
             }
+
         }
     }
 
@@ -96,8 +97,6 @@ public class CollisionSystem extends GameSystem {
                 boolean cs = detectCollision(e1, e2);
 
                 if(cs) {
-                    e1.bBox.setColor(BoundingBox.cCollision);
-                    e2.bBox.setColor(BoundingBox.cCollision);
 
                     collisions.add(new Pair<>(e1, e2));
                 }
@@ -111,6 +110,8 @@ public class CollisionSystem extends GameSystem {
         Vector2 pb0 = e2.bBox.getP0();
         Vector2 pb1 = e2.bBox.getP1();
 
-        return BoundingBox.isIntersected(pa0, pa1, pb0, pb1);
+        boolean ok = BoundingBox.isIntersected(pa0, pa1, pb0, pb1);
+
+        return ok;
     }
 }

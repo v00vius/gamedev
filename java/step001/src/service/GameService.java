@@ -23,8 +23,12 @@ public class GameService {
     }
 
     public void createMeshSet (MeshManager mm) {
-        mm.createFromFile("crab1.mesh");
-        mm.createFromFile("trident2.mesh");
+        Mesh m = mm.createFromFile("crab1.mesh");
+
+        m.rotate((float) Math.toRadians(180.));
+        m = mm.createFromFile("trident2.mesh");
+        m.rotate((float) Math.toRadians(180.));
+
     }
 
     public int createEntities(EntityManager em, MeshManager mm,  int n) {
@@ -39,8 +43,8 @@ public class GameService {
             Mesh m = mset.get(String8.pack(name));
 
             e.mesh = m;
-            e.position = new Position(m, rnd.nextFloat(20, 100),
-                    rnd.nextFloat(20, 100));
+            e.position = new Position(m, rnd.nextFloat(20, 600),
+                    rnd.nextFloat(20, 500));
             e.motion = new Motion(e.position);
             e.motion.setVelocity(rnd.nextFloat(-3, 3),
                     rnd.nextFloat(-2, 2));

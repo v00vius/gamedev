@@ -45,6 +45,10 @@ public class BoundingBox extends Component {
         return new Vector2(position.getCoordinate()).add(p1);
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
     static public boolean isIntersected(Vector2 pa0, Vector2 pa1, Vector2 pb0, Vector2 pb1) {
         return pa0.x <= pb1.x &&
                 pb0.x <= pa1.x &&
