@@ -39,11 +39,10 @@ public class CollisionSystem extends GameSystem {
             Entity e1 = c.first;
             Entity e2 = c.second;
 
-
             e1.bBox.setColor(BoundingBox.cCollision);
             e2.bBox.setColor(BoundingBox.cCollision);
 
-            switch ( 1 + ++direction % 2) {
+            switch ( ++direction % 2) {
                 case 0:
                     e1.motion.stepBack(1);
                     e2.motion.stepBack(1);
@@ -91,13 +90,16 @@ public class CollisionSystem extends GameSystem {
                 if(!e2.bBox.isEnabled() || e1 == e2)
                     continue;
 
+                if(e1.getTag().equals("monster") &&
+                    e2.getTag().equals("monster"))
+                    continue;
+
                 e1.bBox.setColor(BoundingBox.cNormal);
                 e2.bBox.setColor(BoundingBox.cNormal);
 
                 boolean cs = detectCollision(e1, e2);
 
                 if(cs) {
-
                     collisions.add(new Pair<>(e1, e2));
                 }
             }

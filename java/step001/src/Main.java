@@ -4,6 +4,7 @@ import imgui.*;
 import imgui.app.Application;
 import imgui.app.Configuration;
 import imgui.flag.*;
+import imgui.type.ImBoolean;
 import repo.EntityManager;
 import repo.MeshManager;
 import scene.Scene;
@@ -122,6 +123,7 @@ public class Main extends Application {
             if (ImGui.beginMenu("Settings")) {
                 if (ImGui.menuItem("Stats", "S")) {}
 
+                ImGui.checkbox("Show Bounding boxes", BoundingBox.showBB);
                 ImGui.endMenu();
             }
 

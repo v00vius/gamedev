@@ -2,6 +2,7 @@ package service;
 
 import component.*;
 import entity.Entity;
+import imgui.ImGui;
 import repo.EntityManager;
 import repo.MeshManager;
 import scene.Scene;
@@ -38,20 +39,20 @@ public class GameService {
 
 
         while (n-- >= 0) {
-            Entity e = em.createEntity("monster");
+            Entity e = em.createEntity(n % 2 == 0 ? "monster" : "forest");
             String name = n % 2 == 0 ? "crab1" : "trident";
             Mesh m = mset.get(String8.pack(name));
 
             e.mesh = m;
-            e.position = new Position(m, rnd.nextFloat(20, 600),
-                    rnd.nextFloat(20, 500));
+            e.position = new Position(m, rnd.nextFloat(20, 1900),
+                    rnd.nextFloat(20, 900));
             e.motion = new Motion(e.position);
             e.motion.setVelocity(rnd.nextFloat(-3, 3),
                     rnd.nextFloat(-2, 2));
             e.painter = new Painter(e.position, 0);
             e.bBox = new BoundingBox(e.position);
 
-//            if(n % 2 == 0)
+            if(n % 2 == 0)
                 e.motion.enable();
 
             e.position.enable();

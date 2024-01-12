@@ -1,5 +1,6 @@
 package system;
 
+import component.BoundingBox;
 import entity.Entity;
 import repo.EntityManager;
 import types.Color;
@@ -20,7 +21,7 @@ public class PaintingSystem extends GameSystem {
             e.painter.setPaintContext(paintContext);
             e.painter.frame();
 
-            if(e.bBox.isEnabled()) {
+            if(e.bBox.isEnabled() && BoundingBox.getShowBB()) {
                 Vector2 p0 = e.bBox.getP0().add(paintContext.windowPosition);
                 Vector2 p1 = e.bBox.getP1().add(paintContext.windowPosition);
 

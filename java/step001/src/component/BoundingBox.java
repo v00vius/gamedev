@@ -1,9 +1,18 @@
 package component;
 
+import imgui.type.ImBoolean;
 import types.Color;
 import types.Vector2;
 
 public class BoundingBox extends Component {
+    static public ImBoolean showBB = new ImBoolean(false);
+    public static void setShowBB(boolean show) {
+        showBB.set(show);
+    }
+    public static boolean getShowBB() {
+        return showBB.get();
+    }
+
     static public int cNormal = new Color(61,25,44).get();
     static public int cCollision = new Color(255,25,44).get();
     static public BoundingBox NIL = createEmpty();
