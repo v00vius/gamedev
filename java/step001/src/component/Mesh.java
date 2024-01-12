@@ -163,10 +163,10 @@ public class Mesh extends Component implements Cloneable {
         return this;
     }
 
-    void getBoundingBox(Vector2 center, Vector2 radius) {
+    void getBoundingBox(Vector2 p0, Vector2 p1) {
         if(isEmpty()) {
-            center.set(0.f, 0.f);
-            radius.set(0.f, 0.f);
+            p0.set(0.f, 0.f);
+            p1.set(0.f, 0.f);
 
             return;
         }
@@ -190,8 +190,8 @@ public class Mesh extends Component implements Cloneable {
                 max_y = vy[i];
         }
 
-        center.set(0.5f *(min_x + max_x), 0.5f *(min_y + max_y));
-        radius.set(0.5f * (max_x - min_x), 0.5f * (max_y - min_y));
+        p0.set(min_x, min_y);
+        p1.set(max_x, max_y);
     }
     
 

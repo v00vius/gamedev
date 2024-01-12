@@ -1,8 +1,10 @@
 package system;
 
+import component.BoundingBox;
 import entity.Entity;
 import imgui.ImGui;
 import repo.EntityManager;
+import types.Pair;
 import types.Triple;
 import types.Vector2;
 
@@ -10,7 +12,7 @@ import java.util.*;
 
 public class CollisionSystem extends GameSystem {
     static private int direction = 0;
-    private List<Triple<Entity, Entity, Vector2>> collisions;
+    private List<Pair<Entity, Entity>> collisions;
 
     public CollisionSystem() {
         super();
@@ -22,7 +24,7 @@ public class CollisionSystem extends GameSystem {
         return !collisions.isEmpty();
     }
 
-    public List<Triple<Entity, Entity, Vector2>> getCollisions() {
+    public List<Pair<Entity, Entity>> getCollisions() {
         return collisions;
     }
 
@@ -33,12 +35,15 @@ public class CollisionSystem extends GameSystem {
         collisions.clear();
         detectCollisions(entities);
 
-        for (Triple<Entity, Entity, Vector2> c : getCollisions()) {
+        for (Pair<Entity, Entity> c : getCollisions()) {
             Entity e1 = c.first;
             Entity e2 = c.second;
-            Vector2 crossSection = c.third;
 
-            switch (++direction % 3) {
+            e1.bBox.setColor(BoundingBox.cCollision);
+            e2.bBox.setColor(BoundingBox.cCollision);
+
+
+            switch ( 1 + ++direction % 2) {
                 case 0:
                     e1.motion.stepBack(1);
                     e2.motion.stepBack(1);
@@ -82,32 +87,30 @@ public class CollisionSystem extends GameSystem {
             for (int j = i + 1; j < entities.size(); ++j) {
                 Entity e2 = entities.get(j);
 
-                if(!e2.bBox.isEnabled())
+                if(!e2.bBox.isEnabled() || e1 == e2)
                     continue;
 
-                Vector2 cs = detectCollision(e1, e2);
+                e1.bBox.setColor(BoundingBox.cNormal);
+                e2.bBox.setColor(BoundingBox.cNormal);
 
-                if(cs != null) {
-                    collisions.add(new Triple<>(e1, e1, cs));
+                boolean cs = detectCollision(e1, e2);
+
+                if(cs) {
+                    e1.bBox.setColor(BoundingBox.cCollision);
+                    e2.bBox.setColor(BoundingBox.cCollision);
+
+                    collisions.add(new Pair<>(e1, e2));
                 }
             }
         }
     }
 
-    private static Vector2 detectCollision(Entity e1, Entity e2) {
-        Vector2 crossSection = new Vector2(e1.bBox.getSize());
+    private static boolean detectCollision(Entity e1, Entity e2) {
+        Vector2 pa0 = e1.bBox.getP0();
+        Vector2 pa1 = e1.bBox.getP1();
+        Vector2 pb0 = e2.bBox.getP0();
+        Vector2 pb1 = e2.bBox.getP1();
 
-        crossSection.add(e2.bBox.getSize())
-                .sub(e1.bBox.getPosition()
-                        .sub(e2.bBox.getPosition())
-                        .abs()
-                );
-
-        if(crossSection.x  < 0.f || crossSection.y < 0.f)
-            return null;
-
-        ImGui.text(String.format("cross {%5.1f, %5.1f}", crossSection.x, crossSection.y));
-
-        return crossSection;
+        return BoundingBox.isIntersected(pa0, pa1, pb0, pb1);
     }
 }
