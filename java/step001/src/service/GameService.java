@@ -44,8 +44,8 @@ public class GameService {
             Mesh m = mset.get(String8.pack(name));
 
             e.mesh = m;
-            e.position = new Position(m, rnd.nextFloat(20, 200),
-                    rnd.nextFloat(20, 200));
+            e.position = new Position(m, rnd.nextFloat(50, 1930),
+                    rnd.nextFloat(50, 1030));
             e.motion = new Motion(e.position);
             e.motion.setVelocity(rnd.nextFloat(-3, 3),
                     rnd.nextFloat(-2, 2));

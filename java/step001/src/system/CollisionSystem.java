@@ -35,6 +35,8 @@ public class CollisionSystem extends GameSystem {
         collisions.clear();
         detectCollisions(entities);
 
+        ImGui.text(String.format("Total collisions: %d", getCollisions().size()));
+
         for (Pair<Entity, Entity> c : getCollisions()) {
             Entity e1 = c.first;
             Entity e2 = c.second;
