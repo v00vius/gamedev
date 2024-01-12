@@ -1,18 +1,17 @@
 package service;
 
-import component.Mesh;
-import component.Motion;
-import component.Painter;
-import component.Position;
+import component.*;
 import entity.Entity;
 import repo.EntityManager;
 import repo.MeshManager;
 import scene.Scene;
+import system.CollisionSystem;
 import system.GameSystem;
 import system.MovementSystem;
 import system.PaintingSystem;
 import types.Color;
 import types.String8;
+import types.Vector2;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,23 +32,27 @@ public class GameService {
         Map<Long, Mesh> mset = mm.getMeshSet();
         int size = 0;
 
+
         while (n-- >= 0) {
             Entity e = em.createEntity("monster");
             String name = n % 2 == 0 ? "crab1" : "trident";
             Mesh m = mset.get(String8.pack(name));
 
             e.mesh = m;
-            e.position = new Position(m, rnd.nextFloat(50, 200),
-                    rnd.nextFloat(50, 200));
+            e.position = new Position(m, rnd.nextFloat(20, 100),
+                    rnd.nextFloat(20, 100));
             e.motion = new Motion(e.position);
             e.motion.setVelocity(rnd.nextFloat(-3, 3),
-                    rnd.nextFloat(-3, 3));
+                    rnd.nextFloat(-2, 2));
             e.painter = new Painter(e.position, 0);
+            e.bBox = new BoundingBox(e.position);
 
-            e.motion.enable();
+//            if(n % 2 == 0)
+                e.motion.enable();
+
             e.position.enable();
-            e.motion.enable();
             e.painter.enable();
+            e.bBox.enable();
 
             size += m.size();
         }
@@ -61,6 +64,7 @@ public class GameService {
         List<GameSystem> scene = new LinkedList<GameSystem>();
 
         scene.add(new MovementSystem());
+        scene.add(new CollisionSystem());
         scene.add(new PaintingSystem());
 
         for(GameSystem g : scene) {

@@ -63,7 +63,7 @@ public class Main extends Application {
         meshManager = new MeshManager();
         entityManager = new EntityManager();
         service.createMeshSet(meshManager);
-        nVertices = service.createEntities(entityManager, meshManager, 45_000);
+        nVertices = service.createEntities(entityManager, meshManager, 30);
         scene = service.createScene(entityManager);
     }
 
@@ -112,8 +112,19 @@ public class Main extends Application {
             if (ImGui.beginMenu("File")) {
                 ImGui.menuItem("[File menu]", null, false, false);
 
-                if (ImGui.menuItem("Settings", "I")) {}
                 if (ImGui.menuItem("Quit", "Alt+F4")) { done = true; }
+
+                ImGui.endMenu();
+            }
+
+            if (ImGui.beginMenu("Settings")) {
+                if (ImGui.menuItem("Stats", "S")) {}
+
+                ImGui.endMenu();
+            }
+
+            if (ImGui.beginMenu("Help")) {
+                if (ImGui.menuItem("Controls", "C")) {}
 
                 ImGui.endMenu();
             }

@@ -1,19 +1,21 @@
 package system;
 
 import entity.Entity;
+import imgui.ImGui;
 import repo.EntityManager;
 import types.Triple;
 import types.Vector2;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CollisionSystem extends GameSystem {
+    static private int direction = 0;
     private List<Triple<Entity, Entity, Vector2>> collisions;
 
     public CollisionSystem() {
         super();
-        collisions = new ArrayList<>(16);
+
+        collisions = new LinkedList<>();
     }
 
     public boolean hasCollisions() {
@@ -34,10 +36,39 @@ public class CollisionSystem extends GameSystem {
         for (Triple<Entity, Entity, Vector2> c : getCollisions()) {
             Entity e1 = c.first;
             Entity e2 = c.second;
-            Vector2 overlap = c.third;
+            Vector2 crossSection = c.third;
 
-            handleCollision(e1, overlap);
-            handleCollision(e2, overlap);
+            switch (++direction % 3) {
+                case 0:
+                    e1.motion.stepBack(1);
+                    e2.motion.stepBack(1);
+                    e1.motion.reverse();
+                    e2.motion.reverse();
+                    break;
+
+                case 1:
+                    if(e1.motion.getVelocity().x * e2.motion.getVelocity().x >= 0.f) {
+                        e1.motion.reverseX();
+                        e2.motion.reverseY();
+                    }
+                    else {
+                        e1.motion.reverseX();
+                        e2.motion.reverseX();
+                    }
+                    break;
+
+                case 2:
+                    if(e1.motion.getVelocity().y * e2.motion.getVelocity().y >= 0.f) {
+                        e1.motion.reverseY();
+                        e2.motion.reverseX();
+                    }
+                    else {
+                        e1.motion.reverseY();
+                        e2.motion.reverseY();
+                    }
+                    break;
+                default:
+            }
         }
     }
 
@@ -54,15 +85,16 @@ public class CollisionSystem extends GameSystem {
                 if(!e2.bBox.isEnabled())
                     continue;
 
-                Triple<Entity, Entity, Vector2> collided = detectCollision(e1, e2);
+                Vector2 cs = detectCollision(e1, e2);
 
-                if(collided != null)
-                    collisions.add(collided);
+                if(cs != null) {
+                    collisions.add(new Triple<>(e1, e1, cs));
+                }
             }
         }
     }
 
-    private static Triple<Entity, Entity, Vector2> detectCollision(Entity e1, Entity e2) {
+    private static Vector2 detectCollision(Entity e1, Entity e2) {
         Vector2 crossSection = new Vector2(e1.bBox.getSize());
 
         crossSection.add(e2.bBox.getSize())
@@ -74,22 +106,8 @@ public class CollisionSystem extends GameSystem {
         if(crossSection.x  < 0.f || crossSection.y < 0.f)
             return null;
 
-        return new Triple<>(e1, e2, crossSection);
+        ImGui.text(String.format("cross {%5.1f, %5.1f}", crossSection.x, crossSection.y));
+
+        return crossSection;
     }
-
-    private static void handleCollision(Entity e1, Vector2 crossSection) {
-        if(!e1.motion.isEnabled())
-            return;
-
-        e1.motion.stepBack(1);
-
-        float strike_x = crossSection.x * e1.motion.getVelocity().x;
-        float strike_y = crossSection.y * e1.motion.getVelocity().y;
-
-        if (strike_x > strike_y)
-            e1.motion.reverseX();
-        else
-            e1.motion.reverseY();
-    }
-
 }

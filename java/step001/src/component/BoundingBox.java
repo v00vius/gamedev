@@ -24,6 +24,7 @@ public class BoundingBox extends Component {
             Mesh mesh = position.getMesh();
 
             mesh.getBoundingBox(center, radius);
+//            radius.mul(0.1f);
     }
 
     public Vector2 getPosition() {

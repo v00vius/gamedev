@@ -32,6 +32,9 @@ public class Motion extends Component {
     public void reverseX() {
         velocity.x = -velocity.x;
     }
+    public void reverse() {
+        velocity.neg();
+    }
 
     public void reverseY() {
         velocity.y = -velocity.y;
@@ -49,14 +52,19 @@ public class Motion extends Component {
         }
     }
 
-    public void stepBack(int n) {
+    public Vector2 step(Vector2 direction) {
+        return position.getCoordinate().add(direction);
+    }
+    public Vector2 stepBack(int n) {
         while(n-- > 0)
-            position.getCoordinate().add(-velocity.x, -velocity.y);
+            position.getCoordinate().sub(velocity);
+
+        return position.getCoordinate();
     }
 
     @Override
     protected Short action() {
-        position.getCoordinate().add(velocity);
+        step(velocity);
 
         return 1;
     }

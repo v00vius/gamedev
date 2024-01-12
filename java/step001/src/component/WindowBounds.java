@@ -24,6 +24,11 @@ public class WindowBounds extends Component {
     public Vector2 setBounds() {
         return bounds.set(ImGui.getMainViewport().getWorkSize());
     }
+
+    public Vector2 getBounds() {
+        return bounds;
+    }
+
     public void setPointToCheck(Vector2 point) {
         this.point = point;
     }
