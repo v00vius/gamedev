@@ -10,6 +10,8 @@ public class CleanUpSystem extends GameSystem {
     private int counter;
 
     public CleanUpSystem(int frequency) {
+        super();
+
         this.frequency = frequency;
         this.counter = 0;
     }
@@ -18,7 +20,9 @@ public class CleanUpSystem extends GameSystem {
     protected void task(EntityManager entityManager) {
         if(++counter % frequency == 0 ) {
             entityManager.getEntities().removeIf(Entity::isDead);
-            entityManager.getTaggedAs("bulet").removeIf(Entity::isDead);
+            entityManager.getTaggedAs("bullet").removeIf(Entity::isDead);
+            entityManager.getTaggedAs("monster").removeIf(Entity::isDead);
+            entityManager.getTaggedAs("explode").removeIf(Entity::isDead);
         }
     }
 }

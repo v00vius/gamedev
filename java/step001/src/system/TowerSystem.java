@@ -20,6 +20,8 @@ public class TowerSystem extends GameSystem {
     private EntityManager em;
 
     public TowerSystem(int particles, float period, float lifetime) {
+        super();
+
         this.particles = particles;
         this.period = period;
         this.lifetime = lifetime;
@@ -31,10 +33,10 @@ public class TowerSystem extends GameSystem {
         em = entityManager;
         double now = Utils.getTime();
 
-        int bulletrsActive = em.getTaggedAs("bullet").size();
+        int bulletsActive = em.getTaggedAs("bullet").size();
 
         ImGui.text(String.format("Tower, waiting: %f secs", now - lastStrike));
-        ImGui.text(String.format("Tower, bullets: %d", bulletrsActive));
+        ImGui.text(String.format("Tower, bullets: %d", bulletsActive));
 
         if((now - lastStrike) > period) {
             fire();

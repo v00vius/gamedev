@@ -1,9 +1,10 @@
 package system;
 
-import component.BoundingBox;
+import component.*;
 import entity.Entity;
 import imgui.ImGui;
 import repo.EntityManager;
+import types.Color;
 import types.Pair;
 import types.Triple;
 import types.Vector2;
@@ -13,6 +14,7 @@ import java.util.*;
 public class CollisionSystem extends GameSystem {
     static private int direction = 0;
     private List<Pair<Entity, Entity>> collisions;
+    private EntityManager em;
 
     public CollisionSystem() {
         super();
@@ -30,6 +32,7 @@ public class CollisionSystem extends GameSystem {
 
     @Override
     public void task(EntityManager entityManager) {
+        em = entityManager;
         List<Entity> entities = entityManager.getEntities();
 
         collisions.clear();
@@ -43,6 +46,8 @@ public class CollisionSystem extends GameSystem {
 
             e1.bBox.setColor(BoundingBox.cCollision);
             e2.bBox.setColor(BoundingBox.cCollision);
+
+            handleDamage(e1, e2);
 
             switch ( ++direction % 2) {
                 case 0:
@@ -79,6 +84,67 @@ public class CollisionSystem extends GameSystem {
         }
     }
 
+    private void handleDamage(Entity e1, Entity e2) {
+        Entity monster = null;
+        Entity bullet = null;
+
+        if(e1.getTag().equals("monster"))
+            monster = e1;
+        else if(e2.getTag().equals("monster"))
+            monster = e2;
+
+        if(e1.getTag().equals("bullet"))
+            bullet = e1;
+        else if(e2.getTag().equals("bullet"))
+            bullet = e2;
+
+        if(monster == null)
+            return;
+
+        if(bullet == null)
+            return;
+
+        destroy(monster);
+    }
+
+    private void destroy(Entity monster) {
+        monster.setAlive(false);
+
+        Mesh exp = new Mesh("b0", new float[] {0, 10, 10, 0},
+                new float[] {0, 0, 10, 10},
+                new short[] {0, 1, 2, 0, 2, 3},
+                new int[]{new Color(255, 50, 50).get(),
+                        new Color(0, 0, 255).get()
+                }
+        );
+
+        for (int i = 0; i < 50; ++i) {
+            createExplode(monster.position.getCoordinate(), exp);
+        }
+
+    }
+
+    private void createExplode(Vector2 start, Mesh exp) {
+        Random rnd = new Random();
+        Entity e = em.createEntity("explode");
+
+        e.mesh = exp;
+        e.position = new Position(exp, start.x, start.y);
+        e.motion = new Motion(e.position);
+        e.motion.setVelocity(rnd.nextFloat(-20, 20),
+                rnd.nextFloat(-10, 10));
+
+        e.motion.getVelocity().projection(6.f,
+                (float) Math.toRadians(rnd.nextFloat(0.f, 360.f)));
+
+        e.painter = new Painter(e.position, 0);
+        e.opacity = new Decay(e.painter, 1.f, 0.1f);
+
+        e.motion.enable();
+        e.position.enable();
+        e.painter.enable();
+        e.opacity.enable();
+    }
     private void detectCollisions(List<Entity> entities) {
         for (int i = 0; i < entities.size() - 1; ++i) {
             Entity e1 = entities.get(i);
@@ -108,6 +174,9 @@ public class CollisionSystem extends GameSystem {
                     continue;
 
                 if(e1.getTag().equals("forest") &&  e2.getTag().equals("forest"))
+                    continue;
+
+                if(e1.getTag().equals("tower") &&  e2.getTag().equals("bullet"))
                     continue;
 
 

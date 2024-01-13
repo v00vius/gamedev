@@ -46,10 +46,14 @@ public class GameService {
                 rnd.nextFloat(50, 1080-50));
         e.painter = new Painter(e.position, 0);
         e.bBox = new BoundingBox(e.position);
+        e.controller = new Controller();
+        e.motion = new Motion(e.position);
 
         e.position.enable();
         e.painter.enable();
         e.bBox.enable();
+        e.controller.enable();
+        e.motion.enable();
 
         return tower.size();
     }
@@ -248,9 +252,9 @@ public class GameService {
 
         scene.add(new MovementSystem());
         scene.add(new CollisionSystem());
-        scene.add(new TowerSystem(10, 5.f, 10.f));
+        scene.add(new TowerSystem(3, 10.f, 8.f));
         scene.add(new PaintingSystem());
-        scene.add(new CleanUpSystem(100));
+        scene.add(new CleanUpSystem(300));
 
         for(GameSystem g : scene) {
             g.enable();

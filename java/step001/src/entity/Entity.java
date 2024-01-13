@@ -1,6 +1,7 @@
 package entity;
 
 import component.*;
+import imgui.ImGui;
 import types.String8;
 
 import java.util.Objects;
@@ -17,6 +18,7 @@ public class Entity {
     public Rotation rotation;
     public Motion motion;
     public BoundingBox bBox;
+    public Controller controller;
 
     public Entity(int id, String tag) {
         this.id = id;
@@ -30,6 +32,7 @@ public class Entity {
         rotation = Rotation.NIL;
         motion = Motion.NIL;
         bBox = BoundingBox.NIL;
+        controller = Controller.NIL;
     }
 
     public int getId() {
@@ -47,7 +50,9 @@ public class Entity {
         return alive;
     }
     public boolean isDead() {
-        return !isAlive();
+//        ImGui.text(String.format("isDead: id %d, tag %s: %s", getId(), getTag(), (alive ? "alive" : "dead")));
+
+        return !alive;
     }
 
     public void setAlive(boolean alive) {
