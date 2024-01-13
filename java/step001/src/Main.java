@@ -28,7 +28,7 @@ public class Main extends Application {
     private boolean done;
     private boolean blink = true;
     private long frameCount = 1;
-    private int nVertices;
+    private int nVertices = 0;
 
     private Mesh trident = new Mesh("Trident",
                 new float[] {00.f, 10.f, 20.f, 30.f, 40.f, 50.f, 60.f,  30.f},
@@ -64,8 +64,8 @@ public class Main extends Application {
         meshManager = new MeshManager();
         entityManager = new EntityManager();
         service.createMeshSet(meshManager);
-        nVertices = service.createEntities(entityManager, meshManager, 70);
         nVertices += service.createGrass(entityManager, meshManager, 70);
+        nVertices += service.createEntities(entityManager, meshManager, 70);
         scene = service.createScene(entityManager);
     }
 

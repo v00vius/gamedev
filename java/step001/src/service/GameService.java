@@ -36,21 +36,24 @@ public class GameService {
         Map<Long, Mesh> mset = mm.getMeshSet();
         int size = 0;
 
-        Mesh m0 = new Mesh("gr0", new float[] {0, -40, 0},
-                new float[] {0, 10, 10},
+        Mesh m0 = new Mesh("gr0", new float[] {0, 40, 0},
+                new float[] {-10, 0, 10},
                 new short[] {0, 1, 2},
-                new int[]{new Color(0, 255, 0).get()});
+                new int[]{new Color(125, 88, 0).get()});
 
         Mesh grass = m0.clone();
         grass.setName("grass");
 
-        for(float g = 0.f; g < -90.f; g -= 90.f/5.f) {
-            m0.rotate(g);
-            grass.union(m0);
-        }
+        float angle = (float) Math.toRadians(-30.f);
+
+        m0.rotate(angle);
+        grass.union(m0);
+
+        m0.rotate(angle);
+        grass.union(m0);
 
         m0 = grass.clone();
-        m0.mirorY();
+        m0.mirorX();
         grass.union(m0);
 
         while (n-- >= 0) {
