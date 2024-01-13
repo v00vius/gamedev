@@ -31,6 +31,44 @@ public class GameService {
         m.rotate((float) Math.toRadians(180.));
 
     }
+    public int createGrass(EntityManager em, MeshManager mm,  int n) {
+        Random rnd = new Random();
+        Map<Long, Mesh> mset = mm.getMeshSet();
+        int size = 0;
+
+        Mesh m0 = new Mesh("gr0", new float[] {0, -40, 0},
+                new float[] {0, 10, 10},
+                new short[] {0, 1, 2},
+                new int[]{new Color(0, 255, 0).get()});
+
+        Mesh grass = m0.clone();
+        grass.setName("grass");
+
+        for(float g = 0.f; g < -90.f; g -= 90.f/5.f) {
+            m0.rotate(g);
+            grass.union(m0);
+        }
+
+        m0 = grass.clone();
+        m0.mirorY();
+        grass.union(m0);
+
+        while (n-- >= 0) {
+            Entity e = em.createEntity("grass");
+
+            e.mesh = grass;
+            e.position = new Position(grass, rnd.nextFloat(50, 1920 - 50),
+                    rnd.nextFloat(50, 1080-50));
+            e.painter = new Painter(e.position, 0);
+
+            e.position.enable();
+            e.painter.enable();
+
+            size += grass.size();
+        }
+
+        return size;
+    }
 
     public int createEntities(EntityManager em, MeshManager mm,  int n) {
         Random rnd = new Random();
@@ -44,15 +82,15 @@ public class GameService {
             Mesh m = mset.get(String8.pack(name));
 
             e.mesh = m;
-            e.position = new Position(m, rnd.nextFloat(50, 1930),
-                    rnd.nextFloat(50, 1030));
+            e.position = new Position(m, rnd.nextFloat(50, 1920 - 50),
+                    rnd.nextFloat(50, 1080-50));
             e.motion = new Motion(e.position);
             e.motion.setVelocity(rnd.nextFloat(-3, 3),
                     rnd.nextFloat(-2, 2));
             e.painter = new Painter(e.position, 0);
             e.bBox = new BoundingBox(e.position);
 
-//            if(n % 2 == 0)
+            if(n % 2 == 0)
                 e.motion.enable();
 
             e.position.enable();
