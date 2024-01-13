@@ -38,13 +38,27 @@ public class TowerSystem extends GameSystem {
         ImGui.text(String.format("Tower, waiting: %f secs", now - lastStrike));
         ImGui.text(String.format("Tower, bullets: %d", bulletsActive));
 
+        List<Entity> towers = em.getTaggedAs("tower");
+
+        for(Entity e : towers) {
+            if(!e.isAlive())
+                continue;
+
+            if(e.controller.isEnabled()) {
+                Controller c = e.controller;
+
+                if(c.getMouseDown(0) == 0.f)
+                    fire(towers);
+            }
+        }
+
         if((now - lastStrike) > period) {
-            fire();
+            fire(towers);
             lastStrike = now;
         }
     }
 
-    private void fire() {
+    private void fire(List<Entity> towers) {
         Mesh b0 = new Mesh("b0", new float[] {0, 10, 10},
                 new float[] {0, 0, 10},
                 new short[] {0, 1, 2},
@@ -54,8 +68,6 @@ public class TowerSystem extends GameSystem {
         bullet.setName("bullet");
         b0.rotate((float)Math.toRadians(180));
         bullet.union(b0);
-
-        List<Entity> towers = em.getTaggedAs("tower");
 
         for(Entity tower : towers) {
             if(!tower.isAlive())

@@ -19,4 +19,8 @@ public class Scene {
             g.exec(entityManager);
         }
     }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
 }
