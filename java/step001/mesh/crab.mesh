@@ -1,0 +1,33 @@
+# mesh numOfCoordinates numOfTriangleVertices numOfColorsOfTriangles meshName
+mesh 12 18 6 crab
+# coordinates:
+# v coordinateNumber x y
+v 0 -60.000000 0.000000
+v 1 -50.000000 -10.000000
+v 2 -50.000000 0.000000
+v 3 -40.000000 20.000000
+v 4 -40.000000 10.000000
+v 5 0.000000 0.000000
+v 6 60.000000 0.000000
+v 7 50.000000 -10.000000
+v 8 50.000000 0.000000
+v 9 40.000000 20.000000
+v 10 40.000000 10.000000
+v 11 -0.000000 0.000000
+# triangles:
+# t triangleNumber coordinateIndex1 coordinateIndex2 coordinateIndex3
+t 0 0 1 2
+t 1 0 3 4
+t 2 3 4 5
+t 3 6 7 8
+t 4 6 9 10
+t 5 9 10 11
+# colors of triangles:
+# c triangleNumber R G B A
+c 0 89 45 190 255
+c 1 253 199 2 255
+c 2 253 199 2 255
+c 3 89 45 190 255
+c 4 253 199 2 255
+c 5 253 199 2 255
+mesh end

@@ -1,0 +1,39 @@
+# mesh numOfCoordinates numOfTriangleVertices numOfColorsOfTriangles meshName
+mesh 18 18 6 grass
+# coordinates:
+# v coordinateNumber x y
+v 0 0.000000 -10.000000
+v 1 40.000000 0.000000
+v 2 0.000000 10.000000
+v 3 -5.000000 -8.660254
+v 4 34.641014 -20.000000
+v 5 5.000000 8.660254
+v 6 -8.660254 -5.000000
+v 7 19.999998 -34.641014
+v 8 8.660254 5.000000
+v 9 -0.000000 -10.000000
+v 10 -40.000000 0.000000
+v 11 -0.000000 10.000000
+v 12 5.000000 -8.660254
+v 13 -34.641014 -20.000000
+v 14 -5.000000 8.660254
+v 15 8.660254 -5.000000
+v 16 -19.999998 -34.641014
+v 17 -8.660254 5.000000
+# triangles:
+# t triangleNumber coordinateIndex1 coordinateIndex2 coordinateIndex3
+t 0 0 1 2
+t 1 3 4 5
+t 2 6 7 8
+t 3 9 10 11
+t 4 12 13 14
+t 5 15 16 17
+# colors of triangles:
+# c triangleNumber R G B A
+c 0 125 88 0 255
+c 1 125 88 0 255
+c 2 125 88 0 255
+c 3 125 88 0 255
+c 4 125 88 0 255
+c 5 125 88 0 255
+mesh end
