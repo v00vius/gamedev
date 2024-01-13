@@ -87,12 +87,13 @@ public class TowerSystem extends GameSystem {
         e.mesh = bullet;
         e.position = new Position(bullet, start.x, start.y);
         e.motion = new Motion(e.position);
-        e.motion.setVelocity(rnd.nextFloat(-10, 10),
-                rnd.nextFloat(-10, 10));
+        e.motion.getVelocity().projection(rnd.nextFloat(2.f, 5.f),
+                (float)Math.toRadians(rnd.nextFloat(0.f, 360.f)));
+
         e.painter = new Painter(e.position, 0);
         e.bBox = new BoundingBox(e.position);
         e.opacity = new Decay(e.painter, lifetime, 0.1f * lifetime);
-        e.rotation = new Rotation(bullet, 0.5f);
+        e.rotation = new Rotation(bullet, 0.8f);
 
         e.motion.enable();
         e.position.enable();

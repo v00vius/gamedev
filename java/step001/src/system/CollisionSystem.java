@@ -49,7 +49,7 @@ public class CollisionSystem extends GameSystem {
 
             handleDamage(e1, e2);
 
-            switch ( ++direction % 2) {
+            switch ( ++direction % 3) {
                 case 0:
                     e1.motion.stepBack(1);
                     e2.motion.stepBack(1);
@@ -138,13 +138,14 @@ public class CollisionSystem extends GameSystem {
                 (float) Math.toRadians(rnd.nextFloat(0.f, 360.f)));
 
         e.painter = new Painter(e.position, 0);
-        e.opacity = new Decay(e.painter, 1.f, 0.1f);
+        e.opacity = new Decay(e.painter, 0.5f, 0.2f);
 
         e.motion.enable();
         e.position.enable();
         e.painter.enable();
         e.opacity.enable();
     }
+    
     private void detectCollisions(List<Entity> entities) {
         for (int i = 0; i < entities.size() - 1; ++i) {
             Entity e1 = entities.get(i);

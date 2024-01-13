@@ -5,6 +5,7 @@ import types.String8;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,11 +15,11 @@ public class EntityManager {
     private Map<Long, List<Entity>> byTag;
 
     private static List<Entity> createTagList() {
-        return new ArrayList<Entity>();
+        return new LinkedList<Entity>();
     }
     public EntityManager() {
-        entities = new ArrayList<Entity>(32);
-        byTag = new Hashtable<Long, List<Entity>> ();
+        entities = new ArrayList<Entity>(128);
+        byTag = new Hashtable<Long, List<Entity>> (16);
     }
 
     static public int getCreationCount() {

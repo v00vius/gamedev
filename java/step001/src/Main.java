@@ -63,10 +63,13 @@ public class Main extends Application {
 
         scene.frame();
 
-        int numEntities = scene.getEntityManager().getEntities().size();
-
         msDuration = System.currentTimeMillis() - msDuration;
-        ImGui.text(String.format("scene latency: %d ms (%5.1f FPS)",
+
+        int numEntities = scene.getEntityManager().getEntities().size();
+        int numComponents = Component.createdTotal();
+
+        ImGui.text(String.format("Entities: %d, Component creation count: %d", numEntities, numComponents ));
+        ImGui.text(String.format("Scene latency: %d ms (%5.1f FPS)",
                                     msDuration, 1000.f / (float)msDuration));
     }
     private void mainMenu() {
