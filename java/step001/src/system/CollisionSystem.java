@@ -83,21 +83,33 @@ public class CollisionSystem extends GameSystem {
         for (int i = 0; i < entities.size() - 1; ++i) {
             Entity e1 = entities.get(i);
 
+            if(!e1.isAlive())
+                continue;
+
             if(!e1.bBox.isEnabled())
                 continue;
 
-            if(e1.getTag().equals("grass"))
+            if(e1.getTag().equals("grass") || e1.getTag().equals("misc"))
                 continue;
 
             for (int j = i + 1; j < entities.size(); ++j) {
                 Entity e2 = entities.get(j);
 
-                if(!e2.bBox.isEnabled() || e1 == e2)
+                if(!e2.isAlive())
                     continue;
 
-                if(e1.getTag().equals("monster") &&
-                        (e2.getTag().equals("monster") || e2.getTag().equals("grass")))
+                if(!e2.bBox.isEnabled())
                     continue;
+
+                if(e2.getTag().equals("grass") || e2.getTag().equals("misc"))
+                    continue;
+
+                if(e1.getTag().equals("monster") &&  e2.getTag().equals("monster"))
+                    continue;
+
+                if(e1.getTag().equals("forest") &&  e2.getTag().equals("forest"))
+                    continue;
+
 
                 e1.bBox.setColor(BoundingBox.cNormal);
                 e2.bBox.setColor(BoundingBox.cNormal);

@@ -46,6 +46,9 @@ public class Entity {
     public boolean isAlive() {
         return alive;
     }
+    public boolean isDead() {
+        return !isAlive();
+    }
 
     public void setAlive(boolean alive) {
         this.alive = alive;

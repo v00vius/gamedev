@@ -90,6 +90,15 @@ public class Mesh extends Component implements Cloneable {
 
         return this;
     }
+    public Mesh translate(Vector2 d) {
+        for (short i = 0; i < vx.length; ++i) {
+            vx[i] += d.x;
+            vy[i] += d.y;
+        }
+
+        return this;
+    }
+
     public Mesh union(Mesh mesh) {
         int sz = vx.length + mesh.vx.length;
         float[] uvx = new float[sz];

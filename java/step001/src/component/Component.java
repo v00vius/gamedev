@@ -13,7 +13,7 @@ public abstract class Component extends Enabled {
         components.add(this);
     }
     public Short frame() {
-        return isEnabled() ? action() : 0;
+        return isEnabled() ? action() : 1;
     }
 
     protected abstract Short action();

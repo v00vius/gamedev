@@ -4,11 +4,11 @@ import imgui.*;
 import imgui.app.Application;
 import imgui.app.Configuration;
 import imgui.flag.*;
-import imgui.type.ImBoolean;
 import repo.EntityManager;
 import repo.MeshManager;
 import scene.Scene;
 import service.GameService;
+import service.Utils;
 import types.Vector2;
 
 import java.io.IOException;
@@ -65,7 +65,10 @@ public class Main extends Application {
         entityManager = new EntityManager();
         service.createMeshSet(meshManager);
         nVertices += service.createGrass(entityManager, meshManager, 70);
-        nVertices += service.createEntities(entityManager, meshManager, 70);
+        nVertices += service.createForest(entityManager, meshManager, 20);
+        nVertices += service.createMisc(entityManager, meshManager, 25);
+        nVertices += service.createMonsters(entityManager, meshManager, 70);
+        nVertices += service.createTower(entityManager, meshManager);
         scene = service.createScene(entityManager);
     }
 
@@ -107,7 +110,7 @@ public class Main extends Application {
 
         ImGui.text(String.format("Frame time: %5.1f ms", delta * 1000.f));
         ImGui.text("FPS: " + (int)(0.5f + 1.f / delta));
-        ImGui.text( String.format("Time: %5.1f ", ImGui.getTime()));
+        ImGui.text( String.format("Time: %5.1f ", Utils.getTime()));
         ImGui.text(String.format("Vertices: %d", nVertices));
 
         ImGui.colorEdit3("Background Color", this.getColorBg().data);

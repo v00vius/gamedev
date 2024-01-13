@@ -17,9 +17,15 @@ public class PaintingSystem extends GameSystem {
         PaintContext paintContext = new PaintContext();
 
         for (Entity e : entityManager.getEntities()) {
-            e.opacity.frame();
+            if(!e.isAlive())
+                continue;
+
+            if(e.opacity.frame() == 0)
+                e.setAlive(false);;
+
             e.painter.setPaintContext(paintContext);
             e.painter.frame();
+
 
             if(e.bBox.isEnabled() && BoundingBox.getShowBB()) {
                 Vector2 p0 = e.bBox.getP0().add(paintContext.windowPosition);

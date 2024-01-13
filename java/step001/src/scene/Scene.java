@@ -1,6 +1,5 @@
 package scene;
 
-import entity.Entity;
 import repo.EntityManager;
 import system.GameSystem;
 

@@ -15,12 +15,15 @@ public class MovementSystem extends GameSystem {
         windowBounds.enable();
 
         for (Entity e : entityManager.getEntities()) {
-                e.rotation.frame();
-                e.motion.frame();
+            if(!e.isAlive())
+                continue;
 
-                windowBounds.setBoundingBox(e.bBox);
-                short whereIsBump = windowBounds.frame();
-                e.motion.bump(whereIsBump);
+            e.rotation.frame();
+            e.motion.frame();
+
+            windowBounds.setBoundingBox(e.bBox);
+            short whereIsBump = windowBounds.frame();
+            e.motion.bump(whereIsBump);
         }
     }
 }
