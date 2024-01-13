@@ -252,7 +252,7 @@ public class GameService {
 
         scene.add(new MovementSystem());
         scene.add(new CollisionSystem());
-        scene.add(new TowerSystem(5, 10.f, 15.f));
+        scene.add(new TowerSystem(5, 10.f, 8.f));
         scene.add(new PaintingSystem());
         scene.add(new CleanUpSystem(300));
 

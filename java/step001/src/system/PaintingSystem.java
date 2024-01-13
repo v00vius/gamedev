@@ -2,6 +2,7 @@ package system;
 
 import component.BoundingBox;
 import entity.Entity;
+import imgui.ImGui;
 import repo.EntityManager;
 import types.Color;
 import types.PaintContext;
@@ -15,8 +16,11 @@ public class PaintingSystem extends GameSystem {
     @Override
     public void task(EntityManager entityManager) {
         PaintContext paintContext = new PaintContext();
+        int polygons = 0;
 
         for (Entity e : entityManager.getEntities()) {
+            polygons += e.mesh.size();
+
             if(!e.isAlive())
                 continue;
 
@@ -34,5 +38,7 @@ public class PaintingSystem extends GameSystem {
                         e.bBox.getColor());
             }
         }
+
+        ImGui.text("Polygons: " + polygons);
     }
 }

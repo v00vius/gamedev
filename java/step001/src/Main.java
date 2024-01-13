@@ -9,15 +9,13 @@ import repo.MeshManager;
 import scene.Scene;
 import service.GameService;
 import service.Utils;
-import types.Vector2;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
 public class Main extends Application {
     private Scene scene;
     private EntityManager entityManager;
@@ -45,7 +43,7 @@ public class Main extends Application {
         nVertices += service.createGrass(entityManager, meshManager, 70);
         nVertices += service.createForest(entityManager, meshManager, 20);
         nVertices += service.createMisc(entityManager, meshManager, 25);
-        nVertices += service.createMonsters(entityManager, meshManager, 70);
+        nVertices += service.createMonsters(entityManager, meshManager, 100);
         nVertices += service.createTower(entityManager, meshManager);
         scene = service.createScene(entityManager);
     }
@@ -68,8 +66,8 @@ public class Main extends Application {
         int numEntities = scene.getEntityManager().getEntities().size();
 
         msDuration = System.currentTimeMillis() - msDuration;
-        ImGui.text(String.format("Entities: %5d, scene latency: %d ms (%5.1f FPS)",
-                                    numEntities, msDuration, 1000.f / (float)msDuration));
+        ImGui.text(String.format("scene latency: %d ms (%5.1f FPS)",
+                                    msDuration, 1000.f / (float)msDuration));
     }
     private void mainMenu() {
         if(++frameCount % 100 == 0)
@@ -78,7 +76,6 @@ public class Main extends Application {
         ImGui.text(String.format("Frame time: %5.1f ms", delta * 1000.f));
         ImGui.text("FPS: " + (int)(0.5f + 1.f / delta));
         ImGui.text( String.format("Time: %5.1f ", Utils.getTime()));
-        ImGui.text(String.format("Vertices: %d", nVertices));
 
         ImGui.colorEdit3("Background Color", this.getColorBg().data);
 
