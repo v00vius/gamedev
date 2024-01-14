@@ -18,6 +18,8 @@ public class TowerSystem extends GameSystem {
     private float lifetime;
     private double lastStrike;
     private EntityManager em;
+    Random rnd;
+
 
     public TowerSystem(int particles, float period, float lifetime) {
         super();
@@ -26,6 +28,7 @@ public class TowerSystem extends GameSystem {
         this.period = period;
         this.lifetime = lifetime;
         this.lastStrike = 0.;
+        this.rnd = new Random();
     }
 
     @Override
@@ -81,13 +84,12 @@ public class TowerSystem extends GameSystem {
     }
 
     private void createBullet(Vector2 start, Mesh bullet) {
-        Random rnd = new Random();
         Entity e = em.createEntity("bullet");
 
         e.mesh = bullet;
         e.position = new Position(bullet, start.x, start.y);
         e.motion = new Motion(e.position);
-        e.motion.getVelocity().projection(rnd.nextFloat(2.f, 5.f),
+        e.motion.getVelocity().projection(rnd.nextFloat(2.f, 15.f),
                 (float)Math.toRadians(rnd.nextFloat(0.f, 360.f)));
 
         e.painter = new Painter(e.position, 0);

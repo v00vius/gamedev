@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 
 
 public class Main extends Application {
+    GameService service;
     private Scene scene;
     private EntityManager entityManager;
     private MeshManager meshManager;
@@ -36,7 +37,7 @@ public class Main extends Application {
 
     @Override
     protected void preRun() {
-        GameService service = new GameService();
+        service = new GameService();
         meshManager = new MeshManager();
         entityManager = new EntityManager();
         service.createMeshSet(meshManager);
@@ -56,6 +57,11 @@ public class Main extends Application {
     }
 
     @Override
+    protected void preProcess() {
+    }
+
+
+    @Override
     public void process() {
         long msDuration = System.currentTimeMillis();
 
@@ -68,10 +74,16 @@ public class Main extends Application {
         int numEntities = scene.getEntityManager().getEntities().size();
         int numComponents = Component.createdTotal();
 
-        ImGui.text(String.format("Entities: %d, Component creation count: %d", numEntities, numComponents ));
+        ImGui.text(String.format("Entities: %d", numEntities));
         ImGui.text(String.format("Scene latency: %d ms (%5.1f FPS)",
                                     msDuration, 1000.f / (float)msDuration));
     }
+    @Override
+    protected void postProcess() {
+        if(entityManager.getTaggedAs("monster").size() < 5)
+            service.createMonsters(entityManager, meshManager, 10);
+    }
+
     private void mainMenu() {
         if(++frameCount % 100 == 0)
             delta = Utils.getDeltaTime();
