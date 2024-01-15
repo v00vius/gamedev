@@ -15,12 +15,14 @@ public class CollisionSystem extends GameSystem {
         static private int direction = 0;
         private List<Pair<Entity, Entity>> collisions;
         private EntityManager em;
+        private Random rnd;
 
         public CollisionSystem()
         {
                 super();
 
                 collisions = new LinkedList<>();
+                rnd = new Random();
         }
 
         public boolean hasCollisions()
@@ -130,16 +132,12 @@ public class CollisionSystem extends GameSystem {
 
         private void createExplode(Vector2 start, Mesh exp)
         {
-                Random rnd = new Random();
                 Entity e = em.createEntity("explode");
 
                 e.mesh = exp;
                 e.position = new Position(exp, start.x, start.y);
                 e.motion = new Motion(e.position);
-                e.motion.setVelocity(rnd.nextFloat(-20, 20),
-                        rnd.nextFloat(-10, 10));
-
-                e.motion.getVelocity().projection(6.f,
+                e.motion.getVelocity().projection(rnd.nextFloat(1f, 7f ),
                         (float) Math.toRadians(rnd.nextFloat(0.f, 360.f)));
 
                 e.painter = new Painter(e.position, 0);
