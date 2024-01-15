@@ -1,8 +1,14 @@
 package component;
 
 import types.Color;
+import types.Precision;
 import types.String8;
 import types.Vector2;
+
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Mesh extends Component implements Cloneable {
     static public Mesh NIL = createEmpty();
@@ -66,6 +72,9 @@ public class Mesh extends Component implements Cloneable {
     public Long setName(String tag) { return this.id = String8.pack(tag); }
     public int size() {
         return vertices.length;
+    }
+    public int points() {
+        return vx.length;
     }
 
     public Mesh mirorX() {
@@ -170,6 +179,68 @@ public class Mesh extends Component implements Cloneable {
         }
 
         return this;
+    }
+
+    public int pack() {
+        short count;
+        BitSet dup = new BitSet(vx.length);
+        short[] remap = new short[vx.length];
+        Precision precision = Precision.create(1e-5f);
+
+        for (short i = 0; i < vx.length; ++i)
+            remap[i] = i;
+
+        dup.clear(0, vx.length - 1);
+        count = 0;
+
+        for (short i = 0; i < vx.length; ++i) {
+            if(dup.get(i))
+                continue;
+
+            float p0x = vx[i];
+            float p0y = vy[i];
+
+            for (short j = (short)(i + 1); j < vx.length; ++j) {
+                float p1x = vx[j];
+                float p1y = vy[j];
+
+                if(precision.equals(p0x, p1x) && precision.equals(p0y, p1y)) {
+                    remap[j] = count;
+                    dup.set(j);
+
+                    for (short k = (short)(j + 1); k < vx.length; ++k) {
+                        if(remap[k] > count)
+                            --remap[k];
+                    }
+                }
+            }
+
+            ++count;
+        }
+
+        if(count < vx.length) {
+            float[] vx_new = new float[count];
+            float[] vy_new = new float[vx_new.length];
+
+            count = 0;
+
+            for (short i = 0; i < vx.length; ++i) {
+                if(dup.get(i))
+                    continue;
+
+                vx_new[count] = vx[i];;
+                vy_new[count] = vy[i];;
+                ++count;
+            }
+
+            vx = vx_new;
+            vy = vy_new;
+
+            for (short i = 0; i < vertices.length; ++i)
+                vertices[i] = remap[vertices[i]];
+        }
+
+        return count;
     }
 
     void getBoundingBox(Vector2 p0, Vector2 p1) {
