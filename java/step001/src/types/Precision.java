@@ -1,23 +1,28 @@
 package types;
 
 public class Precision {
-    private float epsilon;
+        private float epsilon;
 
-    static public Precision create(float eps) {
-        return new Precision(eps);
-    }
-    private Precision(float epsilon) {
-        this.epsilon = epsilon;
-    }
+        static public Precision create(float eps)
+        {
+                return new Precision(eps);
+        }
 
-     public int compare(float f1, float f2) {
-        if(Math.abs(f1 - f2) <= epsilon)
-            return 0;
+        private Precision(float epsilon)
+        {
+                this.epsilon = epsilon;
+        }
 
-        return f1 < f2 ? -1 : 1;
-    }
+        public int compare(float f1, float f2)
+        {
+                if (Math.abs(f1 - f2) <= epsilon)
+                        return 0;
 
-    public boolean equals(float f1, float f2) {
-        return 0 == compare(f1, f2);
-    }
+                return f1 < f2 ? -1 : 1;
+        }
+
+        public boolean equals(float f1, float f2)
+        {
+                return 0 == compare(f1, f2);
+        }
 }

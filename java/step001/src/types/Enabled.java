@@ -1,35 +1,43 @@
 package types;
 
 public abstract class Enabled {
-    private boolean enabled;
+        private boolean enabled;
 
-    public Enabled() {
-        disable();
-    }
+        public Enabled()
+        {
+                disable();
+        }
 
-    public boolean setEnabled(boolean[] en) {
-        boolean prev = enabled;
+        public boolean setEnabled(boolean[] en)
+        {
+                boolean prev = enabled;
 
-        if(en != null)
-            this.enabled = en[0];
+                if (en != null)
+                        this.enabled = en[0];
 
-        return prev;
-    }
-    public boolean enable() {
-        boolean prev = enabled;
+                return prev;
+        }
 
-        enabled = true;
+        public boolean enable()
+        {
+                boolean prev = enabled;
 
-        return prev;
-    }
-    public boolean disable() {
-        boolean prev = enabled;
+                enabled = true;
 
-        enabled = false;
+                return prev;
+        }
 
-        return prev;
-    }
-    public boolean isEnabled() {
-        return enabled;
-    }
+        public boolean disable()
+        {
+                boolean prev = enabled;
+
+                enabled = false;
+
+                return prev;
+        }
+
+        public boolean isEnabled()
+        {
+                return enabled;
+        }
 }

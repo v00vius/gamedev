@@ -10,39 +10,46 @@ import java.util.List;
 import java.util.Map;
 
 public class EntityManager {
-    static private int creationCount = 0;
-    private List<Entity> entities;
-    private Map<Long, List<Entity>> byTag;
+        static private int creationCount = 0;
+        private List<Entity> entities;
+        private Map<Long, List<Entity>> byTag;
 
-    private static List<Entity> createTagList() {
-        return new LinkedList<Entity>();
-    }
-    public EntityManager() {
-        entities = new ArrayList<Entity>(128);
-        byTag = new Hashtable<Long, List<Entity>> (16);
-    }
+        private static List<Entity> createTagList()
+        {
+                return new LinkedList<Entity>();
+        }
 
-    static public int getCreationCount() {
-        return ++creationCount;
-    }
+        public EntityManager()
+        {
+                entities = new ArrayList<Entity>(128);
+                byTag = new Hashtable<Long, List<Entity>>(16);
+        }
 
-    public Entity createEntity(String tag) {
-        Entity entity = new Entity(getCreationCount(), tag);
+        static public int getCreationCount()
+        {
+                return ++creationCount;
+        }
 
-        entities.add(entity);
+        public Entity createEntity(String tag)
+        {
+                Entity entity = new Entity(getCreationCount(), tag);
 
-        List<Entity> tagged = byTag.computeIfAbsent(entity.getTagId(), k -> createTagList());
+                entities.add(entity);
 
-        tagged.add(entity);
+                List<Entity> tagged = byTag.computeIfAbsent(entity.getTagId(), k -> createTagList());
 
-        return entity;
-    }
+                tagged.add(entity);
 
-    public List<Entity> getTaggedAs(String tag) {
-        return byTag.computeIfAbsent(String8.pack(tag), k -> createTagList());
-    }
+                return entity;
+        }
 
-    public List<Entity> getEntities() {
-        return entities;
-    }
+        public List<Entity> getTaggedAs(String tag)
+        {
+                return byTag.computeIfAbsent(String8.pack(tag), k -> createTagList());
+        }
+
+        public List<Entity> getEntities()
+        {
+                return entities;
+        }
 }

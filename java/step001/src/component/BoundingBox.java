@@ -5,68 +5,85 @@ import types.Color;
 import types.Vector2;
 
 public class BoundingBox extends Component {
-    static public ImBoolean showBB = new ImBoolean(false);
-    public static void setShowBB(boolean show) {
-        showBB.set(show);
-    }
-    public static boolean getShowBB() {
-        return showBB.get();
-    }
+        static public ImBoolean showBB = new ImBoolean(false);
 
-    static public int cNormal = new Color(61,25,44).get();
-    static public int cCollision = new Color(255,25,44).get();
-    static public BoundingBox NIL = createEmpty();
-    private Position position;
-    private Vector2 p0;
-    private Vector2 p1;
-    private int color;
+        public static void setShowBB(boolean show)
+        {
+                showBB.set(show);
+        }
 
-    static private BoundingBox createEmpty() {
-        return new BoundingBox(Position.NIL);
-    }
-    public BoundingBox(Position p) {
-        super();
+        public static boolean getShowBB()
+        {
+                return showBB.get();
+        }
 
-        position = p;
-        p0 = new Vector2(0f, 0f);
-        p1 = new Vector2(0f, 0f);
-        update();
-        setColor(cNormal);
-    }
+        static public int cNormal = new Color(61, 25, 44).get();
+        static public int cCollision = new Color(255, 25, 44).get();
+        static public BoundingBox NIL = createEmpty();
+        private Position position;
+        private Vector2 p0;
+        private Vector2 p1;
+        private int color;
 
-    public void setColor(int color) {
-        this.color = color;
-    }
+        static private BoundingBox createEmpty()
+        {
+                return new BoundingBox(Position.NIL);
+        }
 
-    public int getColor() {
-        return color;
-    }
+        public BoundingBox(Position p)
+        {
+                super();
 
-    public void update() {
-        Mesh mesh = position.getMesh();
+                position = p;
+                p0 = new Vector2(0f, 0f);
+                p1 = new Vector2(0f, 0f);
+                update();
+                setColor(cNormal);
+        }
 
-        mesh.getBoundingBox(p0, p1);
-    }
-    public Vector2 getP0() {
-        return new Vector2(position.getCoordinate()).add(p0);
-    }
-    public Vector2 getP1() {
-        return new Vector2(position.getCoordinate()).add(p1);
-    }
+        public void setColor(int color)
+        {
+                this.color = color;
+        }
 
-    public Position getPosition() {
-        return position;
-    }
+        public int getColor()
+        {
+                return color;
+        }
 
-    static public boolean isIntersected(Vector2 pa0, Vector2 pa1, Vector2 pb0, Vector2 pb1) {
-        return pa0.x <= pb1.x &&
-                pb0.x <= pa1.x &&
-                pa0.y <= pb1.y &&
-                pb0.y <= pa1.y;
-    }
+        public void update()
+        {
+                Mesh mesh = position.getMesh();
 
-    @Override
-    protected Short action() {
-        return 0;
-    }
+                mesh.getBoundingBox(p0, p1);
+        }
+
+        public Vector2 getP0()
+        {
+                return new Vector2(position.getCoordinate()).add(p0);
+        }
+
+        public Vector2 getP1()
+        {
+                return new Vector2(position.getCoordinate()).add(p1);
+        }
+
+        public Position getPosition()
+        {
+                return position;
+        }
+
+        static public boolean isIntersected(Vector2 pa0, Vector2 pa1, Vector2 pb0, Vector2 pb1)
+        {
+                return pa0.x <= pb1.x &&
+                        pb0.x <= pa1.x &&
+                        pa0.y <= pb1.y &&
+                        pb0.y <= pa1.y;
+        }
+
+        @Override
+        protected Short action()
+        {
+                return 0;
+        }
 }
