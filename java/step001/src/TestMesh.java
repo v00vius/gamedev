@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class TestMesh {
     public static void main(String[] args) {
-        float[] pts_x = new float[20];
+        float[] pts_x = new float[7];
         float[] pts_y = new float[pts_x.length];
         Random rnd = new Random();
 
@@ -28,7 +28,7 @@ public class TestMesh {
 
         Mesh mesh = m0.clone();
 
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < 1000; ++i) {
             randomize(rnd, indexes);
 
             m0 = new Mesh("m0",
@@ -39,11 +39,12 @@ public class TestMesh {
             );
 
             mesh.union(m0);
+            mesh.pack();
         }
 
         mesh.setName("test");
 
-        System.out.println(mesh.points() + " +++ unpacked +++++++++++++++++++++++++++");
+        System.out.println(mesh.points() + " +++ inline unpacked +++++++++++++++++++++++++++");
         System.out.println(mesh);
 
         mesh.pack();
