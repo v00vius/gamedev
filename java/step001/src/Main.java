@@ -88,14 +88,16 @@ public class Main extends Application {
         @Override
         protected void postProcess()
         {
-                if (entityManager.getTaggedAs("monster").size() < 5)
+                if (entityManager.getTaggedAs("monster").size() < 5) {
                         service.createMonsters(entityManager, meshManager, 10);
+                }
         }
 
         private void mainMenu()
         {
-                if (++frameCount % 100 == 0)
+                if (++frameCount % 100 == 0) {
                         delta = Utils.getDeltaTime();
+                }
 
                 ImGui.text(String.format("Frame time: %5.1f ms", delta * 1000.f));
                 ImGui.text("FPS: " + (int) (0.5f + 1.f / delta));
