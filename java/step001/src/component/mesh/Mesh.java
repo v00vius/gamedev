@@ -6,7 +6,7 @@ import types.Precision;
 import types.String8;
 import types.Vector2;
 
-import java.util.BitSet;
+import java.util.*;
 
 public class Mesh extends Component implements Cloneable {
         static public Mesh NIL = createEmpty();
@@ -66,6 +66,24 @@ public class Mesh extends Component implements Cloneable {
         public int[] getColors()
         {
                 return colors;
+        }
+        public Map<Edge, Short> getEdges() {
+                Map<Edge, Short> map = new HashMap<>(vertices.length / 3);
+
+                for (short i = 0; i < vertices.length / 3; i += 3) {
+                        addEdge(map, i, (short) (i + 1));
+                        addEdge(map, (short)(i + 1), (short) (i + 2));
+                        addEdge(map, i, (short) (i + 2));
+                }
+
+                return map;
+        }
+        private void addEdge(Map<Edge, Short> map, short n1, short n2) {
+                Edge e = new Edge(vertices[n1], vertices[n2]);
+                Short count = map.computeIfAbsent(e, k -> (short) 0);
+
+                ++count;
+                map.put(e, count);
         }
 
         @Override
@@ -263,9 +281,7 @@ public class Mesh extends Component implements Cloneable {
                                         continue;
 
                                 vx_new[count] = vx[i];
-                                ;
                                 vy_new[count] = vy[i];
-                                ;
                                 ++count;
                         }
 
