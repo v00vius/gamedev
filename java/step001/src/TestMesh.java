@@ -1,11 +1,13 @@
+import component.mesh.Edge;
 import component.mesh.Mesh;
 
+import java.util.Map;
 import java.util.Random;
 
 public class TestMesh {
         public static void main(String[] args)
         {
-                float[] pts_x = new float[7];
+                float[] pts_x = new float[10];
                 float[] pts_y = new float[pts_x.length];
                 Random rnd = new Random();
 
@@ -28,7 +30,7 @@ public class TestMesh {
 
                 Mesh mesh = m0.clone();
 
-                for (int i = 0; i < 1000; ++i) {
+                for (int i = 0; i < 50; ++i) {
                         randomize(rnd, indexes);
 
                         m0 = new Mesh("m0",
@@ -50,7 +52,21 @@ public class TestMesh {
                 mesh.pack();
                 System.out.println(mesh.points() + " +++ packed +++++++++++++++++++++++++++");
                 System.out.println(mesh);
+
+                Map<Edge, Short> edges = mesh.getEdges();
+                System.out.println(edges);
+
+                for(Map.Entry<Edge, Short> entry : edges.entrySet()) {
+                        Edge e = entry.getKey();
+                        short count = entry.getValue();
+
+                        if(count == 1) {
+                                System.out.println(e + " = " + count);
+                        }
+                }
+
         }
+
 
         private static void randomize(Random rnd, short[] indexes)
         {

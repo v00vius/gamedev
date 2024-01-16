@@ -44,4 +44,10 @@ public class Edge extends Pair<Short, Short> implements Comparable<Edge> {
 
                 return eq == 0 ? second.compareTo(o.second) : eq;
         }
+
+        @Override
+        public String toString()
+        {
+                return "\nedge {" + first + ", " + second + "}";
+        }
 }
