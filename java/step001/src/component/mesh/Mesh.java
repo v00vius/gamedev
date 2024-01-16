@@ -71,14 +71,14 @@ public class Mesh extends Component implements Cloneable {
                 Map<Edge, Short> map = new HashMap<>(vertices.length / 3);
 
                 for (short i = 0; i < vertices.length / 3; i += 3) {
-                        addEdge(map, i, (short) (i + 1));
-                        addEdge(map, (short)(i + 1), (short) (i + 2));
-                        addEdge(map, i, (short) (i + 2));
+                        putEdge(map, i, (short) (i + 1));
+                        putEdge(map, (short)(i + 1), (short) (i + 2));
+                        putEdge(map, i, (short) (i + 2));
                 }
 
                 return map;
         }
-        private void addEdge(Map<Edge, Short> map, short n1, short n2) {
+        private void putEdge(Map<Edge, Short> map, short n1, short n2) {
                 Edge e = new Edge(vertices[n1], vertices[n2]);
                 Short count = map.computeIfAbsent(e, k -> (short) 0);
 
