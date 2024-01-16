@@ -163,11 +163,12 @@ public class Vector2 {
                 return (v.x * v.x + v.y * v.y) < (r + r2) * (r + r2);
         }
 
-        public static Vector2 isIntersect2(Vector2 a1, Vector2 b1,
-                                           Vector2 a2, Vector2 b2)
+        public static Vector2 intersect(Vector2 a1, Vector2 b1,
+                                        Vector2 a2, Vector2 b2)
         {
                 Vector2 v1 = new Vector2(b1).sub(a1);
                 Vector2 v2 = new Vector2(b2).sub(a2);
+                Precision eps = Precision.create(1e-5f);
 
 //      Vectors are parallel
                 if ((Math.abs(v1.x) < 1e-5 && Math.abs(v2.x) < 1e-5) ||

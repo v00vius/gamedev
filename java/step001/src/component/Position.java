@@ -1,5 +1,6 @@
 package component;
 
+import component.mesh.Mesh;
 import types.Vector2;
 
 public class Position extends Component {

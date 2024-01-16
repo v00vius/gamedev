@@ -1,12 +1,12 @@
 package system;
 
 import component.*;
+import component.mesh.Mesh;
 import entity.Entity;
 import imgui.ImGui;
 import repo.EntityManager;
 import types.Color;
 import types.Pair;
-import types.Triple;
 import types.Vector2;
 
 import java.util.*;

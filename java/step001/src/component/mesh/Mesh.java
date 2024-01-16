@@ -1,14 +1,12 @@
-package component;
+package component.mesh;
 
+import component.Component;
 import types.Color;
 import types.Precision;
 import types.String8;
 import types.Vector2;
 
-import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Mesh extends Component implements Cloneable {
         static public Mesh NIL = createEmpty();
@@ -185,7 +183,8 @@ public class Mesh extends Component implements Cloneable {
                         }
 
                         colors = ucolors;
-                }
+                } else
+                        colors = null;
 
                 return this;
         }
@@ -280,7 +279,7 @@ public class Mesh extends Component implements Cloneable {
                 return count;
         }
 
-        void getBoundingBox(Vector2 p0, Vector2 p1)
+        public void getBoundingBox(Vector2 p0, Vector2 p1)
         {
                 if (isEmpty()) {
                         p0.set(0.f, 0.f);
@@ -311,7 +310,6 @@ public class Mesh extends Component implements Cloneable {
                 p0.set(min_x, min_y);
                 p1.set(max_x, max_y);
         }
-
 
         @Override
         public boolean equals(Object o)

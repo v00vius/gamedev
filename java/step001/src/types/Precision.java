@@ -25,4 +25,12 @@ public class Precision {
         {
                 return 0 == compare(f1, f2);
         }
+        public boolean lessThan(float f1, float f2)
+        {
+                return -1 == compare(f1, f2);
+        }
+        public boolean greaterThan(float f1, float f2)
+        {
+                return 1 == compare(f1, f2);
+        }
 }

@@ -1,5 +1,6 @@
 package component;
 
+import component.mesh.Mesh;
 import service.Utils;
 
 public class Rotation extends Component {

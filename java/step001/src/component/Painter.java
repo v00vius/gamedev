@@ -1,5 +1,6 @@
 package component;
 
+import component.mesh.Mesh;
 import types.Color;
 import types.PaintContext;
 import types.Vector2;

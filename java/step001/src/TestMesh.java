@@ -1,5 +1,4 @@
-import component.Mesh;
-import types.Vector2;
+import component.mesh.Mesh;
 
 import java.util.Random;
 

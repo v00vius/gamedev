@@ -1,6 +1,6 @@
 package repo;
 
-import component.Mesh;
+import component.mesh.Mesh;
 import types.Color;
 
 import java.io.File;

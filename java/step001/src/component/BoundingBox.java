@@ -1,5 +1,6 @@
 package component;
 
+import component.mesh.Mesh;
 import imgui.type.ImBoolean;
 import types.Color;
 import types.Vector2;

@@ -1,7 +1,7 @@
 package entity;
 
 import component.*;
-import imgui.ImGui;
+import component.mesh.Mesh;
 import types.String8;
 
 import java.util.Objects;

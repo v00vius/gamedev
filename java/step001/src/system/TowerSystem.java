@@ -1,6 +1,7 @@
 package system;
 
 import component.*;
+import component.mesh.Mesh;
 import entity.Entity;
 import imgui.ImGui;
 import repo.EntityManager;
@@ -9,7 +10,6 @@ import types.Color;
 import types.Vector2;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class TowerSystem extends GameSystem {

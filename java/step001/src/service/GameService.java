@@ -1,13 +1,13 @@
 package service;
 
 import component.*;
+import component.mesh.Mesh;
 import entity.Entity;
 import repo.EntityManager;
 import repo.MeshManager;
 import scene.Scene;
 import system.*;
 import types.Color;
-import types.String8;
 import types.Vector2;
 
 import java.util.LinkedList;
