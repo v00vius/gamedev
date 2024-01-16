@@ -231,6 +231,14 @@ public class Mesh extends Component implements Cloneable {
 
                 return this;
         }
+        public Mesh zoomY(float factor) {
+                for (short i = 0; i < vx.length; ++i) {
+//                        vx[i] *= factor;
+                        vy[i] *= factor;
+                }
+
+                return this;
+        }
 
         public int pack()
         {
