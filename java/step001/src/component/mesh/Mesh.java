@@ -159,7 +159,7 @@ public class Mesh extends Component implements Cloneable {
         {
                 int sz = vx.length + mesh.vx.length;
                 float[] uvx = new float[sz];
-                float[] uvy = new float[sz];
+                float[] uvy = new float[uvx.length];
                 short i;
 
                 for (i = 0; i < vx.length; ++i) {
@@ -171,7 +171,6 @@ public class Mesh extends Component implements Cloneable {
                         uvx[i] = mesh.vx[j];
                         uvy[i] = mesh.vy[j];
                 }
-
 
                 sz = vertices.length + mesh.vertices.length;
                 short[] uvertices = new short[sz];
@@ -190,6 +189,7 @@ public class Mesh extends Component implements Cloneable {
 
                 if (colors != null && mesh.colors != null) {
                         sz = colors.length + mesh.colors.length;
+
                         int[] ucolors = new int[sz];
 
                         for (i = 0; i < colors.length; ++i) {
@@ -211,7 +211,7 @@ public class Mesh extends Component implements Cloneable {
         {
                 Vector2 r = new Vector2();
 
-                for (short i = 0; i < vx.length; ++i) {
+                for (short i = 0, len = (short)vx.length; i < len; ++i) {
                         r.x = vx[i];
                         r.y = vy[i];
                         r.rotate(radians);
@@ -240,27 +240,27 @@ public class Mesh extends Component implements Cloneable {
                 return this;
         }
 
-        public int pack()
+        public Mesh pack()
         {
-                short count;
+                Precision precision = Precision.create(1e-3f);
                 BitSet dup = new BitSet(vx.length);
                 short[] remap = new short[vx.length];
-                Precision precision = Precision.create(1e-5f);
 
-                for (short i = 0; i < vx.length; ++i)
+                for (short i = 0, len = (short)vx.length; i < len; ++i)
                         remap[i] = i;
 
                 dup.clear(0, vx.length - 1);
-                count = 0;
+                short count = 0;
 
-                for (short i = 0; i < vx.length; ++i) {
+// Pass 1: find duplicates
+                for (short i = 0, len = (short)vx.length; i < len; ++i) {
                         if (dup.get(i))
                                 continue;
 
                         float p0x = vx[i];
                         float p0y = vy[i];
 
-                        for (short j = (short) (i + 1); j < vx.length; ++j) {
+                        for (short j = (short) (i + 1); j < len; ++j) {
                                 float p1x = vx[j];
                                 float p1y = vy[j];
 
@@ -268,7 +268,7 @@ public class Mesh extends Component implements Cloneable {
                                         remap[j] = count;
                                         dup.set(j);
 
-                                        for (short k = (short) (j + 1); k < vx.length; ++k) {
+                                        for (short k = (short) (j + 1); k < len; ++k) {
                                                 if (remap[k] > count)
                                                         --remap[k];
                                         }
@@ -277,14 +277,14 @@ public class Mesh extends Component implements Cloneable {
 
                         ++count;
                 }
-
+// Pass 2: eliminate duplicates
                 if (count < vx.length) {
                         float[] vx_new = new float[count];
                         float[] vy_new = new float[vx_new.length];
 
                         count = 0;
 
-                        for (short i = 0; i < vx.length; ++i) {
+                        for (short i = 0, len = (short)vx.length; i < len; ++i) {
                                 if (dup.get(i))
                                         continue;
 
@@ -296,11 +296,11 @@ public class Mesh extends Component implements Cloneable {
                         vx = vx_new;
                         vy = vy_new;
 
-                        for (short i = 0; i < vertices.length; ++i)
+                        for (short i = 0, len = (short)vertices.length; i < len; ++i)
                                 vertices[i] = remap[vertices[i]];
                 }
 
-                return count;
+                return this;
         }
 
         public void getBoundingBox(Vector2 p0, Vector2 p1)
@@ -317,7 +317,7 @@ public class Mesh extends Component implements Cloneable {
                 float max_x = vx[0];
                 float max_y = vy[0];
 
-                for (short i = 1; i < vx.length; ++i) {
+                for (short i = 1, len = (short)vx.length; i < len; ++i) {
                         if (vx[i] < min_x)
                                 min_x = vx[i];
 

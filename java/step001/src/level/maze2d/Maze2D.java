@@ -22,6 +22,16 @@ public Maze2D(int rows, int cols)
         graph = new LinkedList<>();
 }
 
+public int getRows()
+{
+        return rows;
+}
+
+public int getCols()
+{
+        return cols;
+}
+
 public List<Edge> getGraph()
 {
         return graph;
