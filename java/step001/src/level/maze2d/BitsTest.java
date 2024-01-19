@@ -1,5 +1,6 @@
 package level.maze2d;
 
+
 public class BitsTest {
 public enum sizeof {
 ;
@@ -93,5 +94,7 @@ public static void main(String[] args)
         System.out.println("size_of_char " + size_of_char());
         System.out.println("size_of_short " + size_of_short());
         System.out.println();
+
+
 }
 }

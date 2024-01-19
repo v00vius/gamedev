@@ -22,15 +22,15 @@ public class String8 {
 
         public static String unpack(long packed)
         {
-                String s = "";
+                StringBuilder s = new StringBuilder();
 
                 for (short i = 0; i < 8; ++i) {
                         char b = (char) (0xFF & packed);
 
-                        s = b + s;
+                        s.insert(0, b);
                         packed >>>= 8;
                 }
 
-                return s.trim();
+                return s.toString().trim();
         }
 }
