@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 
 public class Main extends Application {
 private UserInput userInput;
+private PaintContext paintContext;
 private long msDuration;
 private boolean done = false;
 private long frameCount = 0;
@@ -39,6 +40,8 @@ protected void configure(final Configuration config)
 protected void preRun()
 {
         userInput = new UserInput();
+        paintContext = new PaintContext();
+
 }
 @Override
 protected void postRun() {
@@ -47,8 +50,9 @@ protected void postRun() {
 @Override
 protected void preProcess()
 {
-        userInput.frame();
         msDuration = System.currentTimeMillis();
+        userInput.frame();
+        paintContext.frame();
 }
 @Override
 public void process()

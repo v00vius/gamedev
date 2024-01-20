@@ -2,7 +2,6 @@
 import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.ImGuiViewport;
-import types.Vector2;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class UserInput {

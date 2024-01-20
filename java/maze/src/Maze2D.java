@@ -70,11 +70,20 @@ private int index(int x, int y)
 {
         return (2 + cols) * (1 + y) + x + 1;
 }
-private int getX(int idx)
+// x = 0, y = 0, cols = 10, rows = 10
+// idx = (2 + 10) * (1 + 0) + 0 + 1 = 12 + 1 = 13
+// getX = (13 - 1) % (10 + 2) = 12 % 12 = 0
+// getY = (13 - 1 ) / (10 + 2) - 1 = 12 / 12 - 1 = 1 - 1 = 0
+//
+// x = 2, y = 3
+// idx = (2 + 10) * (1 + 3) + 2 + 1 = 12 * 4 + 3 = 48 + 3 = 51
+// getX = (51 - 1) % (10 + 2) = 50 % 12 = 2
+// getY = (51 - 1) / (10 + 2) - 1 = 50 / 12 - 1 = 4 - 1 = 2
+public int getX(int idx)
 {
         return (idx - 1) % (cols + 2);
 }
-private int getY(int idx)
+public int getY(int idx)
 {
         return (idx - 1) / (cols + 2) - 1;
 }
