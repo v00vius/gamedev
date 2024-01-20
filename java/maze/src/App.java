@@ -3,7 +3,7 @@
 public class App {
 public static void main(String[] args)
 {
-        Maze2D maze = new Maze2D(60_000, 3_000);
+        Maze2D maze = new Maze2D(1_000, 1_000);
         int totalIterations = 3;
         long avg = 0;
 

@@ -3,7 +3,6 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 public class Maze2D {
 private final int rows;
@@ -73,7 +72,7 @@ public int init(int x0, int y0)
         graph.add(e);
         area.set(idx);
 
-        return e.getFrom();
+        return e.getSrc();
 }
 private int index(int x, int y)
 {
@@ -112,12 +111,12 @@ public int step(int p1)
 
                 edge = wave.remove(i);
         }
-        while (area.get(edge.getFrom()));
+        while (area.get(edge.getSrc()));
 
         graph.add(edge);
-        area.set(edge.getFrom());
+        area.set(edge.getSrc());
 
-        return edge.getFrom();
+        return edge.getSrc();
 }
 
 @Override
@@ -127,7 +126,7 @@ public String toString()
         int i = 0;
 
         for (Edge e : graph) {
-                s.append(i++).append(": ").append(e.getFrom()).append(" -> ").append(e.getTo()).append("\n");
+                s.append(i++).append(": ").append(e.getSrc()).append(" -> ").append(e.getDst()).append("\n");
         }
 
         
@@ -135,35 +134,35 @@ public String toString()
 }
 
 public class Edge {
-        private final int from;
-        private final int to;
+        private final int src;
+        private final int dst;
 
-        public Edge(int from, int to)
+        public Edge(int src, int dst)
         {
-                this.from = from;
-                this.to = to;
+                this.src = src;
+                this.dst = dst;
         }
 
-        public int getFrom()
+        public int getSrc()
         {
-                return from;
+                return src;
         }
 
-        public int getTo()
+        public int getDst()
         {
-                return to;
+                return dst;
         }
 
         @Override
         public int hashCode()
         {
-                return from;
+                return src;
         }
 
         @Override
         public boolean equals(Object o)
         {
-                return from == ((Edge)o).getFrom();
+                return src == ((Edge)o).getSrc();
         }
 }
 }
