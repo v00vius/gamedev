@@ -30,7 +30,6 @@ public int getSize_x()
 {
         return size_x;
 }
-
 public int getSize_y()
 {
         return size_y;

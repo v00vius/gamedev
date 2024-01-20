@@ -18,27 +18,22 @@ public Maze2D(int rows, int cols)
         wave = new ArrayList<>();
         graph = new LinkedList<>();
 }
-
 public int getRows()
 {
         return rows;
 }
-
 public int getCols()
 {
         return cols;
 }
-
 public List<Long> getGraph()
 {
         return graph;
 }
-
 public List<Long> getWave()
 {
         return wave;
 }
-
 public int init()
 {
         return init(-1, -1);
@@ -56,7 +51,6 @@ public int init(int x0, int y0)
                 area.set(0, y);
                 area.set(area.getSize_x() - 1, y);
         }
-
 
         wave.clear();
         graph.clear();
@@ -84,7 +78,6 @@ private int getY(int idx)
 {
         return (idx - 1) / (cols + 2) - 1;
 }
-
 private void addWave(int p, int p1)
 {
         if(area.get(p))
