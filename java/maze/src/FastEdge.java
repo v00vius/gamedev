@@ -1,26 +1,26 @@
 public class FastEdge {
-static private final int HALF_SIZE = Integer.SIZE / 2;
-static public int create(int src, int dst)
+static private final int HALF_SIZE = Long.SIZE / 2;
+static public long create(int src, int dst)
 {
-        return (dst << HALF_SIZE) | src;
+        return ((long)dst << HALF_SIZE) | src;
 }
-static public int getSrc(int edge)
+static public int getSrc(long edge)
 {
-        return edge & 0x0000FFFF;
+        return (int)edge;
 }
-static public int getDst(int edge)
+static public int getDst(long edge)
 {
-        return edge >>> HALF_SIZE;
+        return (int)(edge >>> HALF_SIZE);
 }
-static public int setSrc(int edge, int src)
+static public long setSrc(long edge, int src)
 {
-        return (edge & 0xFFFF0000) | src;
+        return (edge & 0xFFFFFFFF00000000L) | src;
 }
-static public int setDst(int edge, int dst)
+static public long setDst(long edge, int dst)
 {
-        return edge | (dst << HALF_SIZE);
+        return edge | ((long)dst << HALF_SIZE);
 }
-static public String toString(int edge)
+static public String toString(long edge)
 {
         int src = getSrc(edge);
         int dst = getDst(edge);
@@ -32,7 +32,7 @@ public static void main(String[] args)
 {
         for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {
-                        int edge = create(i, j);
+                        long edge = create(i, j);
                         int src = getSrc(edge);
                         int dst = getDst(edge);
 

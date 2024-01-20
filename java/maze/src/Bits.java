@@ -3,7 +3,7 @@ private final int size_x;
 private final int size_y;
 private long[] bits;
 //private byte[] bits;
-static private final int MIN_BITS = 8 * Long.BYTES;
+static private final int MIN_BITS = Long.SIZE;
 //static private final int MIN_BITS = 8 * Byte.BYTES;
 public Bits(int size)
 {

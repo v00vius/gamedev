@@ -4,7 +4,7 @@ public class App {
 public static void main(String[] args)
 {
         Maze2D maze = new Maze2D(1_000, 1_000);
-        int totalIterations = 3;
+        int totalIterations = 35;
         long avg = 0;
 
         for (int i = 0; i < totalIterations; ++i) {

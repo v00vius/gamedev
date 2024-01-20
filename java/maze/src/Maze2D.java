@@ -1,16 +1,14 @@
 
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Maze2D {
 private final int rows;
 private final int cols;
 private Bits area;
 static private FastRandom random = new FastRandom(1024);
-private List<Edge> wave;
-private List<Edge> graph;
+private List<Long> wave;
+private List<Long> graph;
 
 public Maze2D(int rows, int cols)
 {
@@ -31,12 +29,12 @@ public int getCols()
         return cols;
 }
 
-public List<Edge> getGraph()
+public List<Long> getGraph()
 {
         return graph;
 }
 
-public List<Edge> getWave()
+public List<Long> getWave()
 {
         return wave;
 }
@@ -67,12 +65,12 @@ public int init(int x0, int y0)
                   index(random.nextInt(cols), random.nextInt(rows)) :
                   index(x0, y0);
 
-        Edge e = new Edge(idx, idx);
+        long e = FastEdge.create(idx, idx);
 
         graph.add(e);
         area.set(idx);
 
-        return e.getSrc();
+        return FastEdge.getSrc(e);
 }
 private int index(int x, int y)
 {
@@ -92,7 +90,7 @@ private void addWave(int p, int p1)
         if(area.get(p))
                 return;
 
-        wave.add(new Edge(p, p1));
+        wave.add(FastEdge.create(p, p1));
 }
 public int step(int p1)
 {
@@ -101,7 +99,8 @@ public int step(int p1)
         addWave(p1 - cols - 2, p1);
         addWave(p1 + cols + 2, p1);
 
-        Edge edge;
+        long edge;
+        int src;
 
         do {
                 if(wave.isEmpty())
@@ -110,13 +109,16 @@ public int step(int p1)
                 int i = random.nextInt(wave.size());
 
                 edge = wave.remove(i);
+//                edge = wave.removeLast();
+
+                src = FastEdge.getSrc(edge);
         }
-        while (area.get(edge.getSrc()));
+        while (area.get(src));
 
         graph.add(edge);
-        area.set(edge.getSrc());
+        area.set(src);
 
-        return edge.getSrc();
+        return src;
 }
 
 @Override
@@ -125,11 +127,13 @@ public String toString()
         StringBuilder s = new StringBuilder(String.format("Graph: %d edges\n", graph.size()));
         int i = 0;
 
-        for (Edge e : graph) {
-                s.append(i++).append(": ").append(e.getSrc()).append(" -> ").append(e.getDst()).append("\n");
+        for (long e : graph) {
+                s.append(i++)
+                        .append(": ")
+                        .append(FastEdge.toString(e))
+                        .append("\n");
         }
 
-        
         return s.toString();
 }
 
