@@ -1,0 +1,25 @@
+# mesh numOfCoordinates numOfTriangleVertices numOfColorsOfTriangles meshName
+mesh 8 12 4 trident
+# coordinates:
+# v coordinateNumber x y
+v 0 0.000000 0.000000
+v 1 10.000000 50.000000
+v 2 20.000000 0.000000
+v 3 30.000000 50.000000
+v 4 40.000000 0.000000
+v 5 50.000000 50.000000
+v 6 60.000000 0.000000
+v 7 30.000000 -20.000000
+# triangles:
+# t triangleNumber coordinateIndex1 coordinateIndex2 coordinateIndex3
+t 0 0 1 2
+t 1 2 3 4
+t 2 4 5 6
+t 3 0 6 7
+# colors of triangles:
+# c triangleNumber R G B A
+c 0 253 199 2 255
+c 1 253 199 2 255
+c 2 253 199 2 255
+c 3 89 45 190 255
+mesh end

@@ -1,0 +1,14 @@
+# mesh numOfCoordinates numOfTriangleVertices numOfColorsOfTriangles meshName
+mesh 3 3 1 misc
+# coordinates:
+# v coordinateNumber x y
+v 0 0.000000 0.000000
+v 1 10.000000 0.000000
+v 2 10.000000 10.000000
+# triangles:
+# t triangleNumber coordinateIndex1 coordinateIndex2 coordinateIndex3
+t 0 0 1 2
+# colors of triangles:
+# c triangleNumber R G B A
+c 0 4 50 50 100
+mesh end
