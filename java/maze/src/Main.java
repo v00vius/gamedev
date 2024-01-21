@@ -74,11 +74,15 @@ public void process()
 
         ImGui.text(String.format("Grid's cell size: %3.0f px, rows: %d, cols: %d", cell_size, rows, cols));
 
-        painter.grid(0.f, 0.f, rows, cols, cell_size, ImColor.rgb(gridColor));
+        painter.grid(0.f, 0.f, rows, cols, cell_size,
+                        ImColor.rgb(gridColor.getRed(), gridColor.getGreen(), gridColor.getBlue())
+        );
 //        painter.grid(0.f, 0.f, rows, cols, 32.f, colors);
         painter.rectangle(paintContext.size.x * 0.5f, paintContext.size.y * 0.5f,
                 100.f, 50.f, ImColor.rgb(0, 250, 0)
         );
+        ImGui.colorEdit3("Grig color", gridColor.data);
+
 }
 @Override
 protected void postProcess()
