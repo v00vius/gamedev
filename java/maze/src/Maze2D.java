@@ -1,6 +1,7 @@
 
 
 import typedefs.Bits;
+import typedefs.FastEdge;
 import typedefs.FastRandom;
 
 import java.util.*;
@@ -85,6 +86,22 @@ private int index(int x, int y)
 public int getX(int idx)
 {
         return (idx - 1) % (cols + 2);
+}
+public int getSrcX(long edge)
+{
+        return getX(FastEdge.getSrc(edge));
+}
+public int getSrcY(long edge)
+{
+        return getY(FastEdge.getSrc(edge));
+}
+public int getDstX(long edge)
+{
+        return getX(FastEdge.getDst(edge));
+}
+public int getDstY(long edge)
+{
+        return getY(FastEdge.getDst(edge));
 }
 public int getY(int idx)
 {

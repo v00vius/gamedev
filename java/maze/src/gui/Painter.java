@@ -11,6 +11,11 @@ public void setContext(PaintContext context)
         this.context = context;
 }
 
+public PaintContext getContext()
+{
+        return context;
+}
+
 public void rectangle(float x, float y, float width, float height, int color)
 {
         float p1x = context.position.x + x;

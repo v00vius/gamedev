@@ -21,7 +21,11 @@ private PaintContext paintContext;
 private Painter painter;
 private long msDuration;
 private Color gridColor;
-private boolean done = false;
+private MazePainter mazePainter;
+private Maze2D maze;
+private int lastPoint;
+private boolean done;
+private boolean pause;
 private long frameCount = 0;
 private float frameTime = 0.f;
 
@@ -45,12 +49,15 @@ protected void configure(final Configuration config)
 @Override
 protected void preRun()
 {
+        done = false;
+        pause = false;
+
         userInput = new UserInput();
         paintContext = new PaintContext();
         painter = new Painter();
         painter.setContext(paintContext);
-        gridColor = new Color();
-        gridColor.set(0.f, 1.f, 1.f, 1.f);
+        gridColor = new Color((float)29 / 255.f, (float)43 / 255.f, (float)43 / 255.f, 1.f);
+        mazePainter = new MazePainter(16.f);
 }
 @Override
 protected void postRun() {
@@ -60,28 +67,50 @@ protected void postRun() {
 protected void preProcess()
 {
         msDuration = System.currentTimeMillis();
+
         userInput.frame();
         paintContext.frame();
+
+        if(maze == null)
+                mazeInit();
 }
+
+private void mazeInit()
+{
+        float cell_size = mazePainter.getCellSize();
+        int cols = (int)(paintContext.size.x / cell_size);
+        int rows = (int)(paintContext.size.y / cell_size);
+
+        maze = new Maze2D(rows, cols);
+        lastPoint = maze.init();
+}
+
 @Override
 public void process()
 {
         mainMenu();
 
-        float cell_size = 16.f;
-        int cols = (int)(paintContext.size.x / cell_size);
-        int rows = (int)(paintContext.size.y / cell_size);
+        if(userInput.isEsc())
+                pause = !pause;
 
-        ImGui.text(String.format("Grid's cell size: %3.0f px, rows: %d, cols: %d", cell_size, rows, cols));
+        if(!pause) {
+                if (-1 != lastPoint) {
+                        int n = 10;
 
-        painter.grid(0.f, 0.f, rows, cols, cell_size,
-                        ImColor.rgb(gridColor.getRed(), gridColor.getGreen(), gridColor.getBlue())
+                        while(n-- > 0 && lastPoint != - 1)
+                                lastPoint = maze.step(lastPoint);
+                } else
+                        mazeInit();
+        }
+
+        mazePainter.paint(maze, painter,
+                ImColor.rgb(gridColor.getRed(), gridColor.getGreen(), gridColor.getBlue())
         );
-//        painter.grid(0.f, 0.f, rows, cols, 32.f, colors);
-        painter.rectangle(paintContext.size.x * 0.5f, paintContext.size.y * 0.5f,
-                100.f, 50.f, ImColor.rgb(0, 250, 0)
-        );
-        ImGui.colorEdit3("Grig color", gridColor.data);
+
+//        painter.grid(0.f, 0.f, rows, cols, cell_size,
+//                        ImColor.rgb(gridColor.getRed(), gridColor.getGreen(), gridColor.getBlue())
+//        );
+
 
 }
 @Override
@@ -103,6 +132,13 @@ private void mainMenu()
         ImGui.text(String.format("Time: %5.1f ", ImGui.getTime()));
 
         ImGui.colorEdit3("Background Color", this.getColorBg().data);
+        ImGui.colorEdit3("Grid color", gridColor.data);
+        ImGui.text(String.format("Maze (%d x %d): graph size: %d, wave size: %d",
+                maze.getCols(), maze.getRows(),
+                maze.getGraph().size(),
+                maze.getWave().size())
+        );
+
 
         if (ImGui.beginMainMenuBar()) {
                 if (ImGui.beginMenu("File")) {
@@ -131,6 +167,7 @@ private void mainMenu()
 
                 ImGui.endMainMenuBar();
         }
+
 }
 @Override
 protected void initImGui(final Configuration config)

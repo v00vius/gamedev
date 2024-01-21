@@ -1,3 +1,5 @@
+package typedefs;
+
 public class FastEdge {
 static private final int HALF_SIZE = Long.SIZE / 2;
 static public long create(int src, int dst)
