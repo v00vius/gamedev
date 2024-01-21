@@ -57,7 +57,7 @@ protected void preRun()
         painter = new Painter();
         painter.setContext(paintContext);
         gridColor = new Color((float)29 / 255.f, (float)43 / 255.f, (float)43 / 255.f, 1.f);
-        mazePainter = new MazePainter(16.f);
+        mazePainter = new MazePainter(64.f);
 }
 @Override
 protected void postRun() {
