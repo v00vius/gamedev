@@ -1,8 +1,13 @@
 
 
-import imgui.*;
+import gui.PaintContext;
+import gui.Painter;
+import gui.UserInput;
+
 import imgui.app.Application;
 import imgui.app.Configuration;
+import imgui.app.Color;
+import imgui.*;
 import imgui.flag.*;
 
 import java.io.IOException;
@@ -10,11 +15,12 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-
 public class Main extends Application {
 private UserInput userInput;
 private PaintContext paintContext;
+private Painter painter;
 private long msDuration;
+private Color gridColor;
 private boolean done = false;
 private long frameCount = 0;
 private float frameTime = 0.f;
@@ -41,7 +47,10 @@ protected void preRun()
 {
         userInput = new UserInput();
         paintContext = new PaintContext();
-
+        painter = new Painter();
+        painter.setContext(paintContext);
+        gridColor = new Color();
+        gridColor.set(0.f, 1.f, 1.f, 1.f);
 }
 @Override
 protected void postRun() {
@@ -58,6 +67,18 @@ protected void preProcess()
 public void process()
 {
         mainMenu();
+
+        float cell_size = 16.f;
+        int cols = (int)(paintContext.size.x / cell_size);
+        int rows = (int)(paintContext.size.y / cell_size);
+
+        ImGui.text(String.format("Grid's cell size: %3.0f px, rows: %d, cols: %d", cell_size, rows, cols));
+
+        painter.grid(0.f, 0.f, rows, cols, cell_size, ImColor.rgb(gridColor));
+//        painter.grid(0.f, 0.f, rows, cols, 32.f, colors);
+        painter.rectangle(paintContext.size.x * 0.5f, paintContext.size.y * 0.5f,
+                100.f, 50.f, ImColor.rgb(0, 250, 0)
+        );
 }
 @Override
 protected void postProcess()

@@ -1,3 +1,4 @@
+package typedefs;
 
 import imgui.ImVec2;
 

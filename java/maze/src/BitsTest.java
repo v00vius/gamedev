@@ -1,5 +1,4 @@
-
-
+import typedefs.Bits;
 
 public class BitsTest {
 public enum sizeof {

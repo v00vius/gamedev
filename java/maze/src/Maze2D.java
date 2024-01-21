@@ -1,5 +1,8 @@
 
 
+import typedefs.Bits;
+import typedefs.FastRandom;
+
 import java.util.*;
 
 public class Maze2D {

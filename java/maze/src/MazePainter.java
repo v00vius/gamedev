@@ -1,3 +1,5 @@
+import typedefs.Bits;
+
 import java.util.List;
 
 public class MazePainter {

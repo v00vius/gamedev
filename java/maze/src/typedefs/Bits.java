@@ -1,3 +1,5 @@
+package typedefs;
+
 public class Bits {
 private final int size_x;
 private final int size_y;
@@ -80,7 +82,7 @@ public void clear()
 @Override
 public String toString()
 {
-        StringBuilder s = new StringBuilder(String.format("Bits size %d (%d-bit word(s))\n", bits.length, MIN_BITS));
+        StringBuilder s = new StringBuilder(String.format("typedefs.Bits size %d (%d-bit word(s))\n", bits.length, MIN_BITS));
 
         if(size_x == 0 && size_y == 0) {
                 for (int i = 0; i < bits.length; ++i) {

@@ -1,7 +1,10 @@
+package gui;
 
 import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.ImGuiViewport;
+import typedefs.Vector2;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 public class UserInput {

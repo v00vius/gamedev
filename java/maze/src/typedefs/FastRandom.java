@@ -1,3 +1,5 @@
+package typedefs;
+
 import java.util.Random;
 
 public class FastRandom {
