@@ -126,7 +126,7 @@ public int step(int p1)
 
         do {
                 if(wave.isEmpty())
-                        return -1;
+                        return 0;
 
                 int i = random.nextInt(wave.size());
 
