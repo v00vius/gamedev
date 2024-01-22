@@ -7,16 +7,11 @@ import java.util.List;
 
 public class MazePainter {
 private float cellSize;
-private Painter painter;
-private int color;
-private int cols;
-private int rows;
 
 public MazePainter(float cellSize)
 {
         this.cellSize = cellSize;
 }
-
 public float getCellSize()
 {
         return cellSize;
@@ -24,18 +19,14 @@ public float getCellSize()
 
 public void paint(Maze2D maze, Painter painter, int color)
 {
-        this.painter = painter;
-        this.color = color;
+        painter.grid(0.f, 0.f, maze.getRows(), maze.getCols(), cellSize, color);
+        paintGraph(maze, painter);
+        paintWave(maze, painter);
+}
 
-        this.cols = maze.getCols();
-        this.rows = maze.getRows();
-
-        painter.grid(0.f, 0.f, rows, cols, cellSize, color);
-
-        List<Long> graph = maze.getGraph();
-        List<Long> wave = maze.getWave();
-
-        for(long edge : graph) {
+private void paintGraph(Maze2D maze, Painter painter)
+{
+        for(long edge : maze.getGraph()) {
                 int src = FastEdge.getSrc(edge);
                 int dst = FastEdge.getDst(edge);
 
@@ -59,8 +50,11 @@ public void paint(Maze2D maze, Painter painter, int color)
                         width - 2.f, height - 2.f, ImColor.rgb(0, 255, 0)
                 );
         }
+}
 
-        for(long edge : wave) {
+private void paintWave(Maze2D maze, Painter painter)
+{
+        for(long edge : maze.getWave()) {
                 int src_x = maze.getSrcX(edge);
                 int src_y = maze.getSrcY(edge);
 
@@ -69,6 +63,5 @@ public void paint(Maze2D maze, Painter painter, int color)
                         cellSize - 2.f, cellSize - 2.f, ImColor.rgb(245, 169, 30)
                 );
         }
-
 }
 }

@@ -95,15 +95,8 @@ public void process()
         if(userInput.isEsc())
                 pause = !pause;
 
-        if(!pause) {
-                if (-1 != lastPoint) {
-                        int n = 10;
-
-                        while(n-- > 0 && lastPoint != - 1)
-                                lastPoint = maze.step(lastPoint);
-                } else
-                        mazeInit();
-        }
+        if(!pause)
+                mazeFrame();
 
         mazePainter.paint(maze, painter,
                 ImColor.rgb(gridColor.getRed(), gridColor.getGreen(), gridColor.getBlue())
@@ -115,6 +108,17 @@ public void process()
 
 
 }
+private void mazeFrame()
+{
+        if (-1 != lastPoint) {
+                int n = 10;
+
+                while(n-- > 0 && lastPoint != - 1)
+                        lastPoint = maze.step(lastPoint);
+        } else
+                mazeInit();
+}
+
 @Override
 protected void postProcess()
 {
@@ -141,6 +145,9 @@ private void mainMenu()
                 maze.getWave().size())
         );
 
+        if(ImGui.button(pause ? "Continue" : " Pause  ")) {
+                pause = !pause;
+        }
 
         if (ImGui.beginMainMenuBar()) {
                 if (ImGui.beginMenu("File")) {
