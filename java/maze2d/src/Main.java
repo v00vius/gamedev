@@ -43,8 +43,10 @@ public static void main(final String[] args)
 protected void configure(final Configuration config)
 {
         config.setTitle("ImGUI Version " + ImGui.getVersion() + ", https://github.com/SpaiR/imgui-java");
-        config.setWidth(1920);
-        config.setHeight(1080);
+        config.setWidth(1366);
+        config.setHeight(768);
+//        config.setWidth(1920);
+//        config.setHeight(1080);
 }
 @Override
 protected void preRun()
@@ -57,7 +59,7 @@ protected void preRun()
         painter = new Painter();
         painter.setContext(paintContext);
         gridColor = new Color((float)29 / 255.f, (float)43 / 255.f, (float)43 / 255.f, 1.f);
-        mazePainter = new MazePainter(64.f);
+        mazePainter = new MazePainter(8.f);
 }
 @Override
 protected void postRun() {
