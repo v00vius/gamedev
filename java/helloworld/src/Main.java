@@ -1,7 +1,5 @@
 
 
-import graph.Maze2D;
-import gui.MazePainter;
 import gui.PaintContext;
 import gui.Painter;
 import gui.UserInput;
@@ -16,20 +14,18 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Random;
 
 public class Main extends Application {
 private UserInput userInput;
 private PaintContext paintContext;
 private Painter painter;
 private long msDuration;
-private Color gridColor;
-private MazePainter mazePainter;
-private Maze2D maze;
-private int lastPoint = -1;
-private boolean done;
 private boolean pause;
 private long frameCount = 0;
 private float frameTime = 0.f;
+private Color gridColor;;
+private Random random = new Random(System.currentTimeMillis());
 
 public Main()
 {
@@ -53,16 +49,11 @@ protected void configure(final Configuration config)
 @Override
 protected void preRun()
 {
-        done = false;
-        pause = false;
-
         userInput = new UserInput();
         paintContext = new PaintContext();
         painter = new Painter();
         painter.setContext(paintContext);
-        gridColor = new Color((float)29 / 255.f, (float)43 / 255.f, (float)43 / 255.f, 1.f);
-        mazePainter = new MazePainter(8.f);
-        lastPoint = 0;
+        gridColor = new Color(1.f, 1.f, 1.f, 1.f);
 }
 @Override
 protected void postRun() {
@@ -83,38 +74,12 @@ public void process()
         if(userInput.isEsc())
                 pause = !pause;
 
-        mazeFrame();
-
-        mazePainter.paint(maze, painter,
+        painter.grid(1.f, 1.f, (int)paintContext.size.y / 64, (int)paintContext.size.x / 64,
+                64.f,
                 ImColor.rgb(gridColor.getRed(), gridColor.getGreen(), gridColor.getBlue())
-        );
+        );       
 
-//        painter.grid(0.f, 0.f, rows, cols, cell_size,
-//                        ImColor.rgb(gridColor.getRed(), gridColor.getGreen(), gridColor.getBlue())
-//        );
         mainMenu();
-}
-private void mazeFrame()
-{
-        if(lastPoint == 0)
-                mazeInit();
-
-        if(pause)
-                return;
-
-        int n = 10;
-
-        while(n-- > 0 && lastPoint != 0)
-                lastPoint = maze.step(lastPoint);
-}
-private void mazeInit()
-{
-        float cell_size = mazePainter.getCellSize();
-        int cols = (int)(paintContext.size.x / cell_size);
-        int rows = (int)(paintContext.size.y / cell_size);
-
-        maze = new Maze2D(rows, cols);
-        lastPoint = maze.init();
 }
 
 @Override
@@ -131,17 +96,14 @@ private void mainMenu()
         if (++frameCount % 100 == 0)
                 frameTime = ImGui.getIO().getDeltaTime();
 
+        ImGui.text("Hello!");
+        
         ImGui.text(String.format("Frame time: %5.1f ms", frameTime * 1000.f));
         ImGui.text("FPS: " + (int) (0.5f + 1.f / frameTime));
         ImGui.text(String.format("Time: %5.1f ", ImGui.getTime()));
 
         ImGui.colorEdit3("Background Color", this.getColorBg().data);
-        ImGui.colorEdit3("Grid color", gridColor.data);
-        ImGui.text(String.format("Maze (%d x %d): graph size: %d, wave size: %d",
-                maze.getCols(), maze.getRows(),
-                maze.getGraph().size(),
-                maze.getWave().size())
-        );
+        ImGui.colorEdit3("Grid Color", gridColor.data);
 
         if(ImGui.button(pause ? "Continue" : " Pause  ")) {
                 pause = !pause;
@@ -152,21 +114,6 @@ private void mainMenu()
                         ImGui.menuItem("[File menu]", null, false, false);
 
                         if (ImGui.menuItem("Quit", "Alt+F4")) {
-                                done = true;
-                        }
-
-                        ImGui.endMenu();
-                }
-
-                if (ImGui.beginMenu("Settings")) {
-                        if (ImGui.menuItem("Stats", "S")) {
-                        }
-
-                        ImGui.endMenu();
-                }
-
-                if (ImGui.beginMenu("Help")) {
-                        if (ImGui.menuItem("Controls", "C")) {
                         }
 
                         ImGui.endMenu();
@@ -174,7 +121,6 @@ private void mainMenu()
 
                 ImGui.endMainMenuBar();
         }
-
 }
 @Override
 protected void initImGui(final Configuration config)

@@ -1,8 +1,5 @@
 package gui;
 
-import imgui.ImColor;
-import typedefs.Vector2;
-
 public class Painter {
 private PaintContext context;
 

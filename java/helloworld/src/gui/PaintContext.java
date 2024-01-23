@@ -8,6 +8,7 @@ public Vector2 position;
 public Vector2 center;
 public Vector2 size;
 public ImDrawList draw;
+
 public PaintContext()
 {
         position = new Vector2();
