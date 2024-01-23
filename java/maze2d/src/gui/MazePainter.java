@@ -1,3 +1,6 @@
+package gui;
+
+import graph.Maze2D;
 import gui.Painter;
 import imgui.ImColor;
 import typedefs.Bits;

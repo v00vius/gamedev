@@ -2,15 +2,24 @@ package typedefs;
 
 public class PackedShort4 {
 private static final int QUATER = Long.SIZE / 4;
-static short get(long packed, int i)
+static public short get(long packed, int i)
 {
         return (short)(packed >>> (i * QUATER));
 }
-static long set(long packed, int i, short value)
+static public long set(long packed, int i, short value)
 {
         int shift = i * QUATER;
 
         packed = (packed & ~(0xFFFFL << shift)) | ((long)value << shift);
+
+        return packed;
+}
+static public long fill(long packed, short value)
+{
+        packed = set(packed, 0, value);
+        packed = set(packed, 1, value);
+        packed = set(packed, 2, value);
+        packed = set(packed, 3, value);
 
         return packed;
 }
@@ -34,7 +43,7 @@ public static void main(String[] args)
         System.out.println(PackedShort4.toString(packed));
 
         for (int i = 0; i < 4; i++) {
-                packed = PackedShort4.set(packed, i, (short)((i + 10) * 2));
+                packed = PackedShort4.set(packed, i, (short)((i + 10) * 2 - 100));
         }
 
         System.out.println(PackedShort4.toString(packed));

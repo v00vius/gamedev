@@ -1,5 +1,7 @@
 
 
+import graph.Maze2D;
+import gui.MazePainter;
 import gui.PaintContext;
 import gui.Painter;
 import gui.UserInput;

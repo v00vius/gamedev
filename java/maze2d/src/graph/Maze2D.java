@@ -1,4 +1,4 @@
-
+package graph;
 
 import typedefs.Bits;
 import typedefs.FastEdge;
