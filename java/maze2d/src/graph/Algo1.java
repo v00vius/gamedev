@@ -87,7 +87,9 @@ private boolean next()
 
         return false;
 }
-public List<Short> algo1()
+
+public List<Long> getPath()
 {
+        return path;
 }
 }

@@ -11,7 +11,7 @@ public static void main(String[] args)
                 long start = System.currentTimeMillis();
                 int p = maze.init(0, 0);
 
-                while (p != -1) {
+                while (p != 0) {
                         p = maze.step(p);
                 }
 
