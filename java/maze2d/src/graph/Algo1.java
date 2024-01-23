@@ -10,10 +10,10 @@ public class Algo1 {
 private long[] graph;
 private short source;
 private short destination;
-private List<Short> path;
+private List<Long> path;
 private Bits passed;
-private long head;
-
+private short node1;
+private short node2idx;
 public Algo1()
 {
         path = new ArrayList<>();
@@ -25,26 +25,69 @@ public void init(long[] graph, short src, short dst)
         this.source = src;
         this.destination = dst;
         path.clear();
+
         passed = new Bits(graph.length);
         passed.clear();
 
-        passed.set(source);
-        head = PackedShort4.set(0L, 0, source);
-        head = PackedShort4.set(head, 1, (short) 0);
-        path.add(source);
+        node1 = source;
+        node2idx = 0;
+
+        push();
+}
+private void push()
+{
+        long edge = PackedShort4.set(0, 0, node1);
+        edge = PackedShort4.set(edge, 1, node2idx);
+
+        path.add(edge);
+        passed.set(node1);
+}
+private void pop()
+{
+        if(path.isEmpty())
+                return;
+
+        long edge = path.getLast();
+        path.removeLast();
+        passed.clr(node1);
+
+        node1 = PackedShort4.get(edge, 0);
+        node2idx = PackedShort4.get(edge, 1);
+        ++node2idx;
 }
 
+private boolean next()
+{
+        if(node2idx > 3) {
+                pop();
+
+                return false;
+        }
+
+        short node2 = PackedShort4.get(graph[node1], node2idx);
+
+        if(node2 == destination)
+                return true;
+
+        if(node2 == GraphBuilder.EMPTY_NODE) {
+                pop();
+
+                return false;
+        }
+
+        if(passed.get(node2)) {
+                ++node2idx;
+
+                return false;
+        }
+
+        node1 = node2;
+        node2idx = 0;
+        push();
+
+        return false;
+}
 public List<Short> algo1()
 {
-        short src = PackedShort4.get(head, 0);
-        short i = PackedShort4.get(head, 1);
-        short dst = PackedShort4.get(graph[src], i);
-
-        path.add(dst);
-
-        if(dst == destination)
-                return path;
-
-        
 }
 }

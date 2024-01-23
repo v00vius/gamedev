@@ -4,8 +4,8 @@ import typedefs.FastEdge;
 import typedefs.PackedShort4;
 
 public class GraphBuilder {
-static private final short EMPTY_NODE = -1;
-static private final long EMPTY_LIST = PackedShort4.fill(0L, EMPTY_NODE);
+static public final short EMPTY_NODE = -1;
+static public final long EMPTY_LIST = PackedShort4.fill(0L, EMPTY_NODE);
 private Maze2D maze;
 private long[] graph;
 
