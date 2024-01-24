@@ -12,7 +12,7 @@ public MeshBuilder(float epsilon) {
     indices = new ArrayList<>();
 }
 
-private Point get(Point p)
+private Point insert(Point p)
 {
         Point pos = positions.putIfAbsent(p, p);
 

@@ -17,6 +17,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+
 public class Main extends Application {
 private UserInput userInput;
 private PaintContext paintContext;
@@ -50,6 +51,7 @@ protected void configure(final Configuration config)
 //        config.setWidth(1920);
 //        config.setHeight(1080);
 }
+
 @Override
 protected void preRun()
 {
@@ -63,6 +65,7 @@ protected void preRun()
         gridColor = new Color((float)29 / 255.f, (float)43 / 255.f, (float)43 / 255.f, 1.f);
         mazePainter = new MazePainter(8.f);
         lastPoint = 0;
+
 }
 @Override
 protected void postRun() {
