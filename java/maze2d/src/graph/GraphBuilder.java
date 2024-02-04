@@ -25,17 +25,26 @@ public long[] getGraph()
         short bias = (short) (maze.getCols() - 3);
 
         for (long edge : maze.getGraph()) {
-                short src = (short) FastEdge.getSrc(edge);
-                short dst = (short) FastEdge.getDst(edge);
+                int src = FastEdge.getSrc(edge);
+                int dst = FastEdge.getDst(edge);
 
-                src -= bias;
-                dst -= bias;
+                int src_x = maze.getX(src);
+                int src_y = maze.getY(src);
+                int dst_x = maze.getX(dst);
+                int dst_y = maze.getY(dst);
 
-                graph[src] = addNode(graph[src], dst);
-                graph[dst] = addNode(graph[dst], src);
+                short n1 = makeIndex(src_x, src_y);
+                short n2 = makeIndex(dst_x, dst_y);
+
+                graph[n1] = addNode(graph[n1], n2);
+                graph[n2] = addNode(graph[n2], n1);
         }
 
         return graph;
+}
+private short makeIndex(int x, int y)
+{
+        return (short)(maze.getCols() * y + x);
 }
 private long addNode(long edge, short node)
 {

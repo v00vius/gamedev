@@ -25,6 +25,13 @@ public void rectangle(float x, float y, float width, float height, int color)
 
         context.draw.addRectFilled(p1x, p1y, p2x, p2y, color);
 }
+public void text(float x, float y, String str, int color)
+{
+        float p1x = context.position.x + x;
+        float p1y = context.position.y + y;
+
+        context.draw.addText(p1x, p1y, color, str);
+}
 public void grid(float x, float y, int rows, int cols, float cellSize, int color)
 {
         float size = (float)cols * cellSize;

@@ -1,5 +1,7 @@
 
 
+import graph.AlgoDFS;
+import graph.GraphBuilder;
 import graph.Maze2D;
 import gui.MazePainter;
 import gui.PaintContext;
@@ -19,6 +21,13 @@ import java.nio.file.Paths;
 
 
 public class Main extends Application {
+private enum State {
+        NONE,
+        BUILDING_MAZE,
+        INIT_PATH,
+        BUILDING_PATH,
+        BUILT
+}
 private UserInput userInput;
 private PaintContext paintContext;
 private Painter painter;
@@ -31,6 +40,9 @@ private boolean done;
 private boolean pause;
 private long frameCount = 0;
 private float frameTime = 0.f;
+private State state;
+private GraphBuilder pathBuilder;
+private AlgoDFS dfs;
 
 public Main()
 {
@@ -63,9 +75,11 @@ protected void preRun()
         painter = new Painter();
         painter.setContext(paintContext);
         gridColor = new Color((float)29 / 255.f, (float)43 / 255.f, (float)43 / 255.f, 1.f);
-        mazePainter = new MazePainter(8.f);
+        mazePainter = new MazePainter(96.f);
         lastPoint = 0;
-
+        state = State.BUILDING_MAZE;
+        pathBuilder = new GraphBuilder();
+        dfs = new AlgoDFS();
 }
 @Override
 protected void postRun() {
@@ -92,6 +106,9 @@ public void process()
                 ImColor.rgb(gridColor.getRed(), gridColor.getGreen(), gridColor.getBlue())
         );
 
+        if(state == State.BUILDING_PATH || state == State.BUILT)
+                mazePainter.paint(dfs, maze, painter);
+
 //        painter.grid(0.f, 0.f, rows, cols, cell_size,
 //                        ImColor.rgb(gridColor.getRed(), gridColor.getGreen(), gridColor.getBlue())
 //        );
@@ -99,16 +116,44 @@ public void process()
 }
 private void mazeFrame()
 {
-        if(lastPoint == 0)
-                mazeInit();
-
         if(pause)
                 return;
+
+        if(state == State.BUILDING_MAZE) {
+                if(buildMaze()) {
+                        state = State.INIT_PATH;
+//                        state = State.BUILDING_MAZE;
+                }
+
+        } else if (state == State.INIT_PATH) {
+                pathBuilder.init(maze);
+
+                long[] graph = pathBuilder.getGraph();
+
+                dfs.init(graph, (short) 0, (short)(maze.getCols() * maze.getRows() - 1));
+                state = State.BUILDING_PATH;
+
+        } else if (state == State.BUILDING_PATH) {
+                ImGui.text("Path: " + dfs.getPath().size() + " steps");
+
+                if(dfs.step())
+                        state = State.BUILT;
+        } else if (state == State.BUILT) {
+                ImGui.text("Path has been built: " + dfs.getPath().size() + " steps");
+                state = State.BUILDING_MAZE;
+        }
+}
+private boolean buildMaze()
+{
+        if(lastPoint == 0)
+                mazeInit();
 
         int n = 10;
 
         while(n-- > 0 && lastPoint != 0)
                 lastPoint = maze.step(lastPoint);
+
+        return lastPoint == 0;
 }
 private void mazeInit()
 {

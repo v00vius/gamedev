@@ -6,7 +6,7 @@ import typedefs.PackedShort4;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Algo1 {
+public class AlgoDFS {
 private long[] graph;
 private short source;
 private short destination;
@@ -14,7 +14,7 @@ private List<Long> path;
 private Bits passed;
 private short node1;
 private short node2idx;
-public Algo1()
+public AlgoDFS()
 {
         path = new ArrayList<>();
 }
@@ -42,6 +42,13 @@ private void push()
         path.add(edge);
         passed.set(node1);
 }
+public boolean step()
+{
+        if(next())
+                return true;
+
+        return path.isEmpty();
+}
 private void pop()
 {
         if(path.isEmpty())
@@ -56,7 +63,7 @@ private void pop()
         ++node2idx;
 }
 
-private boolean next()
+public boolean next()
 {
         if(node2idx > 3) {
                 pop();
@@ -91,5 +98,10 @@ private boolean next()
 public List<Long> getPath()
 {
         return path;
+}
+
+public long[] getGraph()
+{
+        return graph;
 }
 }
