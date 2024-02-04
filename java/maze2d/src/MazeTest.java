@@ -1,10 +1,11 @@
+import graph.GraphBuilder;
 import graph.Maze2D;
 
 public class MazeTest {
 public static void main(String[] args)
 {
-        Maze2D maze = new Maze2D(1_000, 1_000);
-        int totalIterations = 35;
+        Maze2D maze = new Maze2D(10, 10);
+        int totalIterations = 1;
         long avg = 0;
 
         for (int i = 0; i < totalIterations; ++i) {
@@ -17,7 +18,13 @@ public static void main(String[] args)
 
                 long end = System.currentTimeMillis() - start;
 
-//                System.out.println(maze);
+                System.out.println(maze);
+                GraphBuilder gb = new GraphBuilder();
+                gb.init(maze);
+                gb.build();
+
+                System.out.println(gb);
+
 
                 avg += end;
                 System.out.println(String.format("%03d) Delta time %s ms, %d edges", i, end, maze.getGraph().size()));

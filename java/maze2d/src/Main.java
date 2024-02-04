@@ -128,7 +128,7 @@ private void mazeFrame()
         } else if (state == State.INIT_PATH) {
                 pathBuilder.init(maze);
 
-                long[] graph = pathBuilder.getGraph();
+                long[] graph = pathBuilder.build();
 
                 dfs.init(graph, (short) 0, (short)(maze.getCols() * maze.getRows() - 1));
                 state = State.BUILDING_PATH;

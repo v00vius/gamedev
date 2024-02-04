@@ -20,7 +20,7 @@ public void init(Maze2D maze)
         for (int i = 0, len = graph.length; i < len; ++i)
                 graph[i] = EMPTY_LIST;
 }
-public long[] getGraph()
+public long[] build()
 {
         short bias = (short) (maze.getCols() - 3);
 
@@ -56,5 +56,31 @@ private long addNode(long edge, short node)
         }
 
         return EMPTY_LIST;
+}
+
+@Override
+public String toString()
+{
+        StringBuilder sb = new StringBuilder();
+        int count = 0;
+
+        for (long nodes : graph) {
+                sb.append(count)
+                        .append(":");
+
+                for (int i = 0; i < 4; ++i) {
+                        short node = PackedShort4.get(nodes, i);
+
+                        if(node == EMPTY_NODE)
+                                sb.append(" -");
+                        else
+                                sb.append(" ").append(node);
+                }
+
+                sb.append("\n");
+                ++count;
+        }
+
+        return sb.toString();
 }
 }
