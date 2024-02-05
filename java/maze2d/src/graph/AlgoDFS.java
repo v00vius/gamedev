@@ -30,9 +30,6 @@ public void init(long[] graph, short src, short dst)
         visited = new Bits(graph.length);
         visited.clear();
 
-        System.out.println("source " + source);
-        System.out.println("destination " + destination);
-
         node1 = source;
         node2idx = 0;
 
@@ -45,8 +42,6 @@ private void push()
 
         path.add(edge);
         visited.set(node1);
-
-        System.out.println("push " + PackedShort4.toString(edge));
 }
 public boolean step()
 {
@@ -68,12 +63,7 @@ private void pop()
         node1 = PackedShort4.get(edge, 0);
         node2idx = PackedShort4.get(edge, 1);
 
-        ++node2idx;
-
-        edge = PackedShort4.set(edge, 1, node2idx);
-        path.set(path.size() - 1, edge );
-
-        System.out.println("pop " + PackedShort4.toString(edge));
+        updateEdge(edge);
 }
 
 public boolean next()
@@ -97,12 +87,10 @@ public boolean next()
         }
 
         if(visited.get(node2)) {
-                ++node2idx;
 
                 long edge = path.getLast();
 
-                edge = PackedShort4.set(edge, 1, node2idx);
-                path.set(path.size() - 1, edge );
+                updateEdge(edge);
 
                 return false;
         }
@@ -112,6 +100,13 @@ public boolean next()
         push();
 
         return false;
+}
+
+private void updateEdge(long edge)
+{
+        ++node2idx;
+        edge = PackedShort4.set(edge, 1, node2idx);
+        path.set(path.size() - 1, edge);
 }
 
 public List<Long> getPath()

@@ -75,7 +75,7 @@ protected void preRun()
         painter = new Painter();
         painter.setContext(paintContext);
         gridColor = new Color((float)29 / 255.f, (float)43 / 255.f, (float)43 / 255.f, 1.f);
-        mazePainter = new MazePainter(16.f);
+        mazePainter = new MazePainter(32.f);
         lastPoint = 0;
         state = State.BUILDING_MAZE;
         pathBuilder = new GraphBuilder();
@@ -143,8 +143,15 @@ private void mazeFrame()
         } else if (state == State.BUILDING_PATH) {
                 ImGui.text("Path: " + dfs.getPath().size() + " steps");
 
-                if(dfs.step())
-                        state = State.BUILT;
+                int n = 1;
+
+                while(n-- > 0) {
+                        if (dfs.step()) {
+                                state = State.BUILT;
+
+                                break;
+                        }
+                }
 
         } else if (state == State.BUILT) {
                 ImGui.text("Path has been built: " + dfs.getPath().size() + " steps");

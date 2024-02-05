@@ -36,11 +36,17 @@ public void paint(AlgoDFS algo, Maze2D maze, Painter painter)
         rows = maze.getRows();
 
         long[] graph = algo.getGraph();
+        int count = 0;
 
         for(long edge : algo.getPath()) {
                 short n1 = PackedShort4.get(edge, 0);
                 short n2idx = PackedShort4.get(edge, 1);
                 short n2 = PackedShort4.get(graph[n1], n2idx);
+
+                ++count;
+
+                if(n2 < 0)
+                        continue;
 
                 int src_x = n1 % cols;
                 int src_y = n1 / cols;
@@ -55,8 +61,24 @@ public void paint(AlgoDFS algo, Maze2D maze, Painter painter)
 
                 painter.rectangle(1.f + (float) x * cellSize,
                         1.f + (float) y * cellSize,
-                        width - 2.f, height - 2.f, ImColor.rgb(255, 255, 0)
+                        width - 2.f, height - 2.f, ImColor.rgb(255,255,0)
                 );
+
+                if(count == 1) {
+                        painter.rectangle(1.f + (float) x * cellSize,
+                                1.f + (float) y * cellSize,
+                                cellSize - 2.f, cellSize - 2.f, ImColor.rgb(0, 0, 255)
+                        );
+
+                } else if (count == algo.getPath().size() -  1) {
+                        x = Math.max(src_x, dst_x);
+                        y = Math.max(src_y, dst_y);
+
+                        painter.rectangle(1.f + (float) x * cellSize,
+                                1.f + (float) y * cellSize,
+                                cellSize - 2.f, cellSize - 2.f, ImColor.rgb(0,0,255)
+                        );
+                }
 
 /*
                 painter.text(1.f + src_x * cellSize, 1.f + src_y * cellSize,
