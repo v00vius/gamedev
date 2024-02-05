@@ -75,7 +75,7 @@ protected void preRun()
         painter = new Painter();
         painter.setContext(paintContext);
         gridColor = new Color((float)29 / 255.f, (float)43 / 255.f, (float)43 / 255.f, 1.f);
-        mazePainter = new MazePainter(32.f);
+        mazePainter = new MazePainter(16.f);
         lastPoint = 0;
         state = State.BUILDING_MAZE;
         pathBuilder = new GraphBuilder();
