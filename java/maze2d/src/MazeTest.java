@@ -4,7 +4,7 @@ import graph.Maze2D;
 public class MazeTest {
 public static void main(String[] args)
 {
-        Maze2D maze = new Maze2D(10, 10);
+        Maze2D maze = new Maze2D(4, 4);
         int totalIterations = 1;
         long avg = 0;
 

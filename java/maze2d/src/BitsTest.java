@@ -50,7 +50,7 @@ static int size_of_long()
         int bytes =0;
 
         while(x != 0) {
-                x = (long)(x << 8);
+                x = x << 8;
                 ++bytes;
         }
 
@@ -85,6 +85,8 @@ public static void main(String[] args)
         bits.set(63);
         bits.set(64);
         bits.set(127);
+        System.out.println(bits);
+        bits.set();
         System.out.println(bits);
 
         System.out.println("size_of_byte " + size_of_byte());

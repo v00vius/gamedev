@@ -9,7 +9,7 @@ import java.util.*;
 public class Maze2D {
 private final int rows;
 private final int cols;
-private Bits area;
+private Bits visited;
 static private FastRandom random = new FastRandom(1024);
 private List<Long> wave;
 private List<Long> graph;
@@ -18,7 +18,7 @@ public Maze2D(int rows, int cols)
 {
         this.rows = rows;
         this.cols = cols;
-        area = new Bits(2 + cols, 2 + rows);
+        visited = new Bits(2 + cols, 2 + rows);
         wave = new ArrayList<>();
         graph = new LinkedList<>();
 }
@@ -44,16 +44,16 @@ public int init()
 }
 public int init(int x0, int y0)
 {
-        area.clear();
+        visited.clear();
 
-        for (int x = 0; x < area.getSize_x(); ++x) {
-                area.set(x, 0);
-                area.set(x, area.getSize_y() - 1);
+        for (int x = 0; x < visited.getSize_x(); ++x) {
+                visited.set(x, 0);
+                visited.set(x, visited.getSize_y() - 1);
         }
 
-        for (int y = 1; y < area.getSize_y() - 1; ++y) {
-                area.set(0, y);
-                area.set(area.getSize_x() - 1, y);
+        for (int y = 1; y < visited.getSize_y() - 1; ++y) {
+                visited.set(0, y);
+                visited.set(visited.getSize_x() - 1, y);
         }
 
         wave.clear();
@@ -66,7 +66,7 @@ public int init(int x0, int y0)
         long e = FastEdge.create(idx, idx);
 
         graph.add(e);
-        area.set(idx);
+        visited.set(idx);
 
         return FastEdge.getSrc(e);
 }
@@ -83,10 +83,6 @@ private int index(int x, int y)
 // idx = (2 + 10) * (1 + 3) + 2 + 1 = 12 * 4 + 3 = 48 + 3 = 51
 // getX = (51 - 1) % (10 + 2) = 50 % 12 = 2
 // getY = (51 - 1) / (10 + 2) - 1 = 50 / 12 - 1 = 4 - 1 = 2
-public int getX(int idx)
-{
-        return (idx - 1) % (cols + 2);
-}
 public int getSrcX(long edge)
 {
         return getX(FastEdge.getSrc(edge));
@@ -103,13 +99,18 @@ public int getDstY(long edge)
 {
         return getY(FastEdge.getDst(edge));
 }
+
+public int getX(int idx)
+{
+        return (idx - 1) % (cols + 2);
+}
 public int getY(int idx)
 {
         return (idx - 1) / (cols + 2) - 1;
 }
 private void addWave(int p, int p1)
 {
-        if(area.get(p))
+        if(visited.get(p))
                 return;
 
         wave.add(FastEdge.create(p, p1));
@@ -135,10 +136,10 @@ public int step(int p1)
 
                 src = FastEdge.getSrc(edge);
         }
-        while (area.get(src));
+        while (visited.get(src));
 
         graph.add(edge);
-        area.set(src);
+        visited.set(src);
 
         return src;
 }
