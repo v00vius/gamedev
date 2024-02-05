@@ -75,7 +75,7 @@ protected void preRun()
         painter = new Painter();
         painter.setContext(paintContext);
         gridColor = new Color((float)29 / 255.f, (float)43 / 255.f, (float)43 / 255.f, 1.f);
-        mazePainter = new MazePainter(64.f);
+        mazePainter = new MazePainter(16.f);
         lastPoint = 0;
         state = State.BUILDING_MAZE;
         pathBuilder = new GraphBuilder();
@@ -106,7 +106,7 @@ public void process()
                 ImColor.rgb(gridColor.getRed(), gridColor.getGreen(), gridColor.getBlue())
         );
 
-        if(state == State.BUILDING_PATH || state == State.BUILT)
+        if(state == State.BUILDING_PATH || state == State.BUILT || state == State.NONE)
                 mazePainter.paint(dfs, maze, painter);
 
 //        painter.grid(0.f, 0.f, rows, cols, cell_size,
@@ -116,13 +116,20 @@ public void process()
 }
 private void mazeFrame()
 {
+        if (state == State.NONE) {
+                if(pause) {
+                        pause = false;
+                        state = State.BUILDING_MAZE;
+                }
+        }
+
         if(pause)
                 return;
 
         if(state == State.BUILDING_MAZE) {
                 if(buildMaze()) {
-//                        state = State.INIT_PATH;
-                        state = State.BUILDING_MAZE;
+                        state = State.INIT_PATH;
+//                        state = State.BUILDING_MAZE;
                 }
 
         } else if (state == State.INIT_PATH) {
@@ -138,9 +145,12 @@ private void mazeFrame()
 
                 if(dfs.step())
                         state = State.BUILT;
+
         } else if (state == State.BUILT) {
                 ImGui.text("Path has been built: " + dfs.getPath().size() + " steps");
-                state = State.BUILDING_MAZE;
+//                state = State.BUILDING_MAZE;
+                state = State.NONE;
+
         }
 }
 private boolean buildMaze()

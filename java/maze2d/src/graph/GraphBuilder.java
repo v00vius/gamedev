@@ -42,6 +42,12 @@ public long[] build()
 
         return graph;
 }
+
+public long[] getGraph()
+{
+        return graph;
+}
+
 private short makeIndex(int x, int y)
 {
         return (short)(maze.getCols() * y + x);

@@ -1,6 +1,7 @@
 package graph;
 
 import typedefs.Bits;
+import typedefs.FastEdge;
 import typedefs.PackedShort4;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ private long[] graph;
 private short source;
 private short destination;
 private List<Long> path;
-private Bits passed;
+private Bits visited;
 private short node1;
 private short node2idx;
 public AlgoDFS()
@@ -26,8 +27,11 @@ public void init(long[] graph, short src, short dst)
         this.destination = dst;
         path.clear();
 
-        passed = new Bits(graph.length);
-        passed.clear();
+        visited = new Bits(graph.length);
+        visited.clear();
+
+        System.out.println("source " + source);
+        System.out.println("destination " + destination);
 
         node1 = source;
         node2idx = 0;
@@ -40,7 +44,9 @@ private void push()
         edge = PackedShort4.set(edge, 1, node2idx);
 
         path.add(edge);
-        passed.set(node1);
+        visited.set(node1);
+
+        System.out.println("push " + PackedShort4.toString(edge));
 }
 public boolean step()
 {
@@ -54,13 +60,20 @@ private void pop()
         if(path.isEmpty())
                 return;
 
-        long edge = path.getLast();
         path.removeLast();
-        passed.clr(node1);
+        visited.clr(node1);
+
+        long edge = path.getLast();
 
         node1 = PackedShort4.get(edge, 0);
         node2idx = PackedShort4.get(edge, 1);
+
         ++node2idx;
+
+        edge = PackedShort4.set(edge, 1, node2idx);
+        path.set(path.size() - 1, edge );
+
+        System.out.println("pop " + PackedShort4.toString(edge));
 }
 
 public boolean next()
@@ -73,8 +86,9 @@ public boolean next()
 
         short node2 = PackedShort4.get(graph[node1], node2idx);
 
-        if(node2 == destination)
+        if(node2 == destination) {
                 return true;
+        }
 
         if(node2 == GraphBuilder.EMPTY_NODE) {
                 pop();
@@ -82,8 +96,13 @@ public boolean next()
                 return false;
         }
 
-        if(passed.get(node2)) {
+        if(visited.get(node2)) {
                 ++node2idx;
+
+                long edge = path.getLast();
+
+                edge = PackedShort4.set(edge, 1, node2idx);
+                path.set(path.size() - 1, edge );
 
                 return false;
         }
@@ -103,5 +122,30 @@ public List<Long> getPath()
 public long[] getGraph()
 {
         return graph;
+}
+
+@Override
+public String toString()
+{
+        StringBuilder sb = new StringBuilder("Path\n");
+        int count = 0;
+
+        for (long link : path) {
+                int n1 = PackedShort4.get(link, 0);
+                int i = PackedShort4.get(link, 1);
+                int n2 = PackedShort4.get(graph[n1], i);
+
+                sb.append("  ")
+                        .append(count)
+                        .append(": ")
+                        .append(n1)
+                        .append('-')
+                        .append(n2)
+                        .append('\n');
+
+                ++count;
+        }
+
+        return sb.toString();
 }
 }

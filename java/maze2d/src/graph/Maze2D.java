@@ -63,12 +63,13 @@ public int init(int x0, int y0)
                   index(random.nextInt(cols), random.nextInt(rows)) :
                   index(x0, y0);
 
-        long e = FastEdge.create(idx, idx);
+//        long e = FastEdge.create(idx, idx);
 
-        graph.add(e);
+//        graph.add(e);
         visited.set(idx);
 
-        return FastEdge.getSrc(e);
+//        return FastEdge.getSrc(e);
+        return idx;
 }
 private int index(int x, int y)
 {

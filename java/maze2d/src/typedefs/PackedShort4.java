@@ -25,15 +25,15 @@ static public long fill(long packed, short value)
 }
 static public String toString(long packed)
 {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder("{ ");
 
         for (int i = 0; i < 4; i++) {
                 short v = PackedShort4.get(packed, i);
 
-                builder.append(i).append(": ").append(v).append('\n');
+                builder.append(i).append(':').append(v).append(' ');
         }
 
-        return builder.toString();
+        return builder.append("}\n").toString();
 }
 
 public static void main(String[] args)

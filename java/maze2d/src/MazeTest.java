@@ -1,10 +1,11 @@
+import graph.AlgoDFS;
 import graph.GraphBuilder;
 import graph.Maze2D;
 
 public class MazeTest {
 public static void main(String[] args)
 {
-        Maze2D maze = new Maze2D(4, 4);
+        Maze2D maze = new Maze2D(100, 100);
         int totalIterations = 1;
         long avg = 0;
 
@@ -22,8 +23,17 @@ public static void main(String[] args)
                 GraphBuilder gb = new GraphBuilder();
                 gb.init(maze);
                 gb.build();
-
                 System.out.println(gb);
+
+                AlgoDFS dfs = new AlgoDFS();
+
+                dfs.init(gb.getGraph(), (short)0, (short)(maze.getCols() * maze.getRows() - 1));
+                while(!dfs.step())
+                        ;
+
+                System.out.println(dfs.getPath().size());
+                System.out.println(dfs);
+
 
 
                 avg += end;

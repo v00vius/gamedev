@@ -42,26 +42,23 @@ public void paint(AlgoDFS algo, Maze2D maze, Painter painter)
                 short n2idx = PackedShort4.get(edge, 1);
                 short n2 = PackedShort4.get(graph[n1], n2idx);
 
-                if(n2 < n1) {
-                        short tmp = n2;
-
-                        n2 = n1;
-                        n1 = tmp;
-                }
-
                 int src_x = n1 % cols;
                 int src_y = n1 / cols;
                 int dst_x = n2 % cols;
                 int dst_y = n2 / cols;
 
-                float width = cellSize * (float) (dst_x - src_x + 1);
-                float height = cellSize * (float) (dst_y - src_y + 1);
+                int x = Math.min(src_x, dst_x);
+                int y = Math.min(src_y, dst_y);
 
-                painter.rectangle(1.f + (float) src_x * cellSize,
-                        1.f + (float) src_y * cellSize,
+                float width = cellSize * (float) (Math.abs(dst_x - src_x) + 1);
+                float height = cellSize * (float) (Math.abs(dst_y - src_y) + 1);
+
+                painter.rectangle(1.f + (float) x * cellSize,
+                        1.f + (float) y * cellSize,
                         width - 2.f, height - 2.f, ImColor.rgb(255, 255, 0)
                 );
 
+/*
                 painter.text(1.f + src_x * cellSize, 1.f + src_y * cellSize,
                         Integer.toString(n1), ImColor.rgb(0, 0, 0)
                 );
@@ -69,6 +66,7 @@ public void paint(AlgoDFS algo, Maze2D maze, Painter painter)
                 painter.text(1.f + src_x * cellSize, 20.f + src_y * cellSize,
                         Integer.toString(n2), ImColor.rgb(0, 0, 0)
                 );
+*/
         }
 }
 private void paintGraph(Maze2D maze, Painter painter)
