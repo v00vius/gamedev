@@ -3,6 +3,7 @@
 import graph.AlgoDFS;
 import graph.GraphBuilder;
 import graph.Maze2D;
+import graph.Maze2D1;
 import gui.MazePainter;
 import gui.PaintContext;
 import gui.Painter;
@@ -34,7 +35,7 @@ private Painter painter;
 private long msDuration;
 private Color gridColor;
 private MazePainter mazePainter;
-private Maze2D maze;
+private Maze2D1 maze;
 private int lastPoint = -1;
 private boolean done;
 private boolean pause;
@@ -167,18 +168,28 @@ private boolean buildMaze()
 
         int n = 10;
 
-        while(n-- > 0 && lastPoint != 0)
-                lastPoint = maze.step(lastPoint);
+        while(n-- > 0 && maze.wave())
+                ;
 
-        return lastPoint == 0;
+        return maze.getWave().isEmpty();
 }
-private void mazeInit()
+//private void mazeInit()
+//{
+//        float cell_size = mazePainter.getCellSize();
+//        int cols = (int)(paintContext.size.x / cell_size);
+//        int rows = (int)(paintContext.size.y / cell_size);
+//
+//        maze = new Maze2D(rows, cols);
+//        lastPoint = maze.init();
+//}
+
+private void mazeInit1()
 {
         float cell_size = mazePainter.getCellSize();
         int cols = (int)(paintContext.size.x / cell_size);
         int rows = (int)(paintContext.size.y / cell_size);
 
-        maze = new Maze2D(rows, cols);
+        maze = new Maze2D1(rows, cols);
         lastPoint = maze.init();
 }
 

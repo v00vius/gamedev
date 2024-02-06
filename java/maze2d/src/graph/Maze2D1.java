@@ -129,6 +129,11 @@ public Set<Long> getGraph()
         return graph;
 }
 
+public List<Long> getWave()
+{
+        return wave;
+}
+
 @Override
 public String toString()
 {
@@ -155,15 +160,36 @@ public String toString()
 
 public static void main(String[] args)
 {
-        Maze2D1 maze = new Maze2D1(2, 2);
+        Maze2D1 maze = new Maze2D1(5, 4);
 
-        maze.init();
+        int loops = 10;
 
-        while (maze.wave()) {
+        while(loops-- >0 ) {
+                long delta = System.currentTimeMillis();
+
+                maze.init();
+
+                while (maze.wave()) {
 //                System.out.println(maze);
-        }
+                }
 
-        System.out.println("#---------------------");
-        System.out.println(maze);
+//        System.out.println("#---------------------");
+//        System.out.println(maze);
+
+                AlgoDFS1 dfs = new AlgoDFS1(maze, maze.getCols() * maze.getRows() - 1);
+
+                dfs.init();
+                while (dfs.dfs()) {
+//                System.out.println(dfs);
+
+                        if (dfs.getPath().isEmpty())
+                                break;
+                }
+
+                delta = System.currentTimeMillis() - delta;
+                System.out.println("delta = " + (float) delta / 1000.f + ", size " + dfs.getPath().size());
+        }
+//        System.out.println("#---------------------");
+//        System.out.println(dfs);
 }
 }

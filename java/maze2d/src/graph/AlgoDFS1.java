@@ -10,6 +10,7 @@ import java.util.Set;
 public class AlgoDFS1 {
 private int cols;
 private int rows;
+private int destination;
 private Set<Long> graph;
 private Bits visited;
 private List<Long> path;
@@ -20,10 +21,11 @@ static private int[] dx = { 1, 0, -1, 0};
 static private int[] dy = { 0, 1, 0, -1};
 
 
-public AlgoDFS1(Maze2D1 maze)
+public AlgoDFS1(Maze2D1 maze, int destination)
 {
         rows = maze.getRows();
         cols = maze.getCols();
+        this.destination = destination;
         graph = maze.getGraph();
         visited = new Bits(cols, rows);
         path = new ArrayList<>();
@@ -32,12 +34,17 @@ public AlgoDFS1(Maze2D1 maze)
 public void init()
 {
         x = y = 0;
-
-        int src = index(x, y);
-
-        visited.set(src);
+        path.clear();
+        visited.clear();
         direction = 0;
+        push();
 }
+
+public List<Long> getPath()
+{
+        return path;
+}
+
 private int index(int pos_x, int pos_y)
 {
         return pos_y * cols + pos_x;
@@ -48,6 +55,7 @@ private void push()
         int src = index(x, y);
         long e = FastEdge.create(src, direction);
 
+        visited.set(src);
         path.add(e);
 }
 
@@ -56,33 +64,37 @@ private void pop()
         if(path.isEmpty())
                 return;
 
-        path.removeLast();
+        long e = path.removeLast();
+
+        visited.clr(FastEdge.getSrc(e));
 
         if(path.isEmpty())
                 return;
 
+        int src = nextDirection();
+
+        x = src % cols;
+        y = src / cols;
+}
+
+private int nextDirection()
+{
         long e = path.getLast();
 
-        int src = FastEdge.getSrc(e);
-
         direction = FastEdge.getDst(e);
+        ++direction;
+        e = FastEdge.setDst(e, direction);
+        path.set(path.size() - 1, e);
 
+        return FastEdge.getSrc(e);
 }
+
 public boolean dfs()
 {
         if(direction > 3) {
-                if(path.isEmpty())
-                        return false;
+                pop();
 
-                path.removeLast();
-
-                long node = path.getLast();
-                int src = FastEdge.getSrc(node);
-
-                direction = FastEdge.getDst(node);
-                ++direction;
-                node = FastEdge.create(src, direction);
-
+                return true;
         }
 
         int px = x + dx[direction];
@@ -90,10 +102,14 @@ public boolean dfs()
 
         if(px < 0 || px >= cols ||
            py < 0 || py >= rows) {
+                nextDirection();
+
                 return true;
         }
 
         if(visited.get(px, py)) {
+                nextDirection();
+
                 return true;
         }
 
@@ -102,15 +118,36 @@ public boolean dfs()
         long edge = FastEdge.create(src, dst);
 
         if(graph.contains(edge)) {
-                long node = FastEdge.create(dst, 0);
-
-                path.add(node);
+                src = dst;
                 direction = 0;
+                x = src % cols;
+                y = src / cols;
 
-                return true;
+                push();
+
+                return dst != destination;
         }
+
+        nextDirection();
 
         return true;
 }
 
+@Override
+public String toString()
+{
+        StringBuilder sb = new StringBuilder();
+        int count = 0;
+
+        for(long e : path) {
+                int src = FastEdge.getSrc(e);
+
+                sb.append(count++)
+                        .append(": ")
+                        .append(src)
+                        .append('\n');
+        }
+
+        return sb.toString();
+}
 }
