@@ -220,9 +220,9 @@ private int dst;
 
 public static void main(String[] args)
 {
-        Maze2D1 maze = new Maze2D1(1_000, 1_000);
+        Maze2D1 maze = new Maze2D1(8_000, 1_000);
 
-        int loops = 37;
+        int loops = 50;
         long avg = 0;
 
         System.out.println("# Building random maze of " + maze.getRows()
