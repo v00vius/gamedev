@@ -11,7 +11,7 @@ public class AlgoDFS1 {
 private int cols;
 private int rows;
 private int destination;
-private Set<Long> graph;
+private Set<Maze2D1.Edge> graph;
 private Bits visited;
 private List<Long> path;
 private int x;

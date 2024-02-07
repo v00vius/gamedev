@@ -35,7 +35,7 @@ private Painter painter;
 private long msDuration;
 private Color gridColor;
 private MazePainter mazePainter;
-private Maze2D1 maze;
+private Maze2D maze;
 private int lastPoint = -1;
 private boolean done;
 private boolean pause;
@@ -168,30 +168,25 @@ private boolean buildMaze()
 
         int n = 10;
 
-        while(n-- > 0 && maze.wave())
-                ;
+        while(n-- > 0) {
+                lastPoint = maze.step(lastPoint);
+
+                if(lastPoint == 0)
+                        break;
+        }
 
         return maze.getWave().isEmpty();
 }
-//private void mazeInit()
-//{
-//        float cell_size = mazePainter.getCellSize();
-//        int cols = (int)(paintContext.size.x / cell_size);
-//        int rows = (int)(paintContext.size.y / cell_size);
-//
-//        maze = new Maze2D(rows, cols);
-//        lastPoint = maze.init();
-//}
-
-private void mazeInit1()
+private void mazeInit()
 {
         float cell_size = mazePainter.getCellSize();
         int cols = (int)(paintContext.size.x / cell_size);
         int rows = (int)(paintContext.size.y / cell_size);
 
-        maze = new Maze2D1(rows, cols);
+        maze = new Maze2D(rows, cols);
         lastPoint = maze.init();
 }
+
 
 @Override
 protected void postProcess()

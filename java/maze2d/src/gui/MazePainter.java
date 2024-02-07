@@ -31,12 +31,6 @@ public void paint(Maze2D maze, Painter painter, int color)
         paintGraph(maze, painter);
         paintWave(maze, painter);
 }
-public void paint(Maze2D1 maze, Painter painter, int color)
-{
-        painter.grid(0.f, 0.f, maze.getRows(), maze.getCols(), cellSize, color);
-        paintGraph(maze, painter);
-        paintWave(maze, painter);
-}
 public void paint(AlgoDFS algo, Maze2D maze, Painter painter)
 {
         cols = maze.getCols();
@@ -125,48 +119,12 @@ private void paintGraph(Maze2D maze, Painter painter)
                 );
         }
 }
-private void paintGraph(Maze2D1 maze, Painter painter)
-{
-        for(long edge : maze.getGraph()) {
-                int src = FastEdge.getSrc(edge);
-                int dst = FastEdge.getDst(edge);
-
-                if(dst < src)
-                        continue;
-
-                int src_x = src % maze.getCols();
-                int src_y = src / maze.getCols();
-                int dst_x = dst % maze.getCols();
-                int dst_y = dst / maze.getCols();
-
-                float width = cellSize * (float) (dst_x - src_x + 1);
-                float height = cellSize * (float) (dst_y - src_y + 1);
-
-                painter.rectangle(1.f + (float) src_x * cellSize,
-                        1.f + (float) src_y * cellSize,
-                        width - 2.f, height - 2.f, ImColor.rgb(0, 255, 0)
-                );
-        }
-}
 
 private void paintWave(Maze2D maze, Painter painter)
 {
         for(long edge : maze.getWave()) {
                 int src_x = maze.getSrcX(edge);
                 int src_y = maze.getSrcY(edge);
-
-                painter.rectangle(1.f + (float) src_x * cellSize,
-                        1.f + (float) src_y * cellSize,
-                        cellSize - 2.f, cellSize - 2.f, ImColor.rgb(245, 169, 30)
-                );
-        }
-}
-private void paintWave(Maze2D1 maze, Painter painter)
-{
-        for(long edge : maze.getWave()) {
-                int src = FastEdge.getSrc(edge);
-                int src_x = src % maze.getCols();
-                int src_y = src / maze.getCols();
 
                 painter.rectangle(1.f + (float) src_x * cellSize,
                         1.f + (float) src_y * cellSize,

@@ -9,8 +9,8 @@ public class Maze2D1 {
 private int cols;
 private int rows;
 private Bits visited;
-private List<Long> wave;
-private Set<Long> graph;
+private List<Edge> wave;
+private Set<Edge> graph;
 private int x;
 private int y;
 static private int[] dx = { 1, 0, -1, 0};
@@ -26,12 +26,12 @@ public Maze2D1(int cols, int rows)
         wave = new ArrayList<>();
         graph = new HashSet<>();
 
-        init();
+        init(0, 0);
 }
 
 public void init()
 {
-        init(0, 0);
+        init(-1, 0);
 }
 public void init(int start_x, int start_y)
 {
@@ -57,7 +57,7 @@ public void init(int start_x, int start_y)
 
 public boolean wave()
 {
-        long edge;
+        Edge edge;
         int src;
         int dst;
 
@@ -75,9 +75,7 @@ public boolean wave()
                         continue;
 
                 dst = index(px, py);
-                edge = FastEdge.create(src, dst);
-
-                wave.add(edge);
+                wave.add(new Edge(src, dst));
         }
 
         do {
@@ -85,8 +83,9 @@ public boolean wave()
                         return false;
 
                 int i = random.nextInt(wave.size());
+
                 edge = wave.remove(i);
-                dst = FastEdge.getDst(edge);
+                dst = edge.getDst();
         } while (visited.get(dst));
 
         visited.set(dst);
@@ -94,19 +93,9 @@ public boolean wave()
         x = dst % cols;
         y = dst / cols;
 
-        add(edge);
-
-        return true;
-}
-private void add(long edge)
-{
-        // add (a, b)
         graph.add(edge);
 
-        int src = FastEdge.getSrc(edge);
-        int dst = FastEdge.getDst(edge);
-        // add (b, a)
-        graph.add(FastEdge.create(dst, src));
+        return true;
 }
 
 private int index(int pos_x, int pos_y)
@@ -124,12 +113,12 @@ public int getRows()
         return rows;
 }
 
-public Set<Long> getGraph()
+public Set<Edge> getGraph()
 {
         return graph;
 }
 
-public List<Long> getWave()
+public List<Edge> getWave()
 {
         return wave;
 }
@@ -143,9 +132,9 @@ public String toString()
         if(!wave.isEmpty())
                 sb.append(visited);
 
-        for (long e : graph) {
-                int src = FastEdge.getSrc(e);
-                int dst = FastEdge.getDst(e);
+        for (Edge e : graph) {
+                int src = e.getSrc();
+                int dst = e.getDst();
 
                 sb.append(count++)
                         .append(": (")
@@ -156,6 +145,66 @@ public String toString()
         }
 
         return sb.toString();
+}
+static public class Edge implements Comparable<Edge> {
+private int src;
+private int dst;
+
+        public Edge(int src, int dst)
+        {
+                this.src = src;
+                this.dst = dst;
+        }
+        public Edge newReverse()
+        {
+                return new Edge(dst, src);
+        }
+
+        public int getSrc()
+        {
+                return src;
+        }
+
+        public void setSrc(int src)
+        {
+                this.src = src;
+        }
+
+        public int getDst()
+        {
+                return dst;
+        }
+
+        public void setDst(int dst)
+        {
+                this.dst = dst;
+        }
+
+        @Override
+        public int compareTo(Edge e)
+        {
+                int cmp = src - e.src;
+
+                if(0 == cmp)
+                        cmp = dst - e.dst;
+
+                return cmp;
+        }
+
+        @Override
+        public boolean equals(Object o)
+        {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Edge edge = (Edge) o;
+                return src == edge.src && dst == edge.dst;
+        }
+
+        @Override
+        public int hashCode()
+        {
+                return Objects.hash(src, dst);
+        }
 }
 
 public static void main(String[] args)
