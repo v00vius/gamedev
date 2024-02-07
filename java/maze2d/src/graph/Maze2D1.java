@@ -1,7 +1,7 @@
 package graph;
 
 import typedefs.Bits;
-import typedefs.FastEdge;
+import typedefs.FastRandom;
 
 import java.util.*;
 
@@ -15,7 +15,7 @@ private int x;
 private int y;
 static private int[] dx = { 1, 0, -1, 0};
 static private int[] dy = { 0, 1, 0, -1};
-static private final Random random = new Random(3);
+static private final FastRandom random = new FastRandom(2048);
 
 public Maze2D1(int cols, int rows)
 {
@@ -93,7 +93,10 @@ public boolean wave()
         x = dst % cols;
         y = dst / cols;
 
+        // edge: (src, dst)
         graph.add(edge);
+        // edge: (dst, src)
+        graph.add(new Edge(edge.getDst(), edge.getSrc()));
 
         return true;
 }
@@ -194,50 +197,79 @@ private int dst;
         @Override
         public boolean equals(Object o)
         {
-                if (this == o) return true;
-                if (o == null || getClass() != o.getClass()) return false;
+//                if (this == o) return true;
+//                if (o == null || getClass() != o.getClass()) return false;
                 Edge edge = (Edge) o;
+
                 return src == edge.src && dst == edge.dst;
         }
 
         @Override
         public int hashCode()
         {
-                return Objects.hash(src, dst);
+//                return Objects.hash(src, dst);
+                return 31 * (31 + src) + dst;
+        }
+
+        @Override
+        public String toString()
+        {
+                return "(" + src + ',' + dst + ')';
         }
 }
 
 public static void main(String[] args)
 {
-        Maze2D1 maze = new Maze2D1(5, 4);
+        Maze2D1 maze = new Maze2D1(1_000, 1_000);
 
-        int loops = 10;
+        int loops = 37;
+        long avg = 0;
 
-        while(loops-- >0 ) {
+        System.out.println("# Building random maze of " + maze.getRows()
+                                + 'x' + maze.getCols() + " elements ("
+                                + maze.getRows() * maze.getCols() + ')'
+        );
+
+        maze.init();
+
+        while (maze.wave()) {
+//                        System.out.println(maze);
+        }
+
+//                System.out.println("#---------------------");
+//                System.out.println(maze);
+
+        System.out.println("# done.");
+
+        AlgoDFS1 dfs = new AlgoDFS1(maze);
+
+        System.out.println("# Going DFS...");
+
+        for(int i = 0; i < loops; ++i) {
                 long delta = System.currentTimeMillis();
 
-                maze.init();
+                dfs.init(0, maze.getRows() * maze.getRows() - 1);
 
-                while (maze.wave()) {
-//                System.out.println(maze);
-                }
+                while (!dfs.fail()) {
+                        dfs.dfs();
+//                        System.out.println(dfs);
 
-//        System.out.println("#---------------------");
-//        System.out.println(maze);
-
-                AlgoDFS1 dfs = new AlgoDFS1(maze, maze.getCols() * maze.getRows() - 1);
-
-                dfs.init();
-                while (dfs.dfs()) {
-//                System.out.println(dfs);
-
-                        if (dfs.getPath().isEmpty())
+                        if(dfs.found())
                                 break;
                 }
 
                 delta = System.currentTimeMillis() - delta;
-                System.out.println("delta = " + (float) delta / 1000.f + ", size " + dfs.getPath().size());
+                avg += delta;
+                System.out.println(i + ") delta: " + (float) delta / 1000.f + " secs, path: "
+                                   + dfs.getPath().size() + " element(s), steps: " + dfs.getSteps());
+
+//                System.out.println("#---------------------");
+//                System.out.println(dfs);
         }
+
+        avg /= loops;
+        System.out.println("avg  = " + ((float) avg / 1000.f ) + " secs");
+
 //        System.out.println("#---------------------");
 //        System.out.println(dfs);
 }

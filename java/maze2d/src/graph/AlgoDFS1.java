@@ -1,46 +1,57 @@
 package graph;
 
 import typedefs.Bits;
-import typedefs.FastEdge;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 public class AlgoDFS1 {
 private int cols;
 private int rows;
+private int source;
 private int destination;
 private Set<Maze2D1.Edge> graph;
 private Bits visited;
-private List<Long> path;
-private int x;
-private int y;
-private int direction;
+private List<Maze2D1.Edge> path;
+private Maze2D1.Edge position;
 static private int[] dx = { 1, 0, -1, 0};
 static private int[] dy = { 0, 1, 0, -1};
+private int steps;
 
 
-public AlgoDFS1(Maze2D1 maze, int destination)
+public AlgoDFS1(Maze2D1 maze)
 {
         rows = maze.getRows();
         cols = maze.getCols();
-        this.destination = destination;
         graph = maze.getGraph();
+
         visited = new Bits(cols, rows);
         path = new ArrayList<>();
+        position = null;
 }
 
 public void init()
 {
-        x = y = 0;
+        Random random = new Random(System.currentTimeMillis());
+
+        int src = index(0, random.nextInt(rows));
+        int dst = index(cols - 1, random.nextInt(rows));
+
+        init(src, dst);
+}
+public void init(int source, int destination)
+{
+        steps = 0;
+        this.source = source;
+        this.destination = destination;
+
         path.clear();
         visited.clear();
-        direction = 0;
-        push();
+        push(source);
 }
 
-public List<Long> getPath()
+public List<Maze2D1.Edge> getPath()
 {
         return path;
 }
@@ -50,13 +61,11 @@ private int index(int pos_x, int pos_y)
         return pos_y * cols + pos_x;
 }
 
-private void push()
+private void push(int node)
 {
-        int src = index(x, y);
-        long e = FastEdge.create(src, direction);
-
-        visited.set(src);
-        path.add(e);
+        position = new Maze2D1.Edge(node, 0);
+        visited.set(node);
+        path.add(position);
 }
 
 private void pop()
@@ -64,39 +73,57 @@ private void pop()
         if(path.isEmpty())
                 return;
 
-        long e = path.removeLast();
+        Maze2D1.Edge e = path.removeLast();
 
-        visited.clr(FastEdge.getSrc(e));
+        visited.clr(e.getSrc());
 
         if(path.isEmpty())
                 return;
 
-        int src = nextDirection();
-
-        x = src % cols;
-        y = src / cols;
+        position = path.getLast();
 }
 
-private int nextDirection()
+private void nextDirection()
 {
-        long e = path.getLast();
+        int direction = position.getDst();
 
-        direction = FastEdge.getDst(e);
         ++direction;
-        e = FastEdge.setDst(e, direction);
-        path.set(path.size() - 1, e);
-
-        return FastEdge.getSrc(e);
+        position.setDst(direction);
 }
 
-public boolean dfs()
+public boolean found()
 {
+        return position.getSrc() == destination;
+}
+
+public boolean fail()
+{
+        return path.isEmpty();
+}
+
+public int getSteps()
+{
+        return steps;
+}
+
+public void dfs()
+{
+        if(fail() || found())
+                return;
+
+        ++steps;
+
+        int direction = position.getDst();
+
         if(direction > 3) {
                 pop();
+                nextDirection();
 
-                return true;
+                return;
         }
 
+        int x = position.getSrc() % cols;
+        int y = position.getSrc() / cols;
         int px = x + dx[direction];
         int py = y + dy[direction];
 
@@ -104,43 +131,45 @@ public boolean dfs()
            py < 0 || py >= rows) {
                 nextDirection();
 
-                return true;
+                return;
         }
 
         if(visited.get(px, py)) {
                 nextDirection();
 
-                return true;
+                return;
         }
 
-        int src = index(x, y);
         int dst = index(px, py);
-        long edge = FastEdge.create(src, dst);
+        Maze2D1.Edge edge = new Maze2D1.Edge(position.getSrc(), dst);
 
         if(graph.contains(edge)) {
-                src = dst;
-                direction = 0;
-                x = src % cols;
-                y = src / cols;
+                push(dst);
 
-                push();
-
-                return dst != destination;
+                return;
         }
 
         nextDirection();
-
-        return true;
 }
 
 @Override
 public String toString()
 {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder("Path\n");
         int count = 0;
 
-        for(long e : path) {
-                int src = FastEdge.getSrc(e);
+        if(!found()) {
+                sb.append("  current position=")
+                        .append(position.getSrc())
+                        .append(" direction=")
+                        .append(position.getDst())
+                        .append('\n');
+
+                sb.append(visited);
+        }
+
+        for(Maze2D1.Edge e : path) {
+                int src = e.getSrc();
 
                 sb.append(count++)
                         .append(": ")
