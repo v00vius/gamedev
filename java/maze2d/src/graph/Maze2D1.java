@@ -97,7 +97,7 @@ public boolean wave()
         // edge: (src, dst)
         graph.add(edge);
         // edge: (dst, src)
-        graph.add(new Edge(edge.getDst(), edge.getSrc()));
+        graph.add(edge.newReverse());
 
         return true;
 }
