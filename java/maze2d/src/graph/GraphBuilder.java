@@ -1,6 +1,6 @@
 package graph;
 
-import typedefs.FastEdge;
+import typedefs.PackedEdge;
 import typedefs.PackedShort4;
 
 public class GraphBuilder {
@@ -25,8 +25,8 @@ public long[] build()
         short bias = (short) (maze.getCols() - 3);
 
         for (long edge : maze.getGraph()) {
-                int src = FastEdge.getSrc(edge);
-                int dst = FastEdge.getDst(edge);
+                int src = PackedEdge.getSrc(edge);
+                int dst = PackedEdge.getDst(edge);
 
                 int src_x = maze.getX(src);
                 int src_y = maze.getY(src);

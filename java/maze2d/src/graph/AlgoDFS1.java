@@ -48,7 +48,7 @@ public void init(int source, int destination)
 
         path.clear();
         visited.clear();
-        push(source);
+        push(this.source);
 }
 
 public List<Maze2D1.Edge> getPath()
@@ -70,35 +70,16 @@ private void push(int node)
 
 private void pop()
 {
-        if(path.isEmpty())
+        if(path.size() < 2) {
+                path.clear();
+
                 return;
+        }
 
         Maze2D1.Edge e = path.removeLast();
 
         visited.clr(e.getSrc());
-
-        if(path.isEmpty())
-                return;
-
         position = path.getLast();
-}
-
-private void nextDirection()
-{
-        int direction = position.getDst();
-
-        ++direction;
-        position.setDst(direction);
-}
-
-public boolean found()
-{
-        return position.getSrc() == destination;
-}
-
-public boolean fail()
-{
-        return path.isEmpty();
 }
 
 public int getSteps()
@@ -106,10 +87,10 @@ public int getSteps()
         return steps;
 }
 
-public void dfs()
+public boolean dfs()
 {
-        if(fail() || found())
-                return;
+        if(position.getSrc() == destination)
+                return true;
 
         ++steps;
 
@@ -117,9 +98,9 @@ public void dfs()
 
         if(direction > 3) {
                 pop();
-                nextDirection();
+                position.incDst();
 
-                return;
+                return false;
         }
 
         int x = position.getSrc() % cols;
@@ -129,15 +110,15 @@ public void dfs()
 
         if(px < 0 || px >= cols ||
            py < 0 || py >= rows) {
-                nextDirection();
+                position.incDst();
 
-                return;
+                return false;
         }
 
         if(visited.get(px, py)) {
-                nextDirection();
+                position.incDst();
 
-                return;
+                return false;
         }
 
         int dst = index(px, py);
@@ -146,10 +127,12 @@ public void dfs()
         if(graph.contains(edge)) {
                 push(dst);
 
-                return;
+                return false;
         }
 
-        nextDirection();
+        position.incDst();
+
+        return false;
 }
 
 @Override
@@ -158,15 +141,13 @@ public String toString()
         StringBuilder sb = new StringBuilder("Path\n");
         int count = 0;
 
-        if(!found()) {
-                sb.append("  current position=")
-                        .append(position.getSrc())
-                        .append(" direction=")
-                        .append(position.getDst())
-                        .append('\n');
+        sb.append("  current position=")
+                .append(position.getSrc())
+                .append(" direction=")
+                .append(position.getDst())
+                .append('\n');
 
-                sb.append(visited);
-        }
+        sb.append(visited);
 
         for(Maze2D1.Edge e : path) {
                 int src = e.getSrc();

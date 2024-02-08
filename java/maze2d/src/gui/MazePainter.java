@@ -2,14 +2,9 @@ package gui;
 
 import graph.AlgoDFS;
 import graph.Maze2D;
-import graph.Maze2D1;
-import gui.Painter;
 import imgui.ImColor;
-import typedefs.Bits;
-import typedefs.FastEdge;
+import typedefs.PackedEdge;
 import typedefs.PackedShort4;
-
-import java.util.List;
 
 public class MazePainter {
 private float cellSize;
@@ -95,8 +90,8 @@ public void paint(AlgoDFS algo, Maze2D maze, Painter painter)
 private void paintGraph(Maze2D maze, Painter painter)
 {
         for(long edge : maze.getGraph()) {
-                int src = FastEdge.getSrc(edge);
-                int dst = FastEdge.getDst(edge);
+                int src = PackedEdge.getSrc(edge);
+                int dst = PackedEdge.getDst(edge);
 
                 if(dst < src) {
                         int tmp = src;

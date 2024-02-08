@@ -2,6 +2,7 @@ package graph;
 
 import typedefs.Bits;
 import typedefs.FastRandom;
+import utils.Utils;
 
 import java.util.*;
 
@@ -172,6 +173,10 @@ private int dst;
         {
                 this.src = src;
         }
+        public void incDst()
+        {
+                ++dst;
+        }
 
         public int getDst()
         {
@@ -220,17 +225,17 @@ private int dst;
 
 public static void main(String[] args)
 {
-        Maze2D1 maze = new Maze2D1(8_000, 1_000);
+        Maze2D1 maze = new Maze2D1(1_000, 1_000);
 
-        int loops = 50;
-        long avg = 0;
+        int loops = 31;
+        double tps = 0.;
 
-        System.out.println("# Building random maze of " + maze.getRows()
+        System.out.println("# Building a random maze of " + maze.getRows()
                                 + 'x' + maze.getCols() + " elements ("
                                 + maze.getRows() * maze.getCols() + ')'
         );
 
-        maze.init();
+        maze.init(0, 0);
 
         while (maze.wave()) {
 //                        System.out.println(maze);
@@ -246,29 +251,30 @@ public static void main(String[] args)
         System.out.println("# Going DFS...");
 
         for(int i = 0; i < loops; ++i) {
-                long delta = System.currentTimeMillis();
+                double delta = Utils.currentTimeSecs();
 
                 dfs.init(0, maze.getRows() * maze.getRows() - 1);
 
-                while (!dfs.fail()) {
-                        dfs.dfs();
+                while (!dfs.dfs()) {
 //                        System.out.println(dfs);
 
-                        if(dfs.found())
+                        if(dfs.getPath().isEmpty())
                                 break;
                 }
 
-                delta = System.currentTimeMillis() - delta;
-                avg += delta;
-                System.out.println(i + ") delta: " + (float) delta / 1000.f + " secs, path: "
-                                   + dfs.getPath().size() + " element(s), steps: " + dfs.getSteps());
+                delta = Utils.currentTimeSecs(delta);
+                tps += (double) dfs.getSteps() / delta;
+
+                System.out.printf("%d) %7.3f s, path size: %d nodes, iterations: %d, TPS: %8.0f op/s\n",
+                                        i, delta, dfs.getPath().size(), dfs.getSteps(),
+                                        (double) dfs.getSteps() / delta);
 
 //                System.out.println("#---------------------");
 //                System.out.println(dfs);
         }
 
-        avg /= loops;
-        System.out.println("avg  = " + ((float) avg / 1000.f ) + " secs");
+        tps /= loops;
+        System.out.printf("TPS average over %d iterations: %8.0f op/s\n", loops, tps);
 
 //        System.out.println("#---------------------");
 //        System.out.println(dfs);

@@ -1,6 +1,6 @@
 package typedefs;
 
-public class FastEdge {
+public class PackedEdge {
 static private final int HALF_SIZE = Long.SIZE / 2;
 static public long create(int src, int dst)
 {
@@ -20,7 +20,7 @@ static public long setSrc(long edge, int src)
 }
 static public long setDst(long edge, int dst)
 {
-        return edge | ((long)dst << HALF_SIZE);
+        return (edge & 0x00000000FFFFFFFFL) | ((long)dst << HALF_SIZE);
 }
 static public String toString(long edge)
 {

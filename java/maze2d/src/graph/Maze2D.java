@@ -1,7 +1,7 @@
 package graph;
 
 import typedefs.Bits;
-import typedefs.FastEdge;
+import typedefs.PackedEdge;
 import typedefs.FastRandom;
 
 import java.util.*;
@@ -86,19 +86,19 @@ private int index(int x, int y)
 // getY = (51 - 1) / (10 + 2) - 1 = 50 / 12 - 1 = 4 - 1 = 2
 public int getSrcX(long edge)
 {
-        return getX(FastEdge.getSrc(edge));
+        return getX(PackedEdge.getSrc(edge));
 }
 public int getSrcY(long edge)
 {
-        return getY(FastEdge.getSrc(edge));
+        return getY(PackedEdge.getSrc(edge));
 }
 public int getDstX(long edge)
 {
-        return getX(FastEdge.getDst(edge));
+        return getX(PackedEdge.getDst(edge));
 }
 public int getDstY(long edge)
 {
-        return getY(FastEdge.getDst(edge));
+        return getY(PackedEdge.getDst(edge));
 }
 
 public int getX(int idx)
@@ -114,7 +114,7 @@ private void addWave(int p, int p1)
         if(visited.get(p))
                 return;
 
-        wave.add(FastEdge.create(p, p1));
+        wave.add(PackedEdge.create(p, p1));
 }
 public int step(int p1)
 {
@@ -135,7 +135,7 @@ public int step(int p1)
                 edge = wave.remove(i);
 //                edge = wave.removeLast();
 
-                src = FastEdge.getSrc(edge);
+                src = PackedEdge.getSrc(edge);
         }
         while (visited.get(src));
 
@@ -154,7 +154,7 @@ public String toString()
         for (long e : graph) {
                 s.append(i++)
                         .append(": ")
-                        .append(FastEdge.toString(e))
+                        .append(PackedEdge.toString(e))
                         .append("\n");
         }
 

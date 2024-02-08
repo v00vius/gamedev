@@ -1,7 +1,6 @@
 package graph;
 
 import typedefs.Bits;
-import typedefs.FastEdge;
 import typedefs.PackedShort4;
 
 import java.util.ArrayList;
